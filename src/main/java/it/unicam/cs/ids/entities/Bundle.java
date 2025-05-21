@@ -18,7 +18,7 @@ public class Bundle {
     private double discountPercentage;
     private List<String> tags;
     private int quantity;
-    private String distributorId;
+    private long distributorId;
     private boolean availableForSale;
     private boolean availableForShipping;
     private int estimatedDeliveryTime;

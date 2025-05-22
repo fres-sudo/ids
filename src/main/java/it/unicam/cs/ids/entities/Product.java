@@ -4,13 +4,14 @@ import it.unicam.cs.ids.enums.ApprovalStatus;
 import it.unicam.cs.ids.enums.Coordinates;
 import it.unicam.cs.ids.enums.ProductCategory;
 import it.unicam.cs.ids.enums.UnityOfMeasure;
+import lombok.Data;
 
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class Product {
-
     private long id;
     private String name;
     private String description;
@@ -34,6 +35,8 @@ public class Product {
     private Coordinates productLocation;
     private List<Company> distributors;
     private List<Company> transformers;
+    private List<Certificate> certificates;
+    private List<String> imageUrls;
     private Company creator;
     private Date createdAt;
     private Date updatedAt;

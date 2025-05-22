@@ -1,7 +1,10 @@
 package it.unicam.cs.ids.entities;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class Company {
     private long id;
     private String name;

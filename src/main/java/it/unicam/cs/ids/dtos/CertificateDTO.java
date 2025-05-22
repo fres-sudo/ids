@@ -1,7 +1,12 @@
 package it.unicam.cs.ids.dtos;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = false)
+@Data
 public class CertificateDTO extends DTO {
     private long id;
     private ProductDTO product;

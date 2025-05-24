@@ -1,11 +1,20 @@
 package it.unicam.cs.ids.api.responses.factories;
-import it.unicam.cs.ids.api.responses.models.ApiError;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
-import it.unicam.cs.ids.api.responses.models.FieldError;
 import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
+import it.unicam.cs.ids.api.responses.models.ApiError;
+import it.unicam.cs.ids.api.responses.models.FieldError;
+
 
 import java.util.List;
 
+/**
+ * Default implementation of the {@link ApiResponseFactory} interface.
+ * This class provides methods to create various types of API responses.
+ * @see ApiResponse
+ * @see PaginatedApiResponse
+ * @see ApiError
+ *
+ */
 public class DefaultApiResponseFactory implements ApiResponseFactory {
 
     @Override
@@ -24,7 +33,8 @@ public class DefaultApiResponseFactory implements ApiResponseFactory {
             T data,
             int page,
             int size,
-            int totalPages) {
+            int totalPages
+    ) {
         return PaginatedApiResponse.<T>builder()
                 .success(true)
                 .code(200)

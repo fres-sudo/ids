@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.api.responses.models;
 
-import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -12,20 +11,12 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder(toBuilder = true)
 public class ApiResponse<T> {
-    /**
-     * Message describing the response.
-     */
+    /** Message describing the response. */
     private String message;
-    /**
-     * Indicates if the response is successful.
-     */
+    /** Indicates if the response is successful. */
     private boolean success;
-    /**
-     * Response code indicating the status of the request.
-     */
+    /** Response code indicating the status of the request. */
     private int code;
-    /**
-     * The data returned in the response.
-     */
+    /** The data returned in the response. */
     private T data;
 }

@@ -1,5 +1,11 @@
 package it.unicam.cs.ids.enums;
 
+
+/**
+ * Represents a geographical coordinates with latitude and longitude.
+ * The latitude must be between -90 and 90 degrees, and the longitude must be
+ * between -180 and 180 degrees.
+ */
 public record Coordinates(
         double latitude,
         double longitude

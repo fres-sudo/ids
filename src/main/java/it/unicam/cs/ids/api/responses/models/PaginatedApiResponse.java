@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.api.responses.models;
 
-import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -11,24 +10,14 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder(toBuilder = true)
 public class PaginatedApiResponse<T> extends ApiResponse<T> {
-    /**
-     * The current page number.
-     */
+    /** The current page number. */
     private int page;
-    /**
-     * The size of the page (number of items per page).
-     */
+    /** The size of the page (number of items per page). */
     private int size;
-    /**
-     * Indicates if there is a next page.
-     */
+    /**  Indicates if there is a next page. */
     private boolean hasNext;
-    /**
-     * Indicates if there is a previous page.
-     */
+    /** Indicates if there is a previous page. */
     private boolean hasPrevious;
-    /**
-     * The total number of pages available.
-     */
+    /** The total number of pages available. */
     private int totalPages;
 }

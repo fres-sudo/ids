@@ -1,5 +1,10 @@
 package it.unicam.cs.ids.enums;
 
+import lombok.Getter;
+
+/**
+ * Various currencies with their descriptions.
+ */
 public enum Currency {
     EUR("Euro"),
     USD("United States Dollar"),
@@ -12,13 +17,14 @@ public enum Currency {
     SEK("Swedish Krona"),
     NZD("New Zealand Dollar");
 
-    private final String description;
+    /** Description of the currency. */
+    @Getter private final String description;
 
+    /**
+     * Constructor for the {@link Currency} enum.
+     * @param description The description of the currency.
+     */
     Currency(String description) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

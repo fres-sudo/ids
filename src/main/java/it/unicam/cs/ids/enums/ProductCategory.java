@@ -1,5 +1,11 @@
 package it.unicam.cs.ids.enums;
 
+
+import lombok.Getter;
+
+/**
+ * Represents the various categories of products available on the platform.
+ */
 public enum ProductCategory {
     FRUITS("Fruits"),
     VEGETABLES("Vegetables"),
@@ -21,13 +27,14 @@ public enum ProductCategory {
     PROCESSED_FOOD("Processed Food"),
     OTHER("Other");
 
-    private final String description;
+    /** Description of the product category. */
+    @Getter private final String description;
 
+    /**
+     * Constructor for the {@link ProductCategory} enum.
+     * @param description The description of the product category.
+     */
     ProductCategory(String description) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

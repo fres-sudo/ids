@@ -1,5 +1,11 @@
 package it.unicam.cs.ids.enums;
 
+
+import lombok.Getter;
+
+/**
+ * Represents the various units of measure used in the system.
+ */
 public enum UnityOfMeasure {
     KG("Kilogram"),
     G("Gram"),
@@ -15,13 +21,14 @@ public enum UnityOfMeasure {
     CAN("Can"),
     PACK("Pack");
 
-    private final String description;
+    /** Description of the unit of measure */
+    @Getter private final String description;
 
+    /**
+     * Constructor for the {@link UnityOfMeasure} enum.
+     * @param description The description of the unit of measure.
+     */
     UnityOfMeasure(String description) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.api.responses.models;
 
 import java.util.List;
-import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -10,7 +9,7 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder(toBuilder = true)
 public class ApiError extends ApiResponse<Void> {
-
+    /** The list of field errors associated with the API error. */
     private List<FieldError> errors;
-}
 
+}

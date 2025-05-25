@@ -7,8 +7,11 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = false)
-@Data
+/**
+ * ProductDTO is used to represent a product in the system.
+ * @see DTO
+ */
+@Data @EqualsAndHashCode(callSuper = false)
 public class ProductDTO extends DTO {
     private long id;
     private String name;
@@ -18,7 +21,7 @@ public class ProductDTO extends DTO {
     private ProductCategory category;
     private int quantity;
     private double pricePerQuantity;
-    private UnityOfMeasure unityOfMeasure;
+    private UnitOfMeasure unityOfMeasure;
     private Currency currency;
     private List<String> tags;
     private CompanyDTO producer;

@@ -10,7 +10,9 @@ import lombok.Getter;
  * <li> <b>DESC</b>: Descending order.</li>
  */
 public enum SortDirection {
+    /** Ascending sort direction. */
     ASC("asc"),
+    /** Descending sort direction. */
     DESC("desc");
 
     /** The string representation of the sort direction. */

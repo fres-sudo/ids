@@ -9,5 +9,3 @@ package it.unicam.cs.ids.api.responses.models;
  * @param message A descriptive message explaining the error.
  */
 public record FieldError(String field, String message) { }
-
-//TODO: changed to record for immutability e simplicity

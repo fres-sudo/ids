@@ -1,13 +1,15 @@
 package it.unicam.cs.ids.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
-@Data
-public class User {
-    private long id;
-    private String name;
+/**
+ * User represents a signed-up user on the platform.
+ */
+@Data @EqualsAndHashCode(callSuper=true)
+public class User extends BaseEntity {
     private String surname;
     private String email;
     private String hashedPassword;
@@ -15,7 +17,4 @@ public class User {
     private String address;
     private boolean emailVerified;
     private Date verifiedAt;
-    private Date createdAt;
-    private Date updatedAt;
-    private Date deletedAt;
 }

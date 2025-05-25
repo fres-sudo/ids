@@ -6,8 +6,11 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = false)
-@Data
+/**
+ * CompanyDTO is used to represent a company in the system.
+ * @see DTO
+ */
+@Data @EqualsAndHashCode(callSuper = false)
 public class CompanyDTO extends DTO {
     private long id;
     private String name;

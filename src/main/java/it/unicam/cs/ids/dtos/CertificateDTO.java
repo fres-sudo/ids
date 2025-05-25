@@ -5,8 +5,11 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = false)
-@Data
+/**
+ * CertificateDTO is used to represent a certificate issued for a product.
+ * @see DTO
+ */
+@Data @EqualsAndHashCode(callSuper = false)
 public class CertificateDTO extends DTO {
     private long id;
     private ProductDTO product;

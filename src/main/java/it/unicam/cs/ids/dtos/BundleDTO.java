@@ -8,8 +8,11 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = false)
-@Data
+/**
+ * BundleDTO is used to represent a bundle of products in the system.
+ * @see DTO
+ */
+@Data @EqualsAndHashCode(callSuper = false)
 public class BundleDTO extends DTO {
     private long id;
     private String name;

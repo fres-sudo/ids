@@ -10,8 +10,12 @@ package it.unicam.cs.ids.enums;
  * <li> <b>REJECTED:</b> The entity has been rejected.</li>
  */
 public enum ApprovalStatus {
+    /** The entity is in draft state and not yet submitted for approval. */
     DRAFT,
+    /** The entity is awaiting approval. */
     PENDING,
+    /** The entity has been approved. */
     APPROVED,
+    /** The entity has been rejected. */
     REJECTED,
 }

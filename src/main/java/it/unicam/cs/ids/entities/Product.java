@@ -3,24 +3,28 @@ package it.unicam.cs.ids.entities;
 import it.unicam.cs.ids.enums.ApprovalStatus;
 import it.unicam.cs.ids.enums.Coordinates;
 import it.unicam.cs.ids.enums.ProductCategory;
-import it.unicam.cs.ids.enums.UnityOfMeasure;
+import it.unicam.cs.ids.enums.UnitOfMeasure;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-@Data
-public class Product {
-    private long id;
-    private String name;
+/**
+ * Product represents a single sellable item on the platform, which can be sold by a {@link Company}.
+ * Products can be sold individually or as part of a {@link Bundle}, if a product is part of a bundle,
+ * it becomes a {@link BundledProduct} of that bundle.
+ */
+@Data @EqualsAndHashCode(callSuper=true)
+public class Product extends BaseEntity{
     private String description;
     private Date productionDate;
     private ProductCategory category;
     private ApprovalStatus status;
     private int quantity;
     private double pricePerQuantity;
-    private UnityOfMeasure unityOfMeasure;
+    private UnitOfMeasure unityOfMeasure;
     private Currency currency;
     private List<String> tags;
     private String producerId;
@@ -38,7 +42,4 @@ public class Product {
     private List<Certificate> certificates;
     private List<String> imageUrls;
     private Company creator;
-    private Date createdAt;
-    private Date updatedAt;
-    private Date deletedAt;
 }

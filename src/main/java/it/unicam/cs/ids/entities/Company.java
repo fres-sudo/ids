@@ -1,13 +1,15 @@
 package it.unicam.cs.ids.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.Date;
 
-@Data
-public class Company {
-    private long id;
-    private String name;
+/**
+ * Company represents a signed-up seller on the platform.
+ * Companies can sell single products or bundles of products.
+ */
+@Data @EqualsAndHashCode(callSuper = true)
+public class Company extends BaseEntity {
     private String description;
     private String address;
     private String phoneNumber;
@@ -15,7 +17,4 @@ public class Company {
     private String website;
     private String vat;
     private String billingInformation;
-    private Date createdAt;
-    private Date updatedAt;
-    private Date deletedAt;
 }

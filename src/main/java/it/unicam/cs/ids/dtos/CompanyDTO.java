@@ -2,6 +2,7 @@ package it.unicam.cs.ids.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @see DTO
  */
 @Data @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 public class CompanyDTO extends DTO {
     private long id;
     private String name;

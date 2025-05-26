@@ -5,6 +5,7 @@ import it.unicam.cs.ids.enums.Coordinates;
 import it.unicam.cs.ids.enums.ProductCategory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @see DTO
  */
 @Data @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 public class BundleDTO extends DTO {
     private long id;
     private String name;

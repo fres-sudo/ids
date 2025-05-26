@@ -1,6 +1,9 @@
 package it.unicam.cs.ids.api.responses.models;
 
 
+import lombok.Builder;
+import lombok.Value;
+
 /**
  * Represents a field error in an API response.
  * This class is used to encapsulate validation errors for specific fields.
@@ -8,4 +11,5 @@ package it.unicam.cs.ids.api.responses.models;
  * @param field   The name of the field that caused the error.
  * @param message A descriptive message explaining the error.
  */
+@Builder
 public record FieldError(String field, String message) { }

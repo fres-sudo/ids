@@ -2,10 +2,11 @@ package it.unicam.cs.ids.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
-//FIXME: see in VPP
 @Data @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 public class BundledProductDTO extends DTO {
     private int quantityInBundle;
     private ProductDTO product;

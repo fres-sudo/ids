@@ -14,7 +14,7 @@ public interface DTOMapper<DTO, Entity> {
      * @param dto the DTO to convert
      * @return the converted Entity
      */
-    Entity toEntity(DTO dto);
+    Entity fromDTO(DTO dto);
 
     /**
      * Converts an Entity to a DTO.

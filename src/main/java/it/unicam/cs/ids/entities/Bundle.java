@@ -21,7 +21,7 @@ public class Bundle extends BaseEntity {
     private String description;
     private ProductCategory category;
     private ApprovalStatus status;
-    private List<Product> products;
+    private List<BundledProduct> products;
     private double price;
     private double discountPercentage;
     private List<String> tags;

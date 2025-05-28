@@ -37,7 +37,7 @@ public interface ApiResponseFactory {
      */
     <T> PaginatedApiResponse<T> createPaginatedResponse(
             String message,
-            T data,
+            List<T> data,
             int page,
             int size,
             int totalPages

@@ -2,14 +2,16 @@ package it.unicam.cs.ids.api.responses.models;
 
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 /**
  * PaginatedApiResponse is a class that represents a paginated response from an API.
  * It extends the {@link ApiResponse} class and includes additional fields for pagination.
  * This class is used to encapsulate the response data along with pagination information.
- * @param <T> the type of the data in the response
+ * @param <T> the type of the data of the list in the response
  */
 @SuperBuilder(toBuilder = true)
-public class PaginatedApiResponse<T> extends ApiResponse<T> {
+public class PaginatedApiResponse<T> extends ApiResponse<List<T>> {
     /** The current page number. */
     private int page;
     /** The size of the page (number of items per page). */

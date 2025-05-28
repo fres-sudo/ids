@@ -10,7 +10,7 @@ import java.util.List;
 @Data @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor @AllArgsConstructor
 @SuperBuilder
-abstract class FilterParam extends DTO {
+public abstract class FilterParam extends DTO {
     private String page;
     private String pageSize;
     private SortDirection sortDirection;

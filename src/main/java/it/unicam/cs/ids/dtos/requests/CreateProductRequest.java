@@ -39,5 +39,4 @@ public class CreateProductRequest extends DTO {
     private Coordinates productLocation;
     private List<Long> distributorId;
     private List<Long> transformerId;
-
 }

@@ -7,7 +7,7 @@ package it.unicam.cs.ids.mappers;
  * @param <DTO> the type of the Data Transfer Object
  * @param <Entity> the type of the Entity
  */
-public interface DTOMapper<DTO, Entity> {
+public interface DTOMapper<DTO extends it.unicam.cs.ids.dtos.DTO, Entity> {
     /**
      * Converts a DTO to an Entity.
      *

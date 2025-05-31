@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.dtos;
 
 import it.unicam.cs.ids.enums.ApprovalStatus;
-import it.unicam.cs.ids.enums.Coordinates;
+import it.unicam.cs.ids.entities.Coordinates;
 import it.unicam.cs.ids.enums.ProductCategory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

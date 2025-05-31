@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.enums;
+package it.unicam.cs.ids.entities;
 
 
 /**

@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.dtos.requests;
 
 import it.unicam.cs.ids.dtos.DTO;
-import it.unicam.cs.ids.enums.Coordinates;
+import it.unicam.cs.ids.entities.Coordinates;
 import it.unicam.cs.ids.enums.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,12 +1,10 @@
 package it.unicam.cs.ids.entities;
 
 import it.unicam.cs.ids.enums.ApprovalStatus;
-import it.unicam.cs.ids.enums.Coordinates;
 import it.unicam.cs.ids.enums.ProductCategory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
 import java.util.List;
 
 /**

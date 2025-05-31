@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.dtos;
 
+import it.unicam.cs.ids.entities.Coordinates;
 import it.unicam.cs.ids.enums.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

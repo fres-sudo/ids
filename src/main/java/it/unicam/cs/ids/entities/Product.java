@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.entities;
 
 import it.unicam.cs.ids.enums.ApprovalStatus;
-import it.unicam.cs.ids.enums.Coordinates;
 import it.unicam.cs.ids.enums.ProductCategory;
 import it.unicam.cs.ids.enums.UnitOfMeasure;
 import lombok.Data;

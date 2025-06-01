@@ -11,11 +11,7 @@ import java.util.List;
  * @param <T> the type of the data of the list in the response
  */
 @SuperBuilder(toBuilder = true)
-<<<<<<< HEAD
-public class PaginatedApiResponse<T> extends ApiResponse<List<T>> {
-=======
 public class PaginatedApiResponse<T> extends ApiResponse<T> {
->>>>>>> 0f10234 ([ADD] spring: core dependencies)
     /** The current page number. */
     private int page;
     /** The size of the page (number of items per page). */

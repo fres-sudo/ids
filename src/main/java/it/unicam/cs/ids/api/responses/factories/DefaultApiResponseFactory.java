@@ -39,7 +39,7 @@ public class DefaultApiResponseFactory implements ApiResponseFactory {
                 .success(true)
                 .code(200)
                 .message(message)
-                .data(data)
+                .data((T) data)
                 .page(page)
                 .size(size)
                 .hasNext(page < totalPages - 1)

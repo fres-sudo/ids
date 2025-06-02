@@ -1,7 +1,15 @@
 package it.unicam.cs.ids.entities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -12,12 +20,32 @@ import java.util.Date;
  * <b> should have a certificate</b>, if not it is considered a pending item, waiting for the certifier to issue it.
  *
  */
-@Data @EqualsAndHashCode(callSuper = true)
-public class Certificate extends BaseEntity{
-    private long productId;
+@Entity
+@Table(name = "certificates")
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class Certificate extends BaseEntity {
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
-    private long issuerId;
+
+    @ManyToOne
+    @JoinColumn(name = "issuer_user_id", nullable = false)
+    private User issuer;
+
+    @Column(name = "certificate_url", length = 500)
     private String certificateUrl;
+
+    @Column(name = "issue_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date issueDate;
+
+    @Column(name = "expiration_date")
+    @Temporal(TemporalType.DATE)
     private Date expirationDate;
 }

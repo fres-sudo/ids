@@ -1,23 +1,42 @@
 package it.unicam.cs.ids.entities;
 
+import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.Date;
+import java.io.Serializable;
 
 /**
- * Base class for all entities in the system.
- * Contains common fields such as {@code id, name, timestamps for; creation, update, deletion}.
+ * BaseEntity is a base class for all entities in the application.
+ * It provides common fields such as id, createdAt, and updatedAt.
+ * It also provides methods to automatically set these fields on creation and update.
  */
+@MappedSuperclass
 @Data
-abstract class BaseEntity {
-    /** Unique identifier for the entity. */
-    private long id;
-    /** Name of the entity. */
+public abstract class BaseEntity implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String name;
-    /** Timestamp for when the entity was created. */
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    /** Timestamp for when the entity was last updated. */
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    /** Timestamp for when the entity was deleted. */
-    private Date deletedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+        updatedAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
+    }
 }

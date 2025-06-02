@@ -2,6 +2,7 @@
 package it.unicam.cs.ids.entities;
 
 import it.unicam.cs.ids.enums.ApprovalStatus;
+import it.unicam.cs.ids.enums.Currency;
 import it.unicam.cs.ids.enums.ProductCategory;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -22,7 +23,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
@@ -93,5 +93,5 @@ public class Bundle extends BaseEntity {
 
     @Column(name = "currency", length = 3)
     @Enumerated(EnumType.STRING)
-    private String currency;
+    private Currency currency;
 }

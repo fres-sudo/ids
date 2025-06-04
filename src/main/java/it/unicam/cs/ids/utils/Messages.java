@@ -1,0 +1,44 @@
+package it.unicam.cs.ids.utils;
+
+
+/**
+ * Utility class for managing messages used across the application.
+ * This class contains nested interfaces for categorizing messages.
+ * @see Success
+ * @see Error
+ * @see Warning
+ * @see Info
+ */
+public final class Messages {
+    /** prevent instantiation */
+    private Messages() {}
+    public interface Success {
+        String PRODUCT_CREATED = "Product created successfully";
+        String PRODUCT_RETRIEVED = "Product retrieved successfully";
+
+        String CERTIFICATE_CREATED = "Certificate created successfully";
+        String CERTIFICATE_RETRIEVED = "Certificate retrieved successfully";
+
+        String BUNDLE_CREATED = "Bundle created successfully";
+        String BUNDLE_RETRIEVED = "Bundle retrieved successfully";
+    }
+
+    public interface Error {
+        String PRODUCT_NOT_FOUND = "Product not found";
+        String CERTIFICATE_NOT_FOUND = "Certificate not found";
+
+        String INVALID_REQUEST = "Invalid request data";
+        String INTERNAL_ERROR = "An internal error occurred";
+        String UNAUTHORIZED_ACCESS = "Unauthorized access";
+
+    }
+
+    public interface Warning {
+        String DEPRECATED_FEATURE = "This feature is deprecated and may be removed in future versions";
+        String UNSUPPORTED_OPERATION = "This operation is not supported";
+    }
+
+    public interface Info {
+
+    }
+}

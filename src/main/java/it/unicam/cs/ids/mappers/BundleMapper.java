@@ -38,4 +38,5 @@ public class BundleMapper implements DTOMapper<BundleDTO, Bundle> {
                 .toList());
         return entity;
     }
+
 }

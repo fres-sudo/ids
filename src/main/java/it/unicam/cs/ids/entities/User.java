@@ -1,4 +1,3 @@
-// src/main/java/it/unicam/cs/ids/entities/User.java
 package it.unicam.cs.ids.entities;
 
 import jakarta.persistence.Column;

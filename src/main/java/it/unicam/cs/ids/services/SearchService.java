@@ -7,6 +7,10 @@ import it.unicam.cs.ids.dtos.filters.BundleFilter;
 import it.unicam.cs.ids.dtos.filters.FilterParam;
 import it.unicam.cs.ids.dtos.filters.ProductFilter;
 
+/**
+ * Search Service defines the operations related to searching Items on the platform.
+ * The search can be filtered many criteria, specified by {@link FilterParam}.
+ */
 public interface SearchService {
     /**
      * Searches for products and bundles based on the given query.

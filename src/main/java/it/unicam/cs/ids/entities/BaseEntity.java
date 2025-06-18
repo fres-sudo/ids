@@ -1,7 +1,13 @@
 package it.unicam.cs.ids.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -12,6 +18,9 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 @Data
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 public abstract class BaseEntity implements Serializable {
 
     @Id
@@ -22,21 +31,10 @@ public abstract class BaseEntity implements Serializable {
     private String name;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date createdAt;
 
     @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     private Date updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = new Date();
-        updatedAt = new Date();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = new Date();
-    }
 }

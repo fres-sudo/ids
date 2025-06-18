@@ -4,6 +4,7 @@ import it.unicam.cs.ids.api.responses.models.ApiError;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.api.responses.models.FieldError;
 import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
+import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 

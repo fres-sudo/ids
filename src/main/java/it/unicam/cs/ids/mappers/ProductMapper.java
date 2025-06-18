@@ -2,7 +2,9 @@ package it.unicam.cs.ids.mappers;
 
 import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.entities.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductMapper implements DTOMapper<ProductDTO, Product> {
 
     @Override

@@ -3,6 +3,8 @@ import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
 import it.unicam.cs.ids.api.responses.models.ApiError;
 import it.unicam.cs.ids.api.responses.models.FieldError;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
  * @see ApiError
  *
  */
+@Component
 public class DefaultApiResponseFactory implements ApiResponseFactory {
 
     @Override

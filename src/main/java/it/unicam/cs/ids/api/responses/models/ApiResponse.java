@@ -1,6 +1,11 @@
 package it.unicam.cs.ids.api.responses.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.io.Serializable;
 
 /**
  * Generic class representing a standard API response.
@@ -9,8 +14,11 @@ import lombok.experimental.SuperBuilder;
  * It's used across all the API responses to maintain a consistent structure.
  * @param <T> the type of the data in the response.
  */
+@Getter // <--- Add this
+@NoArgsConstructor // <--- Add this for Jackson
+@AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class ApiResponse<T> {
+public class ApiResponse<T> implements Serializable {
     /**
      * Message describing the response.
      */

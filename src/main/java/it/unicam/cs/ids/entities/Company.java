@@ -1,11 +1,12 @@
 package it.unicam.cs.ids.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Company represents a signed-up seller on the platform.
@@ -38,4 +39,8 @@ public class Company extends BaseEntity {
 
     @Column(name = "billing_information", columnDefinition = "TEXT")
     private String billingInformation;
+
+    @Column()
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<User> employees = new ArrayList<>(); // List of employees associated with the company
 }

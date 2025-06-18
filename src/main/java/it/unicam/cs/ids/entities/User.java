@@ -1,10 +1,6 @@
 package it.unicam.cs.ids.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -42,4 +38,8 @@ public class User extends BaseEntity {
     @Column(name = "verified_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date verifiedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
 }

@@ -23,7 +23,6 @@ import java.util.Date;
 @Entity
 @Table(name = "certificates")
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Certificate extends BaseEntity {
 
@@ -35,8 +34,8 @@ public class Certificate extends BaseEntity {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "issuer_user_id", nullable = false)
-    private User issuer;
+    @JoinColumn(name = "issuer_company_id", nullable = false)
+    private Company issuer;
 
     @Column(name = "certificate_url", length = 500)
     private String certificateUrl;

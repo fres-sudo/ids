@@ -1,6 +1,11 @@
 package it.unicam.cs.ids.api.responses.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.io.Serializable;
 
 /**
  * PaginatedApiResponse is a class that represents a paginated response from an API.
@@ -8,8 +13,11 @@ import lombok.experimental.SuperBuilder;
  * This class is used to encapsulate the response data along with pagination information.
  * @param <T> the type of the data of the list in the response
  */
+@Getter // <--- Add this
+@NoArgsConstructor // <--- Add this for Jackson
+@AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class PaginatedApiResponse<T> extends ApiResponse<T> {
+public class PaginatedApiResponse<T> extends ApiResponse<T> implements Serializable {
     /** The current page number. */
     private int page;
     /** The size of the page (number of items per page). */

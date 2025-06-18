@@ -34,10 +34,4 @@ public class BundledProduct {
     @ManyToOne // Many BundledProducts belong to one Bundle
     @JoinColumn(name = "bundle_id", nullable = false) // Foreign key to the Bundle table
     private Bundle bundle; // Back-reference to the parent Bundle
-
-    public BundledProduct(Product product, int quantityInBundle, Bundle bundle) {
-        this.product = product;
-        this.quantityInBundle = quantityInBundle;
-        this.bundle = bundle;
-    }
 }

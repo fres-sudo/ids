@@ -13,8 +13,8 @@ import java.io.Serializable;
  * This class is used to encapsulate the response data along with pagination information.
  * @param <T> the type of the data of the list in the response
  */
-@Getter // <--- Add this
-@NoArgsConstructor // <--- Add this for Jackson
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class PaginatedApiResponse<T> extends ApiResponse<T> implements Serializable {

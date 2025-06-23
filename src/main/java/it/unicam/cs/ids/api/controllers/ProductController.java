@@ -1,0 +1,32 @@
+package it.unicam.cs.ids.api.controllers;
+
+import it.unicam.cs.ids.api.responses.models.ApiResponse;
+import it.unicam.cs.ids.dtos.requests.CreateBundleRequest;
+import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
+import it.unicam.cs.ids.entities.Bundle;
+import it.unicam.cs.ids.entities.Product;
+import it.unicam.cs.ids.services.BundleService;
+import it.unicam.cs.ids.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("products")
+public class ProductController {
+
+    private final ProductService productService;
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService= productService;
+    }
+
+    @PostMapping
+    ResponseEntity<ApiResponse<Product>> createBundle(@RequestBody CreateProductRequest request) {
+        return new ResponseEntity<>(productService.createProduct(request), HttpStatus.CREATED);
+    }
+}

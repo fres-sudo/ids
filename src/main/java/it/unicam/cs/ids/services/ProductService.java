@@ -5,6 +5,7 @@ import it.unicam.cs.ids.dtos.CertificateDTO;
 import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
+import it.unicam.cs.ids.entities.Product;
 
 /**
  * Product Service defines the operations related to products.
@@ -17,7 +18,7 @@ public interface ProductService {
      * @param request the request containing product creation details
      * @return an ApiResponse containing the created ProductDTO
      */
-    ApiResponse<ProductDTO> createProduct(CreateProductRequest request);
+    ApiResponse<Product> createProduct(CreateProductRequest request);
     /**
      * Creates a new certificate based on the provided request.
      *

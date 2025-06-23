@@ -1,28 +1,47 @@
 package it.unicam.cs.ids.api.controllers;
 
-import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
+import it.unicam.cs.ids.dtos.filters.BundleFilter;
+import it.unicam.cs.ids.dtos.filters.CompanyFilter;
+import it.unicam.cs.ids.dtos.filters.ProductFilter;
+import it.unicam.cs.ids.entities.Bundle;
+import it.unicam.cs.ids.entities.Company;
+import it.unicam.cs.ids.entities.Product;
 import it.unicam.cs.ids.services.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("search")
+@RequestMapping("/search") // Base path for search operations
 public class SearchController {
 
     private final SearchService searchService;
-    @Autowired
+
     public SearchController(SearchService searchService) {
-        this.searchService= searchService;
+        this.searchService = searchService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PaginatedApiResponse<?>> search(@Param("type") String type) {
-        PaginatedApiResponse<?> response = searchService.search(type, null);
+    @PostMapping(path = "/products")
+    ResponseEntity<Page<Product>> searchProducts(@RequestBody ProductFilter filterParam) {
+        Page<Product> response = searchService.searchProducts(filterParam);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/bundles")
+    ResponseEntity<Page<Bundle>> searchBundles(@RequestBody BundleFilter filterParam) {
+        Page<Bundle> response = searchService.searchBundles(filterParam);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Page<Company>> searchCompanies(@RequestBody CompanyFilter filterParam) {
+        Page<Company> response = searchService.searchCompanies(filterParam);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

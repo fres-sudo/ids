@@ -2,13 +2,13 @@ package it.unicam.cs.ids.dtos.filters;
 
 import it.unicam.cs.ids.enums.ProductCategory;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.util.List;
+import java.io.Serializable;
 
 @Data @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor @AllArgsConstructor
-@Builder
-public class CompanyFilter extends FilterParam {
-    private String companyName; // Added field for company name
-    private String companyLocation; // Added field for company location
+@SuperBuilder
+public class CompanyFilter extends FilterParam implements Serializable {
+    private int minCompanySize;
+    private int maxCompanySize;
 }

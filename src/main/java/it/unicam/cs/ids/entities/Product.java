@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.entities;
 
+import it.unicam.cs.ids.dtos.filters.Searchable;
 import it.unicam.cs.ids.enums.ApprovalStatus;
 import it.unicam.cs.ids.enums.Currency;
 import it.unicam.cs.ids.enums.ProductCategory;
@@ -35,7 +36,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Product extends BaseEntity {
+public class Product extends BaseEntity implements Searchable {
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -73,7 +74,7 @@ public class Product extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "producer_company_id", nullable = false)
-    private Company producerId;
+    private Company producer;
 
     @Column(name = "cultivation_method", length = 255)
     private String cultivationMethod;

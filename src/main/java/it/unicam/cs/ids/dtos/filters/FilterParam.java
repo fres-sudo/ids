@@ -5,18 +5,17 @@ import it.unicam.cs.ids.enums.SortDirection;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
-@Data @EqualsAndHashCode(callSuper = true)
+@Data
 @NoArgsConstructor @AllArgsConstructor
 @SuperBuilder
-public abstract class FilterParam extends DTO {
-    private String page;
-    private String pageSize;
+public class FilterParam implements Serializable {
+    private int pageNo;
+    private int pageSize;
     private SortDirection sortDirection;
     private String sortBy;
     private String searchBy;
     private List<String> tags;
-    protected double minPrice;
-    protected double maxPrice;
 }

@@ -1,6 +1,7 @@
 // src/main/java/it/unicam/cs/ids/entities/Bundle.java
 package it.unicam.cs.ids.entities;
 
+import it.unicam.cs.ids.dtos.filters.Searchable;
 import it.unicam.cs.ids.enums.ApprovalStatus;
 import it.unicam.cs.ids.enums.Currency;
 import it.unicam.cs.ids.enums.ProductCategory;
@@ -31,7 +32,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Bundle extends BaseEntity {
+public class Bundle extends BaseEntity implements Searchable {
 
     @Column(columnDefinition = "TEXT")
     private String description;

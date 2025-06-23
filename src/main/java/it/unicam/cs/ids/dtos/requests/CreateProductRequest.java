@@ -28,12 +28,13 @@ public class CreateProductRequest extends DTO {
     private Currency currency;
     private List<String> tags;
     private long producerId;
+    private long creatorId;
     private String cultivationMethod;
     private Date expirationDate;
     private Date harvestDate;
     private boolean availableForSale;
     private boolean availableForShipping;
-    private int estimatedDeliveryTime;
+    private int estimatedDeliveryDays;
     private double shippingCost;
     private String returnPolicy;
     private Coordinates productLocation;

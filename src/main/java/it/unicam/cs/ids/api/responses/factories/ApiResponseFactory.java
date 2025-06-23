@@ -1,10 +1,8 @@
 package it.unicam.cs.ids.api.responses.factories;
 
-import it.unicam.cs.ids.api.responses.models.ApiError;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.api.responses.models.FieldError;
 import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public interface ApiResponseFactory {
      * @param errors  the list of field errors to include in the response
      * @return an ApiError containing the validation errors
      */
-    ApiError createValidationErrorResponse(String message, List<FieldError> errors);
+    ApiResponse<List<FieldError>> createValidationErrorResponse(String message, List<FieldError> errors);
 
     /**
      * Creates a general error response with the given code and message.
@@ -60,5 +58,5 @@ public interface ApiResponseFactory {
      * @param message the message to include in the response
      * @return an ApiError containing the error details
      */
-    ApiError createErrorResponse(int code, String message);
+    ApiResponse<String> createErrorResponse(int code, String message);
 }

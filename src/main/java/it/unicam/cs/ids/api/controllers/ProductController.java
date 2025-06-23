@@ -1,11 +1,8 @@
 package it.unicam.cs.ids.api.controllers;
 
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
-import it.unicam.cs.ids.dtos.requests.CreateBundleRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
-import it.unicam.cs.ids.entities.Bundle;
 import it.unicam.cs.ids.entities.Product;
-import it.unicam.cs.ids.services.BundleService;
 import it.unicam.cs.ids.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

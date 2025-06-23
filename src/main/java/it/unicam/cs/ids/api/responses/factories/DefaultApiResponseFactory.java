@@ -1,9 +1,7 @@
 package it.unicam.cs.ids.api.responses.factories;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
-import it.unicam.cs.ids.api.responses.models.ApiError;
 import it.unicam.cs.ids.api.responses.models.FieldError;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 
@@ -14,7 +12,6 @@ import java.util.List;
  * This class provides methods to create various types of API responses.
  * @see ApiResponse
  * @see PaginatedApiResponse
- * @see ApiError
  *
  */
 @Component
@@ -52,21 +49,22 @@ public class DefaultApiResponseFactory implements ApiResponseFactory {
     }
 
     @Override
-    public ApiError createValidationErrorResponse(String message, List<FieldError> errors) {
-        return ApiError.builder()
+    public ApiResponse<List<FieldError>> createValidationErrorResponse(String message, List<FieldError> errors) {
+        return ApiResponse.<List<FieldError>>builder()
                 .success(false)
-                .code(404)
+                .code(400)
                 .message(message)
-                .errors(errors)
+                .data(errors)
                 .build();
     }
 
     @Override
-    public ApiError createErrorResponse(int code, String message) {
-        return ApiError.builder()
+    public ApiResponse<String> createErrorResponse(int code, String message) {
+        return ApiResponse.<String>builder()
                 .success(false)
                 .code(code)
-                .message(message)
+                .message("An error occurred")
+                .data(message)
                 .build();
     }
 }

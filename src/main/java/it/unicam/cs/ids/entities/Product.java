@@ -32,7 +32,7 @@ import java.util.List;
  * Product represents a single sellable item on the platform, which can be sold by a {@link Company}.
  */
 @Entity
-@Table(name = "products")
+@Table(name = "products", schema = "ids_schema")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

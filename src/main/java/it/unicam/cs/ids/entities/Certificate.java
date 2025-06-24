@@ -21,7 +21,7 @@ import java.util.Date;
  *
  */
 @Entity
-@Table(name = "certificates")
+@Table(name = "certificates", schema = "ids_schema")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Certificate extends BaseEntity {

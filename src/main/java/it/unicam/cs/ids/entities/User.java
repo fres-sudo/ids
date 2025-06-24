@@ -11,7 +11,7 @@ import java.util.Date;
  * User represents a signed-up user on the platform.
  */
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "ids_schema")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

@@ -28,7 +28,7 @@ import java.util.List;
  * Bundle represents a collection of {@link Product}s sold together.
  */
 @Entity
-@Table(name = "bundles")
+@Table(name = "bundles", schema = "ids_schema")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

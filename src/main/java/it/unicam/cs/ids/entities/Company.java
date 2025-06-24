@@ -14,7 +14,7 @@ import java.util.List;
  * Companies can sell single products or bundles of products.
  */
 @Entity
-@Table(name = "companies")
+@Table(name = "companies", schema = "ids_schema")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

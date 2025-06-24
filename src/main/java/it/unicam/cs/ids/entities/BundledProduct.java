@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "bundled_products")
+@Table(name = "bundled_products", schema = "ids_schema")
 @Data
 @NoArgsConstructor
 public class BundledProduct {

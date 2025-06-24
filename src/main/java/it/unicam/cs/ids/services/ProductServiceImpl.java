@@ -9,7 +9,6 @@ import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.entities.Certificate;
 import it.unicam.cs.ids.entities.Product;
-import it.unicam.cs.ids.mappers.CertificateMapper;
 import it.unicam.cs.ids.mappers.ProductMapper;
 import it.unicam.cs.ids.repositories.ProductRepository;
 import it.unicam.cs.ids.utils.Messages;
@@ -27,8 +26,6 @@ public class ProductServiceImpl implements ProductService {
     private static final ApiResponseFactory apiResponseFactory = new DefaultApiResponseFactory();
     /** Mappers for converting between entities and DTOs */
     private final ProductMapper productMapper;
-    /** Mapper for converting between Certificate entities and DTOs */
-    private static final CertificateMapper certificateMapper = new CertificateMapper();
     private final ProductRepository productRepository;
 
     @Autowired
@@ -49,10 +46,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ApiResponse<CertificateDTO> createCertificate(@Nonnull CreateCertificateRequest request) {
-        Certificate certificate = new Certificate();
-        return apiResponseFactory.createSuccessResponse(
-                Messages.Success.CERTIFICATE_CREATED,
-                certificateMapper.toDTO(certificate)
-        );
+       return null;
     }
 }

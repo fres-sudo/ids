@@ -6,6 +6,9 @@ import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.entities.Product;
+import jdk.dynalink.linker.LinkerServices;
+
+import java.util.List;
 
 /**
  * Product Service defines the operations related to products.
@@ -26,4 +29,6 @@ public interface ProductService {
      * @return an ApiResponse containing the created CertificateDTO
      */
     ApiResponse<CertificateDTO> createCertificate(CreateCertificateRequest request);
+
+    List<Product> getAllProducts();
 }

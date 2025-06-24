@@ -1,11 +1,13 @@
 package it.unicam.cs.ids.api.responses.models;
 
+import it.unicam.cs.ids.entities.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Generic class representing a standard API response.

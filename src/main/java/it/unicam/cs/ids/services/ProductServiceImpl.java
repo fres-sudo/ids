@@ -16,6 +16,8 @@ import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Implementation of {@link ProductService},
  * This service handles the creation of product related entities.
@@ -47,5 +49,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ApiResponse<CertificateDTO> createCertificate(@Nonnull CreateCertificateRequest request) {
        return null;
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 }

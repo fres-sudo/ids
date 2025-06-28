@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.entities;
 
-import it.unicam.cs.ids.dtos.filters.Searchable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Company extends BaseEntity implements Searchable {
+public class Company extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String description;

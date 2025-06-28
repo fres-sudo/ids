@@ -2,7 +2,6 @@ package it.unicam.cs.ids.services.specifications;
 
 import it.unicam.cs.ids.dtos.filters.ProductFilter;
 import it.unicam.cs.ids.entities.Product;
-import it.unicam.cs.ids.enums.ProductCategory;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;

@@ -7,10 +7,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import it.unicam.cs.ids.dtos.filters.CompanyFilter;
 import it.unicam.cs.ids.entities.Company;
-import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 
-public class CompanySpecification {
+public class CompanySpecification extends AbstractSpecification {
     public static Specification<Company> withFilter(CompanyFilter filter) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -26,22 +25,12 @@ public class CompanySpecification {
             }
 
             // 3. Filter by SearchBy (name, description, etc.) - assuming 'name' and 'description' fields
-            if (filter.getSearchBy() != null && !filter.getSearchBy().isEmpty()) {
-                String searchTerm = "%" + filter.getSearchBy().toLowerCase() + "%";
-                Predicate nameLike = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), searchTerm);
-                Predicate descriptionLike = criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), searchTerm);
-                predicates.add(criteriaBuilder.or(nameLike, descriptionLike));
-            }
+            Predicate searchPredicate = buildSearchByPredicate(root, criteriaBuilder, filter.getSearchBy(), "name", "description");
+            if (searchPredicate != null) predicates.add(searchPredicate);
 
             // 4. Filter by Tags
-            if (filter.getTags() != null && !filter.getTags().isEmpty()) {
-                List<Predicate> tagPredicates = new ArrayList<>();
-                for (String tag : filter.getTags()) {
-                    Join<Company, String> tagsJoin = root.join("tags");
-                    tagPredicates.add(criteriaBuilder.like(criteriaBuilder.lower(tagsJoin), "%" + tag.toLowerCase() + "%"));
-                }
-                predicates.add(criteriaBuilder.or(tagPredicates.toArray(new Predicate[0])));
-            }
+            Predicate tagsPredicate = buildTagsPredicate(root, criteriaBuilder, filter.getTags());
+            if (tagsPredicate != null) predicates.add(tagsPredicate);
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

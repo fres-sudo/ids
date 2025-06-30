@@ -16,7 +16,6 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
-
     @Column(nullable = false, length = 255)
     private String surname;
 

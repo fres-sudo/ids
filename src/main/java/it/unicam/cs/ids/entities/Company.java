@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +19,14 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Company extends BaseEntity {
+    @Column(nullable = false, unique = true, length = 255)
+    private String email;
+
+    @Column(name = "email_verified", nullable = false)
+    private boolean emailVerified = true; // Initialize to trye for testing purposes
+
+    @Column(name = "hashed_password", nullable = false, length = 255)
+    private String hashedPassword;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -28,10 +37,11 @@ public class Company extends BaseEntity {
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
-    @Column(nullable = false, unique = true, length = 255)
-    private String email;
+    @Column(name = "verified_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date verifiedAt;
 
-    @Column(    )
+    @Column()
     private String website;
 
     @Column(nullable = false, unique = true, length = 20)

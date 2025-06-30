@@ -1,34 +1,44 @@
-package it.unicam.cs.ids.api.config;
+package it.unicam.cs.ids.api.auth.jwt;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
+
+import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import it.unicam.cs.ids.api.auth.config.UserDetailsServiceImpl;
+import jakarta.servlet.ServletException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
+/**
+ * Filter that processes JWT authentication for incoming HTTP requests.
+ *
+ * <p>This filter extracts the JWT token from the request, validates it, and sets the
+ * authentication in the security context if the token is valid.</p>
+ *
+ * <p>It is typically used in conjunction with a JWT token provider and a user details service.</p>
+ */
 @Component
+@AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
+    /** The Token Provider */
     private final JwtTokenProvider tokenProvider;
+    /** The user details */
     private final UserDetailsServiceImpl userDetailsService;
 
-    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider,
-                                   UserDetailsServiceImpl userDetailsService) {
-        this.tokenProvider = tokenProvider;
-        this.userDetailsService = userDetailsService;
-    }
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request,
+                                    @NotNull HttpServletResponse response,
+                                    @NotNull FilterChain filterChain
+    ) throws ServletException, IOException {
 
         final String token = getJwtFromRequest(request);
 
@@ -53,6 +63,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+
+    /**
+     * Extracts the JWT token from the Authorization header of the HTTP request.
+     *
+     * <p>This method looks for a header named {@code Authorization} and checks if it starts
+     * with the prefix {@code "Bearer "}. If the header is present and properly formatted,
+     * it returns the token part (i.e., the substring after "Bearer ").</p>
+     *
+     * @param request the incoming {@link HttpServletRequest} containing the Authorization header
+     * @return the JWT token if present and correctly formatted; otherwise, {@code null}
+     */
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

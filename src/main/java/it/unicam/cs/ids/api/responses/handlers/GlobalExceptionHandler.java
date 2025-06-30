@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
+    //TODO: use LOGGER & obfuscate sensitive data in error messages
     /**
      * Handles validation errors and returns a 400 Bad Request response.
      * @param ex the exception that was thrown

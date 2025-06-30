@@ -25,7 +25,6 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Certificate extends BaseEntity {
-
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;

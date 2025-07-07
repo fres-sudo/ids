@@ -1,13 +1,13 @@
 package it.unicam.cs.ids.api.responses.models;
 
-import it.unicam.cs.ids.entities.Product;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * Generic class representing a standard API response.
@@ -22,6 +22,11 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 public class ApiResponse<T> implements Serializable {
     /**
+     * Timestamp of the response creation.
+     */
+    @Builder.Default // <--- Add this!
+    private LocalDateTime timestamp = LocalDateTime.now();
+    /**
      * Message describing the response.
      */
     private String message;
@@ -33,6 +38,14 @@ public class ApiResponse<T> implements Serializable {
      * Response code indicating the status of the request.
      */
     private int code;
+    /**
+     * path to the resource, if applicable.
+     */
+    private String path;
+    /**
+     * Request Id.
+     */
+    private String requestId;
     /**
      * The data returned in the response.
      */

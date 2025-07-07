@@ -3,6 +3,8 @@ package it.unicam.cs.ids.api.responses.factories;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.api.responses.models.FieldError;
 import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -54,9 +56,10 @@ public interface ApiResponseFactory {
     /**
      * Creates a general error response with the given code and message.
      *
-     * @param code    the error code to include in the response
-     * @param message the message to include in the response
+     * @param req the HttpServletRequest that caused the error
+     * @param ex the actual Exception that was thrown
+     * @param status the HttpStatus of the response created
      * @return an ApiError containing the error details
      */
-    ApiResponse<String> createErrorResponse(int code, String message);
+    ApiResponse<String> createErrorResponse(HttpServletRequest req, Exception ex, HttpStatus status);
 }

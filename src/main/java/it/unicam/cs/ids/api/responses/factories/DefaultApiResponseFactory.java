@@ -2,6 +2,8 @@ package it.unicam.cs.ids.api.responses.factories;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.api.responses.models.PaginatedApiResponse;
 import it.unicam.cs.ids.api.responses.models.FieldError;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 
@@ -59,12 +61,14 @@ public class DefaultApiResponseFactory implements ApiResponseFactory {
     }
 
     @Override
-    public ApiResponse<String> createErrorResponse(int code, String message) {
+    public ApiResponse<String> createErrorResponse(HttpServletRequest req, Exception ex, HttpStatus status) {
         return ApiResponse.<String>builder()
                 .success(false)
-                .code(code)
+                .code(status.value())
+                .requestId(req.getRequestId())
+                .path(req.getRequestURI())
                 .message("An error occurred")
-                .data(message)
+                .data(ex.getLocalizedMessage())
                 .build();
     }
 }

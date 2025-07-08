@@ -62,7 +62,7 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UnitOfMeasure unityOfMeasure;
 
-    @Column(name = "currency", length = 3)
+    @Column(length = 3)
     @Enumerated(EnumType.STRING)
     private Currency currency = Currency.EUR;
 

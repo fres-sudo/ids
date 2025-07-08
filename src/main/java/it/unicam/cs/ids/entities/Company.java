@@ -23,7 +23,7 @@ public class Company extends BaseEntity {
     private String email;
 
     @Column(name = "email_verified", nullable = false)
-    private boolean emailVerified = true; // Initialize to trye for testing purposes
+    private boolean emailVerified = true; // Initialize to true for testing purposes
 
     @Column(name = "hashed_password", nullable = false, length = 255)
     private String hashedPassword;

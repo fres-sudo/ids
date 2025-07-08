@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Coordinates {
-    @Column(name = "latitude")
+    @Column()
     private Double latitude;
 
-    @Column(name = "longitude")
+    @Column()
     private Double longitude;
 }

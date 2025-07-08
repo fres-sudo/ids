@@ -88,7 +88,7 @@ public class Bundle extends BaseEntity {
     @JoinColumn(name = "creator_company_id", nullable = false)
     private Company creator;
 
-    @Column(name = "currency", length = 3)
+    @Column(length = 3)
     @Enumerated(EnumType.STRING)
     private Currency currency;
 }

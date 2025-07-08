@@ -2,6 +2,7 @@ package it.unicam.cs.ids.dtos.requests;
 
 import it.unicam.cs.ids.dtos.DTO;
 import it.unicam.cs.ids.entities.Coordinates;
+import it.unicam.cs.ids.enums.Currency;
 import it.unicam.cs.ids.enums.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class CreateBundleRequest extends DTO {
     private ProductCategory category;
     private List<CreateBundledProductRequest> bundledProducts;
     private double price;
+    private Currency currency;
     private double discountPercentage;
     private List<String> tags;
     private int quantity;

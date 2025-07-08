@@ -17,4 +17,5 @@ public class UserDTO extends DTO {
     private String email;
     private String phoneNumber;
     private String address;
+    private String hashedPassword;
 }

@@ -13,11 +13,10 @@ import java.util.Date;
 @Data @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class CreateCertificateRequest extends DTO {
-    private long productId;
+    private long id;
     private String name;
     private long issuerId;
     private String certificateUrl;
     private Date issueDate;
     private Date expirationDate;
-
 }

@@ -31,9 +31,15 @@ public abstract class BaseEntity implements Serializable {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     @Column(name = "updated_at")
     @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    @Column(name = "deleted_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedAt;
 }

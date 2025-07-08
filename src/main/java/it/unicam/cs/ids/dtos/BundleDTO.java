@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,8 +22,8 @@ public class BundleDTO extends DTO {
     private String description;
     private ProductCategory category;
     private ApprovalStatus status;
-    private double price;
     private List<BundledProductDTO> products;
+    private double price;
     private double discountPercentage;
     private List<String> tags;
     private int quantity;
@@ -34,7 +35,7 @@ public class BundleDTO extends DTO {
     private String returnPolicy;
     private Coordinates bundleLocation;
     private CompanyDTO creator;
-    private String createdAt;
-    private String updatedAt;
-    private String deletedAt;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 }

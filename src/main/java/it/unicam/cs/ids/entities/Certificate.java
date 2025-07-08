@@ -9,7 +9,6 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -36,14 +35,18 @@ public class Certificate extends BaseEntity {
     @JoinColumn(name = "issuer_company_id", nullable = false)
     private Company issuer;
 
+    @Column(name = "certification_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date certificationDate;
+
+    @Column(name = "expiration_date")
+    @Temporal(TemporalType.DATE)
+    private Date expirationDate;
+
     @Column(name = "certificate_url", length = 500)
     private String certificateUrl;
 
     @Column(name = "issue_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date issueDate;
-
-    @Column(name = "expiration_date")
-    @Temporal(TemporalType.DATE)
-    private Date expirationDate;
 }

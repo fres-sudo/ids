@@ -44,4 +44,5 @@ public class ProductDTO extends DTO {
     private List<String> imageUrls;
     private Date createdAt;
     private Date updatedAt;
+    private Date deletedAt;
 }

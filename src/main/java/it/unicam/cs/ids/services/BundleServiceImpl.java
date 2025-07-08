@@ -7,6 +7,8 @@ import it.unicam.cs.ids.dtos.requests.CreateBundleRequest;
 import it.unicam.cs.ids.entities.Bundle;
 import it.unicam.cs.ids.mappers.BundleMapper;
 import it.unicam.cs.ids.repositories.BundleRepository;
+import it.unicam.cs.ids.utils.Messages;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,7 @@ public class BundleServiceImpl implements BundleService {
         Bundle createdBundle = bundleRepository.save(bundle);
 
         return apiResponseFactory.createSuccessResponse(
-                "Bundle created successfully",
+                Messages.Success.BUNDLE_CREATED,
                 createdBundle
         );
     }

@@ -21,6 +21,9 @@ public final class Messages {
 
         String BUNDLE_CREATED = "Bundle created successfully";
         String BUNDLE_RETRIEVED = "Bundle retrieved successfully";
+
+        String COMPANY_CREATED = "Company created successfully";
+        String COMPANY_RETRIEVED = "Company retrieved successfully";
     }
 
     public interface Error {

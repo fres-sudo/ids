@@ -7,6 +7,8 @@ import it.unicam.cs.ids.dtos.requests.CreateCompanyRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.repositories.CompanyRepository;
+import it.unicam.cs.ids.utils.Messages;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company createdCompany = companyRepository.save(company);
 
         return apiResponseFactory.createSuccessResponse(
-                "Company created successfully",
+                Messages.Success.COMPANY_CREATED,
                 createdCompany
         );
     }

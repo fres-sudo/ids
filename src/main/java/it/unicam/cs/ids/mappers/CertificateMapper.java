@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.mappers;
 
+import it.unicam.cs.ids.dtos.CertificateDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.entities.Certificate;
 import it.unicam.cs.ids.entities.Company;
@@ -15,27 +16,34 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
 
-@Mapper(componentModel = "spring")
+import java.util.List;
+
+@Mapper(componentModel = "spring", uses = {CompanyMapper.class})
 @Component
 public abstract class CertificateMapper{
 
     @Autowired
     protected ProductRepository productRepository;
-    @Autowired
-    protected CompanyRepository companyRepository;
+
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "issuer", source = "issuerId", qualifiedByName = "mapCompanyIdToCompany")
+    @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "issuer", source = "issuerId", qualifiedByName = "mapCompanyById")
     @Mapping(target = "product", source = "productId", qualifiedByName = "mapProductId")
     @Mapping(target = "certificateUrl", ignore = true)
     public abstract Certificate fromCreateRequest(CreateCertificateRequest dto);
 
-    @Named("mapCompanyIdToCompany")
-    protected Company mapCompanyIdToCompany(Long companyId) {
-        return companyRepository.findById(companyId)
-                .orElseThrow(() -> new EntityNotFoundException("Company with ID " + companyId + " not found."));
+    public abstract CertificateDTO toDto(Certificate certificate);
+
+    public List<CertificateDTO> toDtoMany(List<Certificate> certificates) {
+        if (certificates == null || certificates.isEmpty()) {
+            return null;
+        }
+        return certificates.stream()
+                .map(this::toDto)
+                .toList();
     }
 
     @Named("mapProductId")

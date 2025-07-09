@@ -2,6 +2,7 @@ package it.unicam.cs.ids.api.controllers;
 
 import it.unicam.cs.ids.api.responses.factories.DefaultApiResponseFactory;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
+import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.entities.Certificate;
@@ -24,13 +25,13 @@ public class ProductController {
         this.productService= productService;
     }
 
-    @PostMapping("/")
-    ResponseEntity<ApiResponse<Product>> createBundle(@RequestBody CreateProductRequest request) {
+    @PostMapping
+    ResponseEntity<ApiResponse<ProductDTO>> createProduct(@RequestBody CreateProductRequest request) {
         return new ResponseEntity<>(productService.createProduct(request), HttpStatus.CREATED);
     }
 
     @PostMapping("/certificate")
-    ResponseEntity<ApiResponse<Product>> createCertificate(@RequestBody CreateCertificateRequest request) {
+    ResponseEntity<ApiResponse<ProductDTO>> createCertificate(@RequestBody CreateCertificateRequest request) {
         return new ResponseEntity<>(productService.createCertificate(request), HttpStatus.CREATED);
     }
 }

@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.mappers;
 
+import it.unicam.cs.ids.dtos.CompanyDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCompanyRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.repositories.CompanyRepository;
@@ -9,6 +10,8 @@ import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 @Component
 public abstract class CompanyMapper {
@@ -16,17 +19,7 @@ public abstract class CompanyMapper {
     @Autowired
     protected CompanyRepository companyRepository;
 
-    /**
-     * Maps a CreateCompanyRequest to a Company entity.
-     *
-     * @param request the request containing company data
-     * @return the mapped Company entity
-     */
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "employees", ignore = true)
-    public abstract Company fromRequest(CreateCompanyRequest request);
+    public abstract CompanyDTO toDto(Company company);
 
     @Named("mapCompanyById")
     public Company fromId(Long id) {
@@ -34,4 +27,14 @@ public abstract class CompanyMapper {
         return companyRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Company with ID " + id + " not found"));
     }
+
+    @Named("mapCompanyByIdMany")
+    public List<Company> fromIdMany(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) return null;
+        return ids.stream()
+                .map(this::fromId)
+                .toList();
+    }
+
+
 }

@@ -27,12 +27,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public ApiResponse<Company> createCompany(CreateCompanyRequest request) {
-        Company company = companyMapper.fromRequest(request);
-        Company createdCompany = companyRepository.save(company);
-
-        return apiResponseFactory.createSuccessResponse(
-                Messages.Success.COMPANY_CREATED,
-                createdCompany
-        );
+       return null;
     }
 }

@@ -14,7 +14,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class CertificateDTO extends DTO {
     private long id;
-    private ProductDTO product;
     private CompanyDTO issuer;
     private String name;
     private Date issueDate;

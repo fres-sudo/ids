@@ -49,8 +49,4 @@ public class Company extends BaseEntity {
 
     @Column(name = "billing_information", columnDefinition = "TEXT")
     private String billingInformation;
-
-    @Column()
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> employees = new ArrayList<>(); // List of employees associated with the company
 }

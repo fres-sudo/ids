@@ -2,6 +2,7 @@ package it.unicam.cs.ids.services;
 
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.dtos.CertificateDTO;
+import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.entities.Certificate;
@@ -20,14 +21,12 @@ public interface ProductService {
      * @param request the request containing product creation details
      * @return an ApiResponse containing the created ProductDTO
      */
-    ApiResponse<Product> createProduct(CreateProductRequest request);
+    ApiResponse<ProductDTO> createProduct(CreateProductRequest request);
     /**
      * Creates a new certificate based on the provided request.
      *
      * @param request the request containing certificate creation details
      * @return an ApiResponse containing the created CertificateDTO
      */
-    ApiResponse<Product> createCertificate(CreateCertificateRequest request);
-
-    List<Product> getAllProducts();
+    ApiResponse<ProductDTO> createCertificate(CreateCertificateRequest request);
 }

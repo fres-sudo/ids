@@ -27,8 +27,8 @@
         private UnitOfMeasure unityOfMeasure;
         private Currency currency;
         private List<String> tags;
-        private long producerId;
-        private long creatorId;
+        private Long producerId;
+        private Long creatorId;
         private String cultivationMethod;
         private Date expirationDate;
         private Date harvestDate;

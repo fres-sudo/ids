@@ -4,6 +4,7 @@ import it.unicam.cs.ids.api.responses.factories.ApiResponseFactory;
 import it.unicam.cs.ids.api.responses.factories.DefaultApiResponseFactory;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.dtos.CertificateDTO;
+import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.entities.Certificate;
@@ -16,6 +17,7 @@ import it.unicam.cs.ids.utils.Messages;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -47,30 +49,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ApiResponse<Product> createProduct(@Nonnull CreateProductRequest request) {
+    public ApiResponse<ProductDTO> createProduct(@Nonnull CreateProductRequest request) {
         Product product = productMapper.fromRequest(request);
         Product response = productRepository.save(product);
         return apiResponseFactory.createSuccessResponse(
                 Messages.Success.PRODUCT_CREATED,
-                response
+                productMapper.toDto(response)
         );
     }
 
     @Override
-    public ApiResponse<Product> createCertificate(@Nonnull CreateCertificateRequest request) {
+    public ApiResponse<ProductDTO> createCertificate(@Nonnull CreateCertificateRequest request) {
        Path path = storageService.store(request.getCertificateFile());
        Certificate certificate = certificateMapper.fromCreateRequest(request);
        certificate.setCertificateUrl(path.getFileName().toString());
        certificateRepository.save(certificate);
-       Product product = productRepository.findById(request.getProductId()).orElse(null);
+       Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new IllegalArgumentException("Product with ID " + request.getProductId() + " not found."));
        return apiResponseFactory.createSuccessResponse(
                 Messages.Success.CERTIFICATE_CREATED,
-                product
+                productMapper.toDto(product)
         );
-    }
-
-    @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
     }
 }

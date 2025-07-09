@@ -1,48 +1,42 @@
 package it.unicam.cs.ids.dtos;
 
 import it.unicam.cs.ids.entities.Coordinates;
-import it.unicam.cs.ids.enums.*;
+import it.unicam.cs.ids.enums.ApprovalStatus;
+import it.unicam.cs.ids.enums.Currency;
+import it.unicam.cs.ids.enums.ProductCategory;
+import it.unicam.cs.ids.enums.UnitOfMeasure;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-/**
- * ProductDTO is used to represent a product in the system.
- * @see DTO
- */
-@Data @EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
-public class ProductDTO extends DTO {
-    private long id;
+@Data
+public class ProductDTO extends DTO implements Serializable {
+    private Long id;
     private String name;
     private String description;
-    private ApprovalStatus status;
-    private Date productionDate;
+    private Date createdAt;
     private ProductCategory category;
+    private ApprovalStatus status;
     private int quantity;
     private double pricePerQuantity;
-    private UnitOfMeasure unityOfMeasure;
+    private UnitOfMeasure unitOfMeasure;
     private Currency currency;
     private List<String> tags;
-    private CompanyDTO producer;
+    private CompanyDTO company;
     private String cultivationMethod;
     private Date expirationDate;
     private Date harvestDate;
-    private boolean availableForSale;
     private boolean availableForShipping;
-    private int estimatedDeliveryTime;
+    private boolean availableForSale;
+    private int estimatedDeliveryDays;
     private double shippingCost;
     private String returnPolicy;
     private Coordinates productLocation;
     private List<CompanyDTO> distributors;
     private List<CompanyDTO> transformers;
     private CompanyDTO creator;
-    private List<CertificateDTO> certificates;
     private List<String> imageUrls;
-    private Date createdAt;
-    private Date updatedAt;
-    private Date deletedAt;
+    private List<CertificateDTO> certificates;
 }

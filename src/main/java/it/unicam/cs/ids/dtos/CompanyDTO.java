@@ -19,11 +19,8 @@ public class CompanyDTO extends DTO {
     private String website;
     private String email;
     private String description;
-    private String socialReason;
-    private long vat;
     private String address;
     private String phoneNumber;
-    private String billingInformation;
-    private List<UserDTO> employees;
     private Date createdAt;
+    private Date verifiedAt;
 }

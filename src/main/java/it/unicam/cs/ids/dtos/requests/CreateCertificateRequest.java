@@ -4,6 +4,7 @@ import it.unicam.cs.ids.dtos.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -15,8 +16,9 @@ import java.util.Date;
 public class CreateCertificateRequest extends DTO {
     private long id;
     private String name;
+    private String description;
     private long issuerId;
-    private String certificateUrl;
+    private MultipartFile certificateFile;
     private Date issueDate;
     private Date expirationDate;
 }

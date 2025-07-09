@@ -1,9 +1,19 @@
 package it.unicam.cs.ids.api.auth.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+
 /**
- * LoginRequest is a record that represents a request to log in.
- * @param username the username (email) of the user trying to log in
- * @param password the password of the user trying to log in
+ * Represents a request to log in a user.
  */
-public record LoginRequest(String username, String password) {}
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode
+public class LoginRequest implements Serializable {
+    private String email;
+    private String password;
+}

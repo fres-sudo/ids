@@ -4,6 +4,7 @@ import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.dtos.CertificateDTO;
 import it.unicam.cs.ids.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.dtos.requests.CreateProductRequest;
+import it.unicam.cs.ids.entities.Certificate;
 import it.unicam.cs.ids.entities.Product;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface ProductService {
      * @param request the request containing certificate creation details
      * @return an ApiResponse containing the created CertificateDTO
      */
-    ApiResponse<CertificateDTO> createCertificate(CreateCertificateRequest request);
+    ApiResponse<Product> createCertificate(CreateCertificateRequest request);
 
     List<Product> getAllProducts();
 }

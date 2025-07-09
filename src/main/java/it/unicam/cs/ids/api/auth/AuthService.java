@@ -43,8 +43,8 @@ public class AuthService {
     private final JwtTokenProvider tokenProvider;
 
     public AuthResponse login(LoginRequest loginRequest) {
-        String email = loginRequest.username();
-        String password = loginRequest.password();
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
 
         // Try User first
         Optional<User> userOpt = userRepository.findByEmail(email);
@@ -56,7 +56,7 @@ public class AuthService {
         } else {
             // Try Company next
             Company company = companyRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new RuntimeException("Company not found"));
 
             if (!passwordEncoder.matches(password, company.getHashedPassword())) {
                 throw new RuntimeException("Invalid password");

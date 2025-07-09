@@ -12,10 +12,4 @@ public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpec
     Optional<Company> findByEmail(String email);
 
     boolean existsByEmail(String email);
-
-    // debugging
-    default Company findByEmailOrThrow(String email) {
-        return findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found in DB: " + email));
-    }
 }

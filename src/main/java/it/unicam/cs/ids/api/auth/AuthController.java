@@ -2,8 +2,6 @@ package it.unicam.cs.ids.api.auth;
 
 
 import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
-import lombok.AllArgsConstructor;
-
 import it.unicam.cs.ids.api.auth.dto.AuthResponse;
 import it.unicam.cs.ids.api.auth.dto.LoginRequest;
 import it.unicam.cs.ids.api.auth.dto.RegisterUserRequest;

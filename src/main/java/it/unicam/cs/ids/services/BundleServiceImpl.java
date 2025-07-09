@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BundleServiceImpl implements BundleService {
 
-    private final BundleRepository bundleRepository;
     private final ApiResponseFactory apiResponseFactory;
+    private final BundleRepository bundleRepository;
     private final BundleMapper bundleMapper;
 
     @Autowired

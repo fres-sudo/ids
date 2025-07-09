@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
-
 /**
  * PaginatedApiResponse is a class that represents a paginated response from an API.
  * It extends the {@link ApiResponse} class and includes additional fields for pagination.
@@ -17,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class PaginatedApiResponse<T> extends ApiResponse<T> implements Serializable {
+public class PaginatedApiResponse<T> extends ApiResponse<T> {
     /** The current page number. */
     private int page;
     /** The size of the page (number of items per page). */

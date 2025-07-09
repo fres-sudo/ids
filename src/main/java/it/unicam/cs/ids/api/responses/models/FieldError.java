@@ -2,7 +2,6 @@ package it.unicam.cs.ids.api.responses.models;
 
 
 import lombok.Builder;
-import lombok.Value;
 
 /**
  * Represents a field error in an API response.

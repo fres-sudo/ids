@@ -1,17 +1,16 @@
 package it.unicam.cs.ids.repositories;
 
 import it.unicam.cs.ids.entities.Company;
-import it.unicam.cs.ids.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<Company, Long> {
+public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpecificationExecutor<Company> {
     Optional<Company> findByEmail(String email);
+
     boolean existsByEmail(String email);
 
     // debugging

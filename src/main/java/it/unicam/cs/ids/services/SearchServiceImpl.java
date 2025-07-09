@@ -12,8 +12,8 @@ import it.unicam.cs.ids.enums.SortDirection;
 import it.unicam.cs.ids.repositories.BundleRepository;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.repositories.ProductRepository;
+import it.unicam.cs.ids.services.specifications.CompanySpecification;
 import it.unicam.cs.ids.services.specifications.ProductSpecification;
-import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,9 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class SearchServiceImpl implements SearchService {
 
@@ -32,7 +29,6 @@ public class SearchServiceImpl implements SearchService {
     private final ProductRepository productRepository;
     private final BundleRepository bundleRepository;
     private final CompanyRepository companyRepository;
-
 
     @Autowired
     public SearchServiceImpl(ProductRepository productRepository, BundleRepository bundleRepository, CompanyRepository companyRepository) {
@@ -59,16 +55,26 @@ public class SearchServiceImpl implements SearchService {
 
     public Page<Bundle> searchBundles(BundleFilter filter) {
         Sort sort = Sort.by(
-                filter.getSortDirection() == SortDirection.DESC ? Sort.Direction.DESC : Sort.Direction.ASC,
-                filter.getSortBy() != null ? filter.getSortBy() : "id"
+            filter.getSortDirection() == SortDirection.DESC ? Sort.Direction.DESC : Sort.Direction.ASC,
+            filter.getSortBy() != null ? filter.getSortBy() : "id"
         );
-        return bundleRepository.findAll( PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort));
+        return bundleRepository.findAll(PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort));
 
     }
 
     @Override
     public Page<Company> searchCompanies(CompanyFilter filter) {
-        return companyRepository.findAll(PageRequest.of(filter.getPageNo(), filter.getPageSize()));
-        // TODO: Add actual filtering logic based on CompanyFilter fields
+        Specification<Company> spec = CompanySpecification.withFilter(filter);
+
+        Sort sort = Sort.unsorted();
+
+        if (filter.getSortBy() != null && !filter.getSortBy().isEmpty()) {
+            Sort.Direction direction = filter.getSortDirection() == SortDirection.DESC ? Sort.Direction.DESC : Sort.Direction.ASC;
+            sort = Sort.by(direction, filter.getSortBy());
+        }
+        
+        Pageable pageable = PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort);
+
+        return companyRepository.findAll(spec, pageable);
     }
 }

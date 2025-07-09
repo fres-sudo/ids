@@ -14,7 +14,7 @@ import java.util.Date;
 @Data @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class CreateCertificateRequest extends DTO {
-    private long id;
+    private Long productId;
     private String name;
     private String description;
     private long issuerId;

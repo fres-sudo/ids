@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.api.auth.user;
+package it.unicam.cs.ids.exceptions.auth;
 
 /**
  * AuthenticationException is thrown when there is an issue with user authentication.

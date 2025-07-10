@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.api.auth.user;
+package it.unicam.cs.ids.enums;
 
 
 import lombok.Getter;
@@ -9,13 +9,13 @@ import lombok.Getter;
 @Getter
 public enum PlatformRoles {
     /** Represents the administrator role with full access to the platform. */
-    ADMIN("ADMIN"),
+    ADMIN("admin"),
     /** Represents a user with the ability to manage certifications. */
-    CERTIFIER("CERTIFIER"),
+    CERTIFIER("certifier"),
     /** Represents a company that can upload and manage products. */
-    COMPANY("COMPANY"),
+    COMPANY("company"),
     /** Represents a Signed-in user who can browse and purchase products. */
-    SHOPPER("SHOPPER");
+    USER("user");
 
     /** The string representation of the role. */
     private final String role;

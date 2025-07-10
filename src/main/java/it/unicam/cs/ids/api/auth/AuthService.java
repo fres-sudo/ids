@@ -1,14 +1,16 @@
 package it.unicam.cs.ids.api.auth;
 
 import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
-import it.unicam.cs.ids.api.auth.user.AuthenticationException;
+import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.entities.Company;
+import it.unicam.cs.ids.exceptions.auth.NotFound;
+import it.unicam.cs.ids.exceptions.auth.NotUniqueEmail;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.mappers.UserMapper;
 import it.unicam.cs.ids.repositories.CompanyRepository;
+import it.unicam.cs.ids.utils.InfrastructureTools;
+import it.unicam.cs.ids.utils.Messages;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import org.mapstruct.Named;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
-public class AuthService {
+public class AuthService implements AuthOperations {
     /** Authentication manager for processing authentication requests */
     private final AuthenticationManager authenticationManager;
     /** Repository for user data access */
@@ -48,7 +50,6 @@ public class AuthService {
     private final UserMapper userMapper;
     /** Mapper for converting between DTOs and Company entities */
     private final CompanyMapper companyMapper;
-
     /** Password encoder for hashing and verifying passwords */
     private final PasswordEncoder passwordEncoder;
     /** JWT token provider for generating and validating JWT tokens */
@@ -62,16 +63,13 @@ public class AuthService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if (!passwordEncoder.matches(password, user.getHashedPassword())) {
-                throw new RuntimeException("Invalid password");
-            }
+            InfrastructureTools.validatePassword(passwordEncoder, password, user.getHashedPassword());
         } else {
             // Try Company next
             Company company = companyRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Company not found"));
-            if (!passwordEncoder.matches(password, company.getHashedPassword())) {
-                throw new RuntimeException("Invalid password");
-            }
+
+            InfrastructureTools.validatePassword(passwordEncoder, password, company.getHashedPassword());
         }
 
         Authentication authentication = authenticationManager.authenticate(
@@ -82,38 +80,34 @@ public class AuthService {
         return new AuthResponse(token);
     }
 
-    /**
-     * Registers a new user if the email is not already in use.
-     *
-     * @param registerUserRequest the registration request DTO containing user info
-     * @throws IllegalArgumentException if the email is already registered
-     */
+    @Override
     public void registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
         if (userRepository.existsByEmail(registerUserRequest.getEmail())) {
-            throw new IllegalArgumentException("Email already in use");
+            throw new NotUniqueEmail();
         }
-
         User user = userMapper.fromRequest(registerUserRequest);
         userRepository.save(user);
     }
 
+    @Override
     public void registerCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) {
         if (companyRepository.existsByEmail(registerCompanyRequest.getEmail())) {
-            throw new IllegalArgumentException("Email already in use");
+            throw new NotUniqueEmail();
         }
         Company company = companyMapper.fromRequest(registerCompanyRequest);
         companyRepository.save(company);
     }
 
+    @Override
     public Company getAuthenticatedCompany() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new AuthenticationException("User is not authenticated");
+            throw new AuthenticationException(Messages.Auth.UNAUTHORIZED_ACCESS);
         }
         String email = authentication.getName();
         return companyRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new NotFound(email));
     }
 
 

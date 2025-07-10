@@ -35,7 +35,8 @@ public final class Messages {
 
         String INVALID_REQUEST = "Invalid request data";
         String INTERNAL_ERROR = "An internal error occurred";
-        String UNAUTHORIZED_ACCESS = "Unauthorized access";
+
+
 
     }
 
@@ -45,6 +46,17 @@ public final class Messages {
     }
 
     public interface Info {
+
+    }
+
+    public interface Auth {
+        String UNAUTHORIZED_ACCESS = "Unauthorized access";
+        String USER_NOT_FOUND = "User not found";
+        String INVALID_PASSWORD = "Invalid password";
+
+
+        String NO_UNIQUE_EMAIL = "Email already in use, choose a unique one";
+
 
     }
 }

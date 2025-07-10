@@ -3,6 +3,7 @@ package it.unicam.cs.ids.api.auth.user;
 
 import it.unicam.cs.ids.entities.User;
 import it.unicam.cs.ids.entities.Company;
+import it.unicam.cs.ids.enums.PlatformRoles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +32,7 @@ public class AppUserPrincipal implements UserDetails {
                 user.getEmail(),
                 user.getHashedPassword(),
                 null, // no VAT for user
-                Collections.singletonList(new SimpleGrantedAuthority(PlatformRoles.SHOPPER.getRole())),
+                Collections.singletonList(new SimpleGrantedAuthority(PlatformRoles.USER.getRole())),
                 user.isEmailVerified(),
                 false
         );

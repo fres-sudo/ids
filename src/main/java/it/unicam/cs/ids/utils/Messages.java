@@ -26,7 +26,6 @@ public final class Messages {
         String COMPANY_RETRIEVED = "Company retrieved successfully";
         String COMPANY_UPDATED = "Company updated successfully";
         String COMPANY_DELETED = "Company deleted successfully";
-
     }
 
     public interface Error {
@@ -35,14 +34,13 @@ public final class Messages {
 
         String INVALID_REQUEST = "Invalid request data";
         String INTERNAL_ERROR = "An internal error occurred";
-
-
-
     }
 
     public interface Warning {
         String DEPRECATED_FEATURE = "This feature is deprecated and may be removed in future versions";
         String UNSUPPORTED_OPERATION = "This operation is not supported";
+
+        String CANT_BE_BLANK = " cannot be blank";
     }
 
     public interface Info {

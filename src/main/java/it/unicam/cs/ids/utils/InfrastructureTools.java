@@ -4,8 +4,13 @@ import it.unicam.cs.ids.dtos.requests.company.config.DeleteCompanyRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import lombok.NonNull;
+import org.mapstruct.Named;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+import java.util.regex.Pattern;
+
+@Component
 public final class InfrastructureTools {
     private InfrastructureTools() {}
 
@@ -43,5 +48,49 @@ public final class InfrastructureTools {
             validatePassword(encoder, request.getPassword(), company.getHashedPassword());
         }
 
+    }
+
+    /**
+     * Validates the provided email address against a standard email format.
+     * @param email the email address to validate
+     * @return true if the email is valid, false otherwise
+     * @throws IllegalArgumentException if the email is null, empty
+     * @throws java.util.regex.PatternSyntaxException if the regex pattern is invalid
+     */
+    @Named("validateEmail")
+    public boolean validateEmail(String email) {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+
+        if (!pattern.matcher(email).matches()) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates the provided VAT number against a standard VAT format.
+     * @param vat the VAT number to validate
+     * @return true if the VAT is valid, false otherwise
+     * @throws IllegalArgumentException if the VAT is null, empty, or does not match the expected format
+     * @throws java.util.regex.PatternSyntaxException if the regex pattern is invalid
+     */
+    @Named("validateVat")
+    public boolean validateVat(String vat) {
+        if (vat == null || vat.isBlank()) {
+            throw new IllegalArgumentException("VAT cannot be empty");
+        }
+        String vatRegex = "^[A-Z]{2}[0-9A-Z]{8,12}$";
+        Pattern pattern = Pattern.compile(vatRegex);
+
+        if (!pattern.matcher(vat).matches()) {
+            throw new IllegalArgumentException("Invalid VAT format");
+        }
+
+        return true;
     }
 }

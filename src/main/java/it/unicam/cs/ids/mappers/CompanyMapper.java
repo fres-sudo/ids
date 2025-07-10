@@ -6,6 +6,7 @@ import it.unicam.cs.ids.dtos.CompanyDTO;
 import it.unicam.cs.ids.dtos.requests.company.config.EditCompanyRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.repositories.CompanyRepository;
+import it.unicam.cs.ids.utils.InfrastructureTools;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +18,8 @@ import java.util.List;
 @Mapper(
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        unmappedSourcePolicy = ReportingPolicy.IGNORE
+        unmappedSourcePolicy = ReportingPolicy.IGNORE,
+        uses = {InfrastructureTools.class}
 )
 @Component
 public abstract class CompanyMapper {
@@ -38,7 +40,10 @@ public abstract class CompanyMapper {
     @Mapping(target = "id", ignore = true) // assuming id is in BaseEntity, ignore it
     @Mapping(target = "createdAt", ignore = true) // ignore audit fields
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true) // ignore deletedAt for new entities
+    @Mapping(target = "email", source = "request.email", qualifiedByName = "validateEmail") // validate email
     @Mapping(target = "hashedPassword", source = "password", qualifiedByName = "encodePassword") // encode password
+    @Mapping(target = "vat", source = "request.vat", qualifiedByName = "validateVat") // validate VAT
     @Mapping(target = "emailVerified", constant = "true") // default to false, or true for testing
     @Mapping(target = "verifiedAt", ignore = true) // ignore date, set later if needed
     @Mapping(target = "description", ignore = true) // map only fields from request, ignore others
@@ -56,8 +61,8 @@ public abstract class CompanyMapper {
      * Ignores fields that are not present in the request, such as id, createdAt, and updatedAt.
      */
     @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
-    @Mapping(target = "email", source = "request.email")
-    @Mapping(target = "vat", source = "request.vat")
+    @Mapping(target = "email", source = "request.email", qualifiedByName = "validateEmail") // validate email
+    @Mapping(target = "vat", source = "request.vat", qualifiedByName = "validateVat") // validate VAT
     @Mapping(target = "hashedPassword", source = "request.password", qualifiedByName = "encodePassword")
     @Mapping(target = "description", source = "request.description")
     @Mapping(target = "phoneNumber", source = "request.phoneNumber")
@@ -108,6 +113,7 @@ public abstract class CompanyMapper {
         }
         return passwordEncoder.encode(rawPassword);
     }
+
 
 
 }

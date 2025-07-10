@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.api.auth.config;
+package it.unicam.cs.ids.api.auth.user;
 
 
 import it.unicam.cs.ids.repositories.CompanyRepository;
@@ -10,6 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementation of UserDetailsService that loads user details by username.
+ * It checks repositories to find the users.
+ */
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {

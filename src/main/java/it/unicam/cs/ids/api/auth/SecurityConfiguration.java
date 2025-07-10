@@ -3,7 +3,7 @@ package it.unicam.cs.ids.api.auth;
 
 
 
-import it.unicam.cs.ids.api.auth.config.UserDetailsServiceImpl;
+import it.unicam.cs.ids.api.auth.user.UserDetailsServiceImpl;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -64,7 +64,7 @@ public class SecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

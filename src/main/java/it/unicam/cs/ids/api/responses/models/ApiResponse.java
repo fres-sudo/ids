@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
  * It's used across all the API responses to maintain a consistent structure.
  * @param <T> the type of the data in the response.
  */
-@Getter // <--- Add this
-@NoArgsConstructor // <--- Add this for Jackson
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class ApiResponse<T> implements Serializable {
     /**
      * Timestamp of the response creation.
      */
-    @Builder.Default // <--- Add this!
+    @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
     /**
      * Message describing the response.
@@ -51,4 +51,5 @@ public class ApiResponse<T> implements Serializable {
      */
     private T data;
 }
+
 

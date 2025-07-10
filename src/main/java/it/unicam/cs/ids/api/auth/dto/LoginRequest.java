@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * Represents a request to log in a user.
+ * Represents a request to log in a generic user.
  */
 @Data
 @AllArgsConstructor

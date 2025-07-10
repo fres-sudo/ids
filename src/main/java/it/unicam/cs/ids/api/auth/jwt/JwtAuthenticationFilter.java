@@ -10,7 +10,7 @@ import jakarta.servlet.FilterChain;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import it.unicam.cs.ids.api.auth.config.UserDetailsServiceImpl;
+import it.unicam.cs.ids.api.auth.user.UserDetailsServiceImpl;
 import jakarta.servlet.ServletException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,7 +62,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 
     /**
      * Extracts the JWT token from the Authorization header of the HTTP request.

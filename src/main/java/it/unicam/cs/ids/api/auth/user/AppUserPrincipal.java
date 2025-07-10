@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.api.auth.config;
+package it.unicam.cs.ids.api.auth.user;
 
 
 import it.unicam.cs.ids.entities.User;
@@ -18,7 +18,7 @@ public class AppUserPrincipal implements UserDetails {
     private final Long id;
     private final String email;
     private final String password;
-    private final String vat; // Optional, for companies
+    private final String vat;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean emailVerified;
     private final boolean isCompany;
@@ -31,7 +31,7 @@ public class AppUserPrincipal implements UserDetails {
                 user.getEmail(),
                 user.getHashedPassword(),
                 null, // no VAT for user
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_SHOPPER")),
+                Collections.singletonList(new SimpleGrantedAuthority(PlatformRoles.SHOPPER.getRole())),
                 user.isEmailVerified(),
                 false
         );
@@ -44,13 +44,14 @@ public class AppUserPrincipal implements UserDetails {
                 company.getEmail(),
                 company.getHashedPassword(),
                 company.getVat(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_COMPANY")),
+                Collections.singletonList(new SimpleGrantedAuthority(PlatformRoles.COMPANY.getRole())),
                 company.isEmailVerified(),
                 true
         );
     }
 
     //TODO: ADD curatore...
+    //TODO: ADD ADMIN
 
     @Override
     public String getUsername() {

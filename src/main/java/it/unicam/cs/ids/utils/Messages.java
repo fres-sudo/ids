@@ -53,10 +53,7 @@ public final class Messages {
         String UNAUTHORIZED_ACCESS = "Unauthorized access";
         String USER_NOT_FOUND = "User not found";
         String INVALID_PASSWORD = "Invalid password";
-
-
         String NO_UNIQUE_EMAIL = "Email already in use, choose a unique one";
-
-
+        String INVALID_COMPANY_DELETE_REQUEST = "Invalid company delete request. Please check your credentials and try again.";
     }
 }

@@ -12,6 +12,7 @@ import it.unicam.cs.ids.services.EmailValidatorService;
 import it.unicam.cs.ids.utils.InfrastructureTools;
 import it.unicam.cs.ids.utils.Messages;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,7 @@ public class AuthService implements AuthOperations {
     /** Mapper for converting between DTOs and Company entities */
     private final CompanyMapper companyMapper;
     /** Password encoder for hashing and verifying passwords */
+    @Getter
     private final PasswordEncoder passwordEncoder;
     /** JWT token provider for generating and validating JWT tokens */
     private final JwtTokenProvider tokenProvider;
@@ -108,6 +110,8 @@ public class AuthService implements AuthOperations {
         return companyRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFound(email));
     }
+
+
 
 
 }

@@ -69,10 +69,6 @@ public class AuthService {
             // Try Company next
             Company company = companyRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Company not found"));
-            System.out.println("Company found: " + company.getEmail());
-            System.out.println("Hashed password: " + company.getHashedPassword());
-            System.out.println("Provided password: " + password);
-
             if (!passwordEncoder.matches(password, company.getHashedPassword())) {
                 throw new RuntimeException("Invalid password");
             }

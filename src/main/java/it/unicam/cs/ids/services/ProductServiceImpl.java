@@ -59,15 +59,36 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ApiResponse<ProductDTO> createCertificate(@Nonnull CreateCertificateRequest request) {
-       Path path = storageService.store(request.getCertificateFile());
-       Certificate certificate = certificateMapper.fromCreateRequest(request);
-       certificate.setCertificateUrl(path.getFileName().toString());
-       certificateRepository.save(certificate);
-       Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new IllegalArgumentException("Product with ID " + request.getProductId() + " not found."));
-       return apiResponseFactory.createSuccessResponse(
-                Messages.Success.CERTIFICATE_CREATED,
-                productMapper.toDto(product)
-        );
+        try {
+            // Validate product exists first
+            Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new IllegalArgumentException("Product with ID " + request.getProductId() + " not found."));
+            
+            // Store the certificate file
+            Path path = storageService.store(request.getCertificateFile());
+            
+            // Create certificate entity
+            Certificate certificate = certificateMapper.fromCreateRequest(request);
+            
+            // Generate proper URL for file access
+            String fileUrl = "/api/files/" + path.getFileName().toString();
+            certificate.setCertificateUrl(fileUrl);
+            
+            // Save certificate
+            Certificate savedCertificate = certificateRepository.save(certificate);
+            
+            // Add certificate to product
+            product.getCertificates().add(savedCertificate);
+            Product savedProduct = productRepository.save(product);
+            
+            return apiResponseFactory.createSuccessResponse(
+                    Messages.Success.CERTIFICATE_CREATED,
+                    productMapper.toDto(savedProduct)
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create certificate: " + e.getMessage(), e);
+        }
     }
 }

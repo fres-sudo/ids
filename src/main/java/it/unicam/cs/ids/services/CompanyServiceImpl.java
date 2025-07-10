@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.services;
 
-import it.unicam.cs.ids.api.auth.AuthService;
+import it.unicam.cs.ids.api.auth.services.AuthService;
 import it.unicam.cs.ids.api.responses.factories.ApiResponseFactory;
 import it.unicam.cs.ids.api.responses.factories.DefaultApiResponseFactory;
 import it.unicam.cs.ids.dtos.requests.company.config.DeleteCompanyRequest;

@@ -1,10 +1,9 @@
-package it.unicam.cs.ids.api.auth;
+package it.unicam.cs.ids.api.auth.services;
 
 import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.exceptions.auth.NotFound;
-import it.unicam.cs.ids.exceptions.auth.NotUniqueEmail;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.mappers.UserMapper;
 import it.unicam.cs.ids.repositories.CompanyRepository;
@@ -41,7 +40,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
-public class AuthService implements AuthOperations {
+public class AuthServiceImpl implements AuthService {
     /** Service for validating email addresses */
     private final EmailValidatorService emailValidatorService;
     /** Authentication manager for processing authentication requests */
@@ -110,8 +109,4 @@ public class AuthService implements AuthOperations {
         return companyRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFound(email));
     }
-
-
-
-
 }

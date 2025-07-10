@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.api.auth;
+package it.unicam.cs.ids.api.auth.services;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,7 +14,7 @@ import it.unicam.cs.ids.exceptions.auth.NotUniqueEmail;
 /**
  * Interface defining operations for user authentication and registration.
  */
-public interface AuthOperations {
+public interface AuthService {
     /**
      * Logs in a user with the provided credentials.
      *

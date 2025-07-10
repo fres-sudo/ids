@@ -5,6 +5,7 @@ import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
 import it.unicam.cs.ids.api.auth.dto.AuthResponse;
 import it.unicam.cs.ids.api.auth.dto.LoginRequest;
 import it.unicam.cs.ids.api.auth.dto.RegisterUserRequest;
+import it.unicam.cs.ids.api.auth.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

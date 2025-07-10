@@ -53,12 +53,12 @@ public final class InfrastructureTools {
     /**
      * Validates the provided email address against a standard email format.
      * @param email the email address to validate
-     * @return true if the email is valid, false otherwise
+     * @return the email if it is valid
      * @throws IllegalArgumentException if the email is null, empty
      * @throws java.util.regex.PatternSyntaxException if the regex pattern is invalid
      */
     @Named("validateEmail")
-    public boolean validateEmail(String email) {
+    public String validateEmail(String email) {
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Email cannot be empty");
         }
@@ -69,7 +69,7 @@ public final class InfrastructureTools {
             throw new IllegalArgumentException("Invalid email format");
         }
 
-        return true;
+        return email;
     }
 
     /**
@@ -80,7 +80,7 @@ public final class InfrastructureTools {
      * @throws java.util.regex.PatternSyntaxException if the regex pattern is invalid
      */
     @Named("validateVat")
-    public boolean validateVat(String vat) {
+    public String validateVat(String vat) {
         if (vat == null || vat.isBlank()) {
             throw new IllegalArgumentException("VAT cannot be empty");
         }
@@ -91,6 +91,6 @@ public final class InfrastructureTools {
             throw new IllegalArgumentException("Invalid VAT format");
         }
 
-        return true;
+        return vat;
     }
 }

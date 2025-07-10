@@ -8,6 +8,7 @@ import it.unicam.cs.ids.exceptions.auth.NotUniqueEmail;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.mappers.UserMapper;
 import it.unicam.cs.ids.repositories.CompanyRepository;
+import it.unicam.cs.ids.services.EmailValidatorService;
 import it.unicam.cs.ids.utils.InfrastructureTools;
 import it.unicam.cs.ids.utils.Messages;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,8 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class AuthService implements AuthOperations {
+    /** Service for validating email addresses */
+    private final EmailValidatorService emailValidatorService;
     /** Authentication manager for processing authentication requests */
     private final AuthenticationManager authenticationManager;
     /** Repository for user data access */
@@ -82,18 +85,14 @@ public class AuthService implements AuthOperations {
 
     @Override
     public void registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
-        if (userRepository.existsByEmail(registerUserRequest.getEmail())) {
-            throw new NotUniqueEmail();
-        }
+        emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
         User user = userMapper.fromRequest(registerUserRequest);
         userRepository.save(user);
     }
 
     @Override
     public void registerCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) {
-        if (companyRepository.existsByEmail(registerCompanyRequest.getEmail())) {
-            throw new NotUniqueEmail();
-        }
+        emailValidatorService.validateEmailInUse(registerCompanyRequest.getEmail());
         Company company = companyMapper.fromRequest(registerCompanyRequest);
         companyRepository.save(company);
     }

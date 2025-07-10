@@ -12,6 +12,7 @@ import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.utils.InfrastructureTools;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,8 +42,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void deleteCompany(DeleteCompanyRequest request) {
         Company authenticatedCompany = authService.getAuthenticatedCompany();
-        String requestHashedPassword = authService.getPasswordEncoder().encode(request.getPassword());
-        InfrastructureTools.validateCompanyDelete(authenticatedCompany, request, requestHashedPassword);
+        PasswordEncoder passwordEncoder = authService.getPasswordEncoder();
+        InfrastructureTools.validateCompanyDelete(passwordEncoder, authenticatedCompany, request);
         companyRepository.delete(authenticatedCompany);
     }
 

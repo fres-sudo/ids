@@ -32,17 +32,16 @@ public final class InfrastructureTools {
      * Validates the company deletion request by checking if the provided email, VAT, and hashed password match
      * the company's details.
      *
+     * @param encoder the PasswordEncoder to use for password validation
      * @param company the company to validate against
      * @param request the deletion request containing email, VAT, and hashed password
-     * @param requestHashedPassword the hashed password from the request
      * @throws AuthenticationException if the validation fails
      */
-    public static void validateCompanyDelete(Company company, DeleteCompanyRequest request, String requestHashedPassword) {
+    public static void validateCompanyDelete(PasswordEncoder encoder, Company company, DeleteCompanyRequest request) {
         if (company.getEmail().equals(request.getEmail()) &&
-            company.getVat().equals(request.getVat()) &&
-            company.getHashedPassword().equals(requestHashedPassword)) return;
-        else {
-            throw new AuthenticationException(Messages.Auth.INVALID_COMPANY_DELETE_REQUEST);
+            company.getVat().equals(request.getVat())) {
+            validatePassword(encoder, request.getPassword(), company.getHashedPassword());
         }
+
     }
 }

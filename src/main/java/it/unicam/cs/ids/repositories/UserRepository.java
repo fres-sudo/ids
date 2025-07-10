@@ -12,9 +12,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
 
-    // debugging
-    default User findByEmailOrThrow(String email) {
-        return findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found in DB: " + email));
-    }
 }

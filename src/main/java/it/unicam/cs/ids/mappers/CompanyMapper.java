@@ -61,13 +61,14 @@ public abstract class CompanyMapper {
      * Ignores fields that are not present in the request, such as id, createdAt, and updatedAt.
      */
     @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
+    @Mapping(target = "name", source = "request.name", qualifiedByName = "validateString")
     @Mapping(target = "email", source = "request.email", qualifiedByName = "validateEmail") // validate email
     @Mapping(target = "vat", source = "request.vat", qualifiedByName = "validateVat") // validate VAT
     @Mapping(target = "hashedPassword", source = "request.password", qualifiedByName = "encodePassword")
-    @Mapping(target = "description", source = "request.description")
-    @Mapping(target = "phoneNumber", source = "request.phoneNumber")
-    @Mapping(target = "address", source = "request.address")
-    @Mapping(target = "website", source = "request.website")
+    @Mapping(target = "description", source = "request.description", qualifiedByName = "validateString")
+    @Mapping(target = "phoneNumber", source = "request.phoneNumber", qualifiedByName = "validatePhoneNumber")
+    @Mapping(target = "address", source = "request.address", qualifiedByName = "validateString")
+    @Mapping(target = "website", source = "request.website", qualifiedByName = "validateString")
     @Mapping(target = "billingInformation", source = "request.billingInformation")
     public abstract Company updateCompanyFromRequest(
             @MappingTarget Company existing,

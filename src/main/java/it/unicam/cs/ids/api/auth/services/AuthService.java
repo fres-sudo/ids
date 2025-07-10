@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.api.auth.services;
 
+import it.unicam.cs.ids.entities.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -34,6 +35,14 @@ public interface AuthService {
     void registerUser(@RequestBody RegisterUserRequest registerUserRequest);
 
     /**
+     * Registers a certifier with the provided details.
+     *
+     * @param registerUserRequest the request containing certifier registration details
+     * @throws NotUniqueEmail if the email provided in the registration request is already in use
+     */
+    void registerCertifier(@RequestBody RegisterUserRequest registerUserRequest);
+
+    /**
      * Registers a new company with the provided details.
      *
      * @param registerCompanyRequest the request containing company registration details
@@ -50,6 +59,14 @@ public interface AuthService {
      */
     Company getAuthenticatedCompany();
 
+    /**
+     * Retrieves the currently authenticated user.
+     *
+     * @return the authenticated User entity
+     * @throws AuthenticationException if the user is not authenticated
+     * @throws NotFound if no user is found in the current security context
+     */
+     User getAuthenticatedUser();
 
     /**
      * Retrieves the PasswordEncoder used for encoding passwords.

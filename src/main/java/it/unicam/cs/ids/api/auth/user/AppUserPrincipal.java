@@ -6,6 +6,7 @@ import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.enums.PlatformRoles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,20 +27,22 @@ public class AppUserPrincipal implements UserDetails {
 
 
     // Factory method for User
-    public static AppUserPrincipal fromUser(User user) {
+    public static AppUserPrincipal fromUser(@NonNull User user) {
+        PlatformRoles role = user.getRole();
+        String authority = role.getRole();
         return new AppUserPrincipal(
                 user.getId(),
                 user.getEmail(),
                 user.getHashedPassword(),
                 null, // no VAT for user
-                Collections.singletonList(new SimpleGrantedAuthority(PlatformRoles.USER.getRole())),
+                Collections.singletonList(new SimpleGrantedAuthority(authority)),
                 user.isEmailVerified(),
-                false
+                false // not a company
         );
     }
 
     // Factory method for Company
-    public static AppUserPrincipal fromCompany(Company company) {
+    public static AppUserPrincipal fromCompany(@NonNull Company company) {
         return new AppUserPrincipal(
                 company.getId(),
                 company.getEmail(),
@@ -50,6 +53,7 @@ public class AppUserPrincipal implements UserDetails {
                 true
         );
     }
+
 
     //TODO: ADD curatore...
     //TODO: ADD ADMIN

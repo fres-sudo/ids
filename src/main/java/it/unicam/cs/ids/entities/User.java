@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.entities;
 
+import it.unicam.cs.ids.enums.PlatformRoles;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,6 +38,9 @@ public class User extends BaseEntity {
     @Column(name = "verified_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date verifiedAt;
+
+    @Column(name = "role", nullable = false)
+    private PlatformRoles role = PlatformRoles.BUYER;
 
     @ManyToOne
     @JoinColumn(name = "company_id")

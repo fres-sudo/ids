@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.api.auth.services;
 
 import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
+import it.unicam.cs.ids.enums.PlatformRoles;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.exceptions.auth.NotFound;
@@ -92,21 +93,39 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public void registerCertifier(@RequestBody RegisterUserRequest registerUserRequest) {
+        emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
+        User certifier = userMapper.fromRequest(registerUserRequest);
+        certifier.setRole(PlatformRoles.CERTIFIER);
+        userRepository.save(certifier);
+    }
+
+    @Override
     public void registerCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) {
         emailValidatorService.validateEmailInUse(registerCompanyRequest.getEmail());
         Company company = companyMapper.fromRequest(registerCompanyRequest);
         companyRepository.save(company);
     }
 
-    @Override
-    public Company getAuthenticatedCompany() {
+    private String getAuthenticatedEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new AuthenticationException(Messages.Auth.UNAUTHORIZED_ACCESS);
         }
-        String email = authentication.getName();
+        return authentication.getName();
+    }
+
+    @Override
+    public Company getAuthenticatedCompany() {
+        String email = getAuthenticatedEmail();
         return companyRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFound(email));
+    }
+
+    @Override
+    public User getAuthenticatedUser() {
+        String email = getAuthenticatedEmail();
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFound(email));
     }
 }

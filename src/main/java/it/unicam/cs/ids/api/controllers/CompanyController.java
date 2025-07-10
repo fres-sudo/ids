@@ -31,6 +31,11 @@ public class CompanyController {
     /** * Factory for creating API responses */
     private final ApiResponseFactory responseFactory;
 
+    /**
+     * Edits an existing company.
+     * @param request the request containing the details to edit the company
+     * @return a response entity containing the updated company
+     */
     @PutMapping("edit")
     ResponseEntity<ApiResponse<Company>> EditCompany(@RequestBody EditCompanyRequest request) {
         Company updated               = companyService.editCompany(request);
@@ -40,6 +45,11 @@ public class CompanyController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Deletes a company.
+     * @param request the request containing the details to delete the company
+     * @return a response entity indicating success or failure
+     */
     @DeleteMapping("delete")
     ResponseEntity<ApiResponse<Void>> deleteCompany(@RequestBody DeleteCompanyRequest request) {
         companyService.deleteCompany(request);

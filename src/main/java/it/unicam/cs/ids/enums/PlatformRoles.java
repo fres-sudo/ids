@@ -15,7 +15,7 @@ public enum PlatformRoles {
     /** Represents a company that can upload and manage products. */
     COMPANY("company"),
     /** Represents a Signed-in user who can browse and purchase products. */
-    USER("user");
+    BUYER("buyer");
 
     /** The string representation of the role. */
     private final String role;
@@ -28,5 +28,4 @@ public enum PlatformRoles {
     PlatformRoles(String role) {
         this.role = role;
     }
-
 }

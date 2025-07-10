@@ -1,7 +1,9 @@
 package it.unicam.cs.ids.utils;
 
 import it.unicam.cs.ids.dtos.requests.company.config.DeleteCompanyRequest;
+import it.unicam.cs.ids.dtos.requests.user.config.DeleteUserRequest;
 import it.unicam.cs.ids.entities.Company;
+import it.unicam.cs.ids.entities.User;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import lombok.NonNull;
 import org.mapstruct.Named;
@@ -51,6 +53,21 @@ public final class InfrastructureTools {
     }
 
     /**
+     * Validates the user deletion request by checking if the provided email and hashed password match
+     * the user's details.
+     *
+     * @param passwordEncoder the PasswordEncoder to use for password validation
+     * @param user the user to validate against
+     * @param request the deletion request containing email and password
+     * @throws AuthenticationException if the validation fails
+     */
+    public static void validateUserDelete(PasswordEncoder passwordEncoder, User user, DeleteUserRequest request) {
+        if (user.getEmail().equals(request.getEmail())){
+            validatePassword(passwordEncoder, request.getPassword(), user.getHashedPassword());
+        }
+    }
+
+    /**
      * Validates the provided email address against a standard email format.
      * @param email the email address to validate
      * @return the email if it is valid
@@ -92,5 +109,44 @@ public final class InfrastructureTools {
         }
 
         return vat;
+    }
+
+    /**
+     * Validates the provided phone number against a standard phone number format.
+     * example formats include:
+     * - "+1234567890"
+     * - "123-456-7890"
+     * @param phoneNumber the phone number to validate
+     * @return the phone number if it is valid
+     * @throws IllegalArgumentException if the phone number is null, empty, or does not match the expected format
+     * @throws java.util.regex.PatternSyntaxException if the regex pattern is invalid
+     */
+    @Named("validatePhoneNumber")
+    public String validatePhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.isBlank()) {
+            throw new IllegalArgumentException("Phone number cannot be empty");
+        }
+        String phoneRegex = "^\\+?[0-9]{1,3}?[-.\\s]?\\(?[0-9]{1,4}?\\)?[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,9}$";
+        Pattern pattern = Pattern.compile(phoneRegex);
+
+        if (!pattern.matcher(phoneNumber).matches()) {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
+
+        return phoneNumber;
+    }
+
+    /**
+     * Validates a string value to ensure it is not null or empty.
+     * @param value the string value to validate
+     * @return the validated string
+     * @throws IllegalArgumentException if the value is null or empty
+     */
+    @Named("validateString")
+    public String validateString(String value) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException("Critical Field cannot be empty");
+        }
+        return value;
     }
 }

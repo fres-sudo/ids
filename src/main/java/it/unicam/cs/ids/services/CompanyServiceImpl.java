@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
     private final ApiResponseFactory apiResponseFactory = new DefaultApiResponseFactory();

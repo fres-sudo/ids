@@ -1,11 +1,12 @@
 package it.unicam.cs.ids.dtos.requests.company.config;
 
+import it.unicam.cs.ids.dtos.requests.company.BaseCompanyRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Rep
+ * Represents a request to edit company details.
  */
 @Data
 @AllArgsConstructor

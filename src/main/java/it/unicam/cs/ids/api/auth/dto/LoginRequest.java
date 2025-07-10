@@ -14,6 +14,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class LoginRequest implements Serializable {
+    /** The email of the user trying to log in. */
     private String email;
+    /** The password of the user trying to log in. */
     private String password;
 }

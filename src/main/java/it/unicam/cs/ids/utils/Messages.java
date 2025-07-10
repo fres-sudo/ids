@@ -13,6 +13,16 @@ public final class Messages {
     /** prevent instantiation */
     private Messages() {}
     public interface Success {
+        String USER_REGISTERED = "User registered successfully";
+        String USER_RETRIEVED = "User retrieved successfully";
+        String USER_UPDATED = "User updated successfully";
+        String USER_DELETED = "User deleted successfully";
+
+        String CERTIFIER_REGISTERED = "Certifier registered successfully";
+        String CERTIFIER_RETRIEVED = "Certifier retrieved successfully";
+        String CERTIFIER_UPDATED = "Certifier updated successfully";
+        String CERTIFIER_DELETED = "Certifier deleted successfully";
+
         String PRODUCT_CREATED = "Product created successfully";
         String PRODUCT_RETRIEVED = "Product retrieved successfully";
 

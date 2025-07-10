@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.api.auth.services;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import it.unicam.cs.ids.api.auth.dto.AuthResponse;
@@ -50,4 +51,10 @@ public interface AuthService {
     Company getAuthenticatedCompany();
 
 
+    /**
+     * Retrieves the PasswordEncoder used for encoding passwords.
+     *
+     * @return the PasswordEncoder instance
+     */
+    PasswordEncoder getPasswordEncoder();
 }

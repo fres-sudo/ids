@@ -9,7 +9,7 @@ import it.unicam.cs.ids.dtos.filters.BundleFilter;
 import it.unicam.cs.ids.entities.Bundle;
 import jakarta.persistence.criteria.Predicate;
 
-public class BundleSpecification extends AbstractSpecification {
+public final class BundleSpecification extends AbstractSpecification {
     public static Specification<Bundle> withFilter(BundleFilter filter) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();

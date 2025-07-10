@@ -5,7 +5,8 @@ import lombok.experimental.SuperBuilder;
 
 @Data @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CompanyFilter extends FilterParam {
-    private int minCompanySize;
-    private int maxCompanySize;
+    private String companyType;
 }

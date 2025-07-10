@@ -75,6 +75,8 @@ public class SearchServiceImpl implements SearchService {
         
         Pageable pageable = PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort);
 
+        System.out.println("Searching companies with specs: " + spec);
+
         return companyRepository.findAll(spec, pageable);
     }
 }

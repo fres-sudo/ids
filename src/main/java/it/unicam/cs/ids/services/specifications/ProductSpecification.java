@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductSpecification extends AbstractSpecification {
+public final class ProductSpecification extends AbstractSpecification {
 
     public static Specification<Product> withFilter(ProductFilter filter) {
         return (root, query, criteriaBuilder) -> {

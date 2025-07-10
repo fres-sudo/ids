@@ -9,20 +9,10 @@ import it.unicam.cs.ids.dtos.filters.CompanyFilter;
 import it.unicam.cs.ids.entities.Company;
 import jakarta.persistence.criteria.Predicate;
 
-public class CompanySpecification extends AbstractSpecification {
+public final class CompanySpecification extends AbstractSpecification {
     public static Specification<Company> withFilter(CompanyFilter filter) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            
-            // 1. Filter by Company Minimum Size
-            if (filter.getMinCompanySize() > 0) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("company").get("employees").as(Integer.class), filter.getMinCompanySize()));
-            }
-
-            // 2. Filter by Company Maximum Size
-            if (filter.getMaxCompanySize() > 0) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("company").get("employees").as(Integer.class), filter.getMaxCompanySize()));
-            }
 
             // 3. Filter by SearchBy (name, description, etc.) - assuming 'name' and 'description' fields
             Predicate searchPredicate = buildSearchByPredicate(root, criteriaBuilder, filter.getSearchBy(), "name", "description");

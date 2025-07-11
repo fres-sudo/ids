@@ -2,6 +2,7 @@ package it.unicam.cs.ids.api.controllers;
 
 import it.unicam.cs.ids.api.responses.factories.ApiResponseFactory;
 import it.unicam.cs.ids.api.responses.models.ApiResponse;
+import it.unicam.cs.ids.dtos.UserDTO;
 import it.unicam.cs.ids.dtos.requests.user.config.DeleteUserRequest;
 import it.unicam.cs.ids.dtos.requests.user.config.EditUserRequest;
 import it.unicam.cs.ids.entities.User;
@@ -26,11 +27,11 @@ public class UserController {
      * @param request the request containing user details to be updated
      * @return a response entity containing the updated user information
      */
-    @PutMapping("edit")
-    ResponseEntity<ApiResponse<User>> editUser(@RequestBody EditUserRequest request) {
-        User updated =  userService.editUser(request);
-        ApiResponse<User> response = responseFactory.createSuccessResponse(
-                Messages.Success.USER_UPDATED, updated
+    @PatchMapping()
+    ResponseEntity<ApiResponse<UserDTO>> editUser(@RequestBody EditUserRequest request) {
+        UserDTO dto =  userService.editUser(request);
+        ApiResponse<UserDTO> response = responseFactory.createSuccessResponse(
+                Messages.Success.USER_UPDATED, dto
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -40,9 +41,9 @@ public class UserController {
      * @param request the request containing user details to be deleted
      * @return a response entity indicating the success of the deletion
      */
-    @DeleteMapping("delete")
-    ResponseEntity<ApiResponse<Void>> deleteUser(@RequestBody DeleteUserRequest request) {
-        userService.deleteUser(request);
+    @DeleteMapping()
+    ResponseEntity<ApiResponse<Void>> deleteUser() {
+        userService.deleteUser();
         ApiResponse<Void> response = responseFactory.createSuccessResponse(
                 Messages.Success.USER_DELETED, null
         );

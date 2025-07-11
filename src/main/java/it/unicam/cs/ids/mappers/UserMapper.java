@@ -3,6 +3,8 @@ package it.unicam.cs.ids.mappers;
 
 import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
 import it.unicam.cs.ids.api.auth.dto.RegisterUserRequest;
+import it.unicam.cs.ids.dtos.CompanyDTO;
+import it.unicam.cs.ids.dtos.UserDTO;
 import it.unicam.cs.ids.dtos.requests.user.config.EditUserRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.entities.User;
@@ -30,6 +32,8 @@ public abstract class UserMapper {
     protected UserRepository userRepository;
     @Autowired
     protected PasswordEncoder passwordEncoder;
+
+    public abstract UserDTO toDto(User company);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

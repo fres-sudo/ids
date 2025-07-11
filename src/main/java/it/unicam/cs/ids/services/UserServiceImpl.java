@@ -3,6 +3,7 @@ package it.unicam.cs.ids.services;
 import it.unicam.cs.ids.api.auth.services.AuthService;
 import it.unicam.cs.ids.api.responses.factories.ApiResponseFactory;
 import it.unicam.cs.ids.api.responses.factories.DefaultApiResponseFactory;
+import it.unicam.cs.ids.dtos.UserDTO;
 import it.unicam.cs.ids.dtos.requests.user.config.DeleteUserRequest;
 import it.unicam.cs.ids.dtos.requests.user.config.EditUserRequest;
 import it.unicam.cs.ids.entities.User;
@@ -29,19 +30,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User editUser(EditUserRequest request) {
+    public UserDTO editUser(EditUserRequest request) {
         User authenticatedUser = authService.getAuthenticatedUser();
         User updatedUser = userMapper.updateUserFromRequest(authenticatedUser, request);
-
-        return userRepository.save(updatedUser);
+        return userMapper.toDto(userRepository.save(updatedUser));
     }
 
     @Override
-    public void deleteUser(DeleteUserRequest request) {
+    public void deleteUser() {
         User authenticatedUser = authService.getAuthenticatedUser();
-        PasswordEncoder passwordEncoder = authService.getPasswordEncoder();
-        InfrastructureTools.validateUserDelete(passwordEncoder, authenticatedUser, request);
-        userRepository.delete(authenticatedUser);
-
+        userRepository.deleteById(authenticatedUser.getId());
     }
 }

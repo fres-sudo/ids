@@ -31,7 +31,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody LoginRequest loginRequest) {
         AuthResponse authResponse = authService.login(loginRequest);
         ApiResponse<AuthResponse> response = responseFactory.createSuccessResponse(
-                "Login Successfully", authResponse
+                Messages.Success.USER_LOGGED_IN, authResponse
         );
 
         return ResponseEntity.ok(response);

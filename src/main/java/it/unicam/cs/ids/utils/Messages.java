@@ -15,6 +15,7 @@ public final class Messages {
     public interface Success {
         String USER_REGISTERED = "User registered successfully";
         String USER_RETRIEVED = "User retrieved successfully";
+        String USER_LOGGED_IN = "User logged in successfully";
         String USER_UPDATED = "User updated successfully";
         String USER_DELETED = "User deleted successfully";
 

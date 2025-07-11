@@ -10,5 +10,5 @@ public abstract class BaseAdminRequest extends BaseUserRequest {
     /**
      * The unique identifier of the entity to be edited.
      */
-    protected Long entityId;
+    protected Long targetEntityId;
 }

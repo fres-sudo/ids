@@ -4,17 +4,16 @@ import it.unicam.cs.ids.api.auth.services.AuthService;
 import it.unicam.cs.ids.api.responses.factories.ApiResponseFactory;
 import it.unicam.cs.ids.api.responses.factories.DefaultApiResponseFactory;
 import it.unicam.cs.ids.dtos.UserDTO;
-import it.unicam.cs.ids.dtos.requests.user.config.DeleteUserRequest;
 import it.unicam.cs.ids.dtos.requests.user.config.EditUserRequest;
 import it.unicam.cs.ids.entities.User;
 import it.unicam.cs.ids.mappers.UserMapper;
 import it.unicam.cs.ids.repositories.UserRepository;
-import it.unicam.cs.ids.utils.InfrastructureTools;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserServiceImpl implements UserService {
 
     private final ApiResponseFactory apiResponseFactory = new DefaultApiResponseFactory();
@@ -22,12 +21,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final AuthService authService;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, AuthService authService) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.authService = authService;
-    }
 
     @Override
     public UserDTO editUser(EditUserRequest request) {

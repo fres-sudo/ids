@@ -1,18 +1,14 @@
 package it.unicam.cs.ids.mappers;
 
 
-import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
 import it.unicam.cs.ids.api.auth.dto.RegisterUserRequest;
-import it.unicam.cs.ids.dtos.CompanyDTO;
 import it.unicam.cs.ids.dtos.UserDTO;
 import it.unicam.cs.ids.dtos.requests.user.config.EditUserRequest;
-import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.entities.User;
 import it.unicam.cs.ids.repositories.UserRepository;
-import it.unicam.cs.ids.utils.InfrastructureTools;
+import it.unicam.cs.ids.utils.Validator;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +19,7 @@ import java.util.List;
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        uses = {InfrastructureTools.class}
+        uses = {Validator.class}
 )
 @Component
 public abstract class UserMapper {

@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.utils;
 
 import it.unicam.cs.ids.dtos.requests.user.config.DeleteUserRequest;
-import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.entities.User;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import lombok.NonNull;
@@ -12,8 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Pattern;
 
 @Component
-public final class InfrastructureTools {
-    private InfrastructureTools() {}
+public final class Validator {
+    private Validator() {}
 
     /**
      * Validates the provided password against the hashed password using the specified PasswordEncoder.
@@ -127,7 +126,7 @@ public final class InfrastructureTools {
     @Named("validateString")
     public String validateString(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Critical Field cannot be empty");
+            throw new IllegalArgumentException("Field cannot be empty");
         }
         return value;
     }

@@ -54,10 +54,6 @@ public class AppUserPrincipal implements UserDetails {
         );
     }
 
-
-    //TODO: ADD curatore...
-    //TODO: ADD ADMIN
-
     @Override
     public String getUsername() {
         return email;

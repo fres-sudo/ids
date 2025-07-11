@@ -1,10 +1,9 @@
 package it.unicam.cs.ids.mappers;
 
-import it.unicam.cs.ids.api.auth.dto.RegisterUserRequest;
 import it.unicam.cs.ids.dtos.requests.CertifierRequest;
 import it.unicam.cs.ids.entities.User;
 import it.unicam.cs.ids.repositories.CertifierRequestRepository;
-import it.unicam.cs.ids.utils.InfrastructureTools;
+import it.unicam.cs.ids.utils.Validator;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Component;
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        uses = {InfrastructureTools.class}
+        uses = {Validator.class}
 )
 @Component
 public abstract class CertifierMapper {

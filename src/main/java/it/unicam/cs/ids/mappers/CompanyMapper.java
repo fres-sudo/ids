@@ -6,7 +6,7 @@ import it.unicam.cs.ids.dtos.CompanyDTO;
 import it.unicam.cs.ids.dtos.requests.company.config.EditCompanyRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.repositories.CompanyRepository;
-import it.unicam.cs.ids.utils.InfrastructureTools;
+import it.unicam.cs.ids.utils.Validator;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +19,7 @@ import java.util.List;
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        uses = {InfrastructureTools.class}
+        uses = {Validator.class}
 )
 @Component
 public abstract class CompanyMapper {

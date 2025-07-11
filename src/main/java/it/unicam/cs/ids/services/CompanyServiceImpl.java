@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CompanyServiceImpl implements CompanyService {
 
     private final ApiResponseFactory apiResponseFactory = new DefaultApiResponseFactory();
@@ -22,12 +23,6 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final AuthService authService;
 
-    @Autowired
-    public CompanyServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, AuthService authService) {
-        this.companyRepository = companyRepository;
-        this.companyMapper = companyMapper;
-        this.authService = authService;
-    }
 
     @Override
     public CompanyDTO editCompany(EditCompanyRequest request) {

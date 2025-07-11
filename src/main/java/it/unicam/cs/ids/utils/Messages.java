@@ -37,6 +37,12 @@ public final class Messages {
         String COMPANY_RETRIEVED = "Company retrieved successfully";
         String COMPANY_UPDATED = "Company updated successfully";
         String COMPANY_DELETED = "Company deleted successfully";
+
+
+        String CERTIFICATION_REQUEST_APPROVED = "Certifier request Approved";
+        String CERTIFICATION_REQUEST_DENIED = "Certifier request Denied";
+
+        String ADMIN_REGISTERED = "Admin registered successfully";
     }
 
     public interface Error {

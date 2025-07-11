@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.dtos.requests;
 
+import it.unicam.cs.ids.entities.User;
 import it.unicam.cs.ids.enums.ApprovalStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -25,4 +26,5 @@ public class CertifierRequest  {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ApprovalStatus status;
+
 }

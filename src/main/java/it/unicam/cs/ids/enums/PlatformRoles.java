@@ -9,13 +9,13 @@ import lombok.Getter;
 @Getter
 public enum PlatformRoles {
     /** Represents the administrator role with full access to the platform. */
-    ADMIN("admin"),
+    ADMIN("ROLE_ADMIN"),
     /** Represents a user with the ability to manage certifications. */
-    CERTIFIER("certifier"),
+    CERTIFIER("ROLE_CERTIFIER"),
     /** Represents a company that can upload and manage products. */
-    COMPANY("company"),
+    COMPANY("ROLE_COMPANY"),
     /** Represents a Signed-in user who can browse and purchase products. */
-    BUYER("buyer");
+    BUYER("ROLE_BUYER"),;
 
     /** The string representation of the role. */
     private final String role;

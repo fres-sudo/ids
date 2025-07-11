@@ -1,13 +1,10 @@
 package it.unicam.cs.ids.api.auth.services;
 
+import it.unicam.cs.ids.api.auth.dto.*;
 import it.unicam.cs.ids.entities.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import it.unicam.cs.ids.api.auth.dto.AuthResponse;
-import it.unicam.cs.ids.api.auth.dto.LoginRequest;
-import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
-import it.unicam.cs.ids.api.auth.dto.RegisterUserRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.exceptions.auth.NotFound;
@@ -66,7 +63,16 @@ public interface AuthService {
      * @throws AuthenticationException if the user is not authenticated
      * @throws NotFound if no user is found in the current security context
      */
-     User getAuthenticatedUser();
+    User getAuthenticatedUser();
+
+    /**
+     * Registers an admin with the provided details.
+     *
+     * @param registerAdminRequest the request containing admin registration details
+     * @throws NotUniqueEmail if the email provided in the registration request is already in use
+     * @throws AuthenticationException if the admin by-pass password does not match
+     */
+    void registerAdmin(@RequestBody RegisterAdminRequest registerAdminRequest);
 
     /**
      * Retrieves the PasswordEncoder used for encoding passwords.

@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.api.auth.services;
 
-import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
+import it.unicam.cs.ids.api.auth.dto.*;
 import it.unicam.cs.ids.dtos.requests.CertifierRequest;
 import it.unicam.cs.ids.enums.PlatformRoles;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
@@ -9,11 +9,10 @@ import it.unicam.cs.ids.exceptions.auth.NotFound;
 import it.unicam.cs.ids.mappers.CertifierMapper;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.mappers.UserMapper;
-import it.unicam.cs.ids.repositories.CertificateRepository;
 import it.unicam.cs.ids.repositories.CertifierRequestRepository;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.services.EmailValidatorService;
-import it.unicam.cs.ids.utils.InfrastructureTools;
+import it.unicam.cs.ids.utils.Validator;
 import it.unicam.cs.ids.utils.Messages;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,9 +24,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import it.unicam.cs.ids.api.auth.dto.AuthResponse;
-import it.unicam.cs.ids.api.auth.dto.LoginRequest;
-import it.unicam.cs.ids.api.auth.dto.RegisterUserRequest;
 import it.unicam.cs.ids.api.auth.jwt.JwtTokenProvider;
 import it.unicam.cs.ids.entities.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -76,13 +72,13 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            InfrastructureTools.validatePassword(passwordEncoder, password, user.getHashedPassword());
+            Validator.validatePassword(passwordEncoder, password, user.getHashedPassword());
         } else {
             // Try Company next
             Company company = companyRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Company not found"));
 
-            InfrastructureTools.validatePassword(passwordEncoder, password, company.getHashedPassword());
+            Validator.validatePassword(passwordEncoder, password, company.getHashedPassword());
         }
 
         Authentication authentication = authenticationManager.authenticate(
@@ -109,6 +105,18 @@ public class AuthServiceImpl implements AuthService {
         CertifierRequest certifierRequest = certifierMapper.fromUser(certifier);
         certifierRequestRepository.save(certifierRequest);
     }
+    
+    @Override
+    public void registerAdmin(@RequestBody RegisterAdminRequest registerAdminRequest) {
+        emailValidatorService.validateEmailInUse(registerAdminRequest.getEmail());
+        // TODO: -- TESTING PURPOSES ONLY --
+        if (!registerAdminRequest.getPassword().equals(RegisterAdminRequest.ADMIN_BY_PASS_PASSWORD)){
+            throw new AuthenticationException("ADMIN BY-PASS PASSWORD MISMATCH");
+        }
+        User admin = userMapper.fromRequest(registerAdminRequest);
+        admin.setRole(PlatformRoles.ADMIN);
+        userRepository.save(admin);
+    }
 
     @Override
     public void registerCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) {
@@ -117,13 +125,7 @@ public class AuthServiceImpl implements AuthService {
         companyRepository.save(company);
     }
 
-    private String getAuthenticatedEmail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new AuthenticationException(Messages.Auth.UNAUTHORIZED_ACCESS);
-        }
-        return authentication.getName();
-    }
+   
 
     @Override
     public Company getAuthenticatedCompany() {
@@ -137,5 +139,13 @@ public class AuthServiceImpl implements AuthService {
         String email = getAuthenticatedEmail();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFound(email));
+    }
+
+    private String getAuthenticatedEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AuthenticationException(Messages.Auth.UNAUTHORIZED_ACCESS);
+        }
+        return authentication.getName();
     }
 }

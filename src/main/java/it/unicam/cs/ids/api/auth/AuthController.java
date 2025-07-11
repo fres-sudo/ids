@@ -39,6 +39,7 @@ public class AuthController {
 
     @PostMapping("/register/user")
     public ResponseEntity<ApiResponse<?>> registerUser(@RequestBody RegisterUserRequest request) {
+        authService.registerUser(request);
         ApiResponse<?> response = responseFactory.createSuccessResponse(
                 Messages.Success.USER_REGISTERED,null
         );

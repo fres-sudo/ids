@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.utils;
 
-import it.unicam.cs.ids.dtos.requests.company.config.DeleteCompanyRequest;
 import it.unicam.cs.ids.dtos.requests.user.config.DeleteUserRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.entities.User;
@@ -34,23 +33,6 @@ public final class InfrastructureTools {
         }
     }
 
-
-    /**
-     * Validates the company deletion request by checking if the provided email, VAT, and hashed password match
-     * the company's details.
-     *
-     * @param encoder the PasswordEncoder to use for password validation
-     * @param company the company to validate against
-     * @param request the deletion request containing email, VAT, and hashed password
-     * @throws AuthenticationException if the validation fails
-     */
-    public static void validateCompanyDelete(PasswordEncoder encoder, Company company, DeleteCompanyRequest request) {
-        if (company.getEmail().equals(request.getEmail()) &&
-            company.getVat().equals(request.getVat())) {
-            validatePassword(encoder, request.getPassword(), company.getHashedPassword());
-        }
-
-    }
 
     /**
      * Validates the user deletion request by checking if the provided email and hashed password match

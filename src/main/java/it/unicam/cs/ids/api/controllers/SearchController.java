@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.api.controllers;
 
+import it.unicam.cs.ids.dtos.CompanyDTO;
+import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.dtos.filters.BundleFilter;
 import it.unicam.cs.ids.dtos.filters.CompanyFilter;
 import it.unicam.cs.ids.dtos.filters.ProductFilter;
@@ -28,8 +30,8 @@ public class SearchController {
     }
 
     @PostMapping(path = "/products")
-    ResponseEntity<Page<Product>> searchProducts(@RequestBody ProductFilter filterParam) {
-        Page<Product> response = searchService.searchProducts(filterParam);
+    ResponseEntity<Page<ProductDTO>> searchProducts(@RequestBody ProductFilter filterParam) {
+        Page<ProductDTO> response = searchService.searchProducts(filterParam);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -40,8 +42,8 @@ public class SearchController {
     }
 
     @PostMapping(path = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Page<Company>> searchCompanies(@RequestBody CompanyFilter filterParam) {
-        Page<Company> response = searchService.searchCompanies(filterParam);
+    ResponseEntity<Page<CompanyDTO>> searchCompanies(@RequestBody CompanyFilter filterParam) {
+        Page<CompanyDTO> response = searchService.searchCompanies(filterParam);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

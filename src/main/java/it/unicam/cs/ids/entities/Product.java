@@ -4,21 +4,7 @@ import it.unicam.cs.ids.enums.ApprovalStatus;
 import it.unicam.cs.ids.enums.Currency;
 import it.unicam.cs.ids.enums.ProductCategory;
 import it.unicam.cs.ids.enums.UnitOfMeasure;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -66,7 +52,7 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Currency currency = Currency.EUR;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "product_tags", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "tag")
     private List<String> tags = new ArrayList<>();

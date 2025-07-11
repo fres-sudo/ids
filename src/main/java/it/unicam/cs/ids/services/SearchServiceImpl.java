@@ -2,6 +2,8 @@ package it.unicam.cs.ids.services;
 
 import it.unicam.cs.ids.api.responses.factories.ApiResponseFactory;
 import it.unicam.cs.ids.api.responses.factories.DefaultApiResponseFactory;
+import it.unicam.cs.ids.dtos.CompanyDTO;
+import it.unicam.cs.ids.dtos.ProductDTO;
 import it.unicam.cs.ids.dtos.filters.BundleFilter;
 import it.unicam.cs.ids.dtos.filters.CompanyFilter;
 import it.unicam.cs.ids.dtos.filters.ProductFilter;
@@ -9,6 +11,8 @@ import it.unicam.cs.ids.entities.Bundle;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.entities.Product;
 import it.unicam.cs.ids.enums.SortDirection;
+import it.unicam.cs.ids.mappers.CompanyMapper;
+import it.unicam.cs.ids.mappers.ProductMapper;
 import it.unicam.cs.ids.repositories.BundleRepository;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.repositories.ProductRepository;
@@ -21,24 +25,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 public class SearchServiceImpl implements SearchService {
 
-    private final ApiResponseFactory apiResponseFactory = new DefaultApiResponseFactory();
     private final ProductRepository productRepository;
     private final BundleRepository bundleRepository;
     private final CompanyRepository companyRepository;
+    private final ProductMapper productMapper;
+    private final CompanyMapper companyMapper;
 
     @Autowired
-    public SearchServiceImpl(ProductRepository productRepository, BundleRepository bundleRepository, CompanyRepository companyRepository) {
+    public SearchServiceImpl(ProductRepository productRepository, BundleRepository bundleRepository, CompanyRepository companyRepository, ProductMapper productMapper, CompanyMapper companyMapper) {
         this.productRepository = productRepository;
         this.bundleRepository = bundleRepository;
         this.companyRepository = companyRepository;
+        this.productMapper = productMapper;
+        this.companyMapper = companyMapper;
     }
 
     @Override
-    public Page<Product> searchProducts(ProductFilter filter) {
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> searchProducts(ProductFilter filter) {
         Specification<Product> spec = ProductSpecification.withFilter(filter);
 
         Sort sort = Sort.unsorted(); // Default to unsorted
@@ -50,7 +61,8 @@ public class SearchServiceImpl implements SearchService {
 
         Pageable pageable = PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort);
 
-        return productRepository.findAll(spec, pageable);
+        Page<Product> products = productRepository.findAll(spec, pageable);
+        return products.map(productMapper::toDto);
     }
 
     public Page<Bundle> searchBundles(BundleFilter filter) {
@@ -63,7 +75,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public Page<Company> searchCompanies(CompanyFilter filter) {
+    public Page<CompanyDTO> searchCompanies(CompanyFilter filter) {
         Specification<Company> spec = CompanySpecification.withFilter(filter);
 
         Sort sort = Sort.unsorted();
@@ -77,6 +89,7 @@ public class SearchServiceImpl implements SearchService {
 
         System.out.println("Searching companies with specs: " + spec);
 
-        return companyRepository.findAll(spec, pageable);
+        Page<Company> companies = companyRepository.findAll(spec, pageable);
+        return companies.map(companyMapper::toDto);
     }
 }

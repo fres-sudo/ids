@@ -3,16 +3,15 @@ package it.unicam.cs.ids.services;
 import it.unicam.cs.ids.api.auth.services.AuthService;
 import it.unicam.cs.ids.api.responses.factories.ApiResponseFactory;
 import it.unicam.cs.ids.api.responses.factories.DefaultApiResponseFactory;
-import it.unicam.cs.ids.dtos.requests.company.config.DeleteCompanyRequest;
+import it.unicam.cs.ids.dtos.CompanyDTO;
 import it.unicam.cs.ids.dtos.requests.company.config.EditCompanyRequest;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 
-import it.unicam.cs.ids.utils.InfrastructureTools;
+import it.unicam.cs.ids.utils.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,19 +30,16 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company editCompany(EditCompanyRequest request) {
+    public CompanyDTO editCompany(EditCompanyRequest request) {
         Company authenticatedCompany = authService.getAuthenticatedCompany();
         Company updatedCompany = companyMapper.updateCompanyFromRequest(authenticatedCompany, request);
-
-        return companyRepository.save(updatedCompany);
+        return companyMapper.toDto(companyRepository.save(updatedCompany));
     }
 
     @Override
-    public void deleteCompany(DeleteCompanyRequest request) {
+    public void deleteCompany() {
         Company authenticatedCompany = authService.getAuthenticatedCompany();
-        PasswordEncoder passwordEncoder = authService.getPasswordEncoder();
-        InfrastructureTools.validateCompanyDelete(passwordEncoder, authenticatedCompany, request);
-        companyRepository.delete(authenticatedCompany);
+        companyRepository.deleteById(authenticatedCompany.getId());
     }
 
 }

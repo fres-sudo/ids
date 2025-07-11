@@ -1,10 +1,7 @@
 package it.unicam.cs.ids.services;
 
-import it.unicam.cs.ids.api.responses.models.ApiResponse;
 import it.unicam.cs.ids.dtos.CompanyDTO;
-import it.unicam.cs.ids.dtos.requests.company.config.DeleteCompanyRequest;
 import it.unicam.cs.ids.dtos.requests.company.config.EditCompanyRequest;
-import it.unicam.cs.ids.entities.Company;
 
 /**
  * Service interface for managing  company-related operations.

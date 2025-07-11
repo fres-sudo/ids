@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.context.identity.application.services;
 
 
+import it.unicam.cs.ids.shared.application.BaseRequest;
 import it.unicam.cs.ids.shared.application.DTO;
 
 public interface AdminService {
@@ -14,9 +15,10 @@ public interface AdminService {
      * @param <T> the type of entity to edit
      * @return a DTO representing the updated entity (R)
      */
-    <R extends DTO, T> R editEntity(Class<T> entityType, Long id, Object request);
+    <R extends DTO, T> R editEntity(Class<T> entityType, Long id, BaseRequest request);
 
     void deleteEntity(Class<?> entityType, Long id);
 
+    // TODO: see if it's gud
     void treatCertificationRequest(Long requestId, boolean verdict);
 }

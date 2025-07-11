@@ -4,6 +4,7 @@ package it.unicam.cs.ids.context.identity.infrastructure.security;
 
 
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.UserDetailsServiceImpl;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfiguration {
     /** User details service for loading user-specific data */

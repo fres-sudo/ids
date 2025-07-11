@@ -15,6 +15,7 @@ import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.UserDTO;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.EditUserRequest;
+import it.unicam.cs.ids.shared.application.BaseRequest;
 import it.unicam.cs.ids.shared.application.DTO;
 import it.unicam.cs.ids.shared.application.Finder;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <R extends DTO, T> R editEntity(Class<T> entityType, Long id, Object request) {
+    public <R extends DTO, T> R editEntity(Class<T> entityType, Long id, BaseRequest request) {
         if (entityType == User.class && request instanceof EditUserRequest) {
             return (R) editUser(id, (EditUserRequest) request);
         }

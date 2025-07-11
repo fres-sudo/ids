@@ -40,7 +40,7 @@ public class AdminController {
      * @param request the request containing the details to edit the user
      * @return a response entity containing the updated user
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/users/{id}")
     public ResponseEntity<ApiResponse<UserDTO>> editUser(
             @PathVariable Long id,
@@ -59,7 +59,7 @@ public class AdminController {
      * @param id the ID of the user to delete
      * @return a response entity indicating success or failure
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/companies/{id}")
     public ResponseEntity<ApiResponse<CompanyDTO>> editCompany(
             @PathVariable Long id,
@@ -78,7 +78,7 @@ public class AdminController {
      * @param id the ID of the user to delete
      * @return a response entity indicating success or failure
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/users/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
         adminService.deleteEntity(User.class, id);
@@ -94,7 +94,7 @@ public class AdminController {
      * @param id the ID of the company to delete
      * @return a response entity indicating success or failure
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/companies/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteCompany(@PathVariable Long id) {
         adminService.deleteEntity(Company.class, id);
@@ -111,7 +111,7 @@ public class AdminController {
      * @param verdict true to approve, false to reject
      * @return a response entity indicating success or failure
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/certifier-requests/{requestId}")
     public ResponseEntity<ApiResponse<Void>> treatCertificationRequest(
             @PathVariable Long requestId,

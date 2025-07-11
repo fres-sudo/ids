@@ -39,6 +39,7 @@ public class User extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date verifiedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private PlatformRoles role = PlatformRoles.BUYER;
 

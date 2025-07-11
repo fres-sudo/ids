@@ -10,6 +10,7 @@ import it.unicam.cs.ids.repositories.UserRepository;
 import it.unicam.cs.ids.utils.InfrastructureTools;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

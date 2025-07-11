@@ -1,12 +1,16 @@
 package it.unicam.cs.ids.api.auth.services;
 
 import it.unicam.cs.ids.api.auth.dto.RegisterCompanyRequest;
+import it.unicam.cs.ids.dtos.requests.CertifierRequest;
 import it.unicam.cs.ids.enums.PlatformRoles;
 import it.unicam.cs.ids.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.entities.Company;
 import it.unicam.cs.ids.exceptions.auth.NotFound;
+import it.unicam.cs.ids.mappers.CertifierMapper;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.mappers.UserMapper;
+import it.unicam.cs.ids.repositories.CertificateRepository;
+import it.unicam.cs.ids.repositories.CertifierRequestRepository;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.services.EmailValidatorService;
 import it.unicam.cs.ids.utils.InfrastructureTools;
@@ -50,10 +54,14 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     /** Repository for company data access */
     private final CompanyRepository companyRepository;
+    /** Repository for certifier requests data access */
+    private final CertifierRequestRepository certifierRequestRepository;
     /** Mapper for converting between DTOs and User entities */
     private final UserMapper userMapper;
     /** Mapper for converting between DTOs and Company entities */
     private final CompanyMapper companyMapper;
+    /** Mapper for converting between DTOs and Certifier entities */
+    private final CertifierMapper certifierMapper;
     /** Password encoder for hashing and verifying passwords */
     @Getter
     private final PasswordEncoder passwordEncoder;
@@ -96,8 +104,10 @@ public class AuthServiceImpl implements AuthService {
     public void registerCertifier(@RequestBody RegisterUserRequest registerUserRequest) {
         emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
         User certifier = userMapper.fromRequest(registerUserRequest);
-        certifier.setRole(PlatformRoles.CERTIFIER);
-        userRepository.save(certifier);
+        userRepository.save(certifier); //NOTE: First save the user to get the ID
+
+        CertifierRequest certifierRequest = certifierMapper.fromUser(certifier);
+        certifierRequestRepository.save(certifierRequest);
     }
 
     @Override

@@ -114,7 +114,4 @@ public abstract class CompanyMapper {
         }
         return passwordEncoder.encode(rawPassword);
     }
-
-
-
 }

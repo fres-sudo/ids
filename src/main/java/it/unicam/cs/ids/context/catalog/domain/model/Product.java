@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.catalog.domain.model;
 
+import it.unicam.cs.ids.context.certification.domain.model.Approvable;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.shared.kernel.enums.Currency;
@@ -23,7 +24,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Product extends BaseEntity {
+public class Product extends BaseEntity implements Approvable {
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -119,4 +120,14 @@ public class Product extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "creator_company_id", nullable = false)
     private Company creator;
+
+    @Override
+    public void setApprovalStatus(ApprovalStatus approvalStatus) {
+        this.status = approvalStatus;
+    }
+
+    @Override
+    public ApprovalStatus getApprovalStatus() {
+        return this.status;
+    }
 }

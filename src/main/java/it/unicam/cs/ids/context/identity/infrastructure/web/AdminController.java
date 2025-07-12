@@ -12,6 +12,7 @@ import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.*;
  * @see AdminService
  */
 @RestController
-@RequiredArgsConstructor
+@RequestMapping("admin")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AdminController {
     private final AdminService adminService;
     /**

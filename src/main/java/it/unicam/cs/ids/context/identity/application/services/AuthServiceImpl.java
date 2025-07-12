@@ -17,6 +17,8 @@ import it.unicam.cs.ids.shared.application.EmailValidatorService;
 import it.unicam.cs.ids.shared.application.Messages;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +45,7 @@ import java.util.Optional;
  * </p>
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthServiceImpl implements AuthService {
     /** Service for validating email addresses */
     private final EmailValidatorService emailValidatorService;

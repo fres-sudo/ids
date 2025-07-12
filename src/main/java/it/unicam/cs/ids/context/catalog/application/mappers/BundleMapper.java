@@ -1,9 +1,11 @@
 package it.unicam.cs.ids.context.catalog.application.mappers;
 
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateBundleRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateBundledProductRequest;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.catalog.domain.model.BundledProduct;
+import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import org.mapstruct.Mapper;
@@ -16,15 +18,17 @@ import org.springframework.stereotype.Component;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {BundledProductMapper.class})
+@Mapper(componentModel = "spring",uses = {BundledProductMapper.class, CompanyMapper.class})
 @Component
 public abstract class BundleMapper {
 
     @Autowired
-    protected CompanyRepository companyRepository; // Inject CompanyRepository
+    protected CompanyRepository companyRepository;
 
     @Autowired
-    protected BundledProductMapper bundledProductMapper; // Inject BundledProductMapper
+    protected BundledProductMapper bundledProductMapper;
+
+    public abstract BundleDTO toDto(Bundle bundle);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

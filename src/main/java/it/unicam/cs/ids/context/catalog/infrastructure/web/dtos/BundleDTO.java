@@ -32,7 +32,7 @@ public class BundleDTO extends DTO {
     private CompanyDTO distributor;
     private boolean availableForSale;
     private boolean availableForShipping;
-    private int estimatedDeliveryTime;
+    private int estimatedDeliveryDays;
     private double shippingCost;
     private String returnPolicy;
     private Coordinates bundleLocation;

@@ -7,6 +7,7 @@ import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.C
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,17 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("products")
 public class ProductController {
 
     private final ProductService productService;
     private final ApiResponseFactory responseFactory;
-
-    @Autowired
-    public ProductController(ProductService productService, ApiResponseFactory responseFactory) {
-        this.productService = productService;
-        this.responseFactory = responseFactory;
-    }
 
     @PostMapping
     ResponseEntity<ApiResponse<ProductDTO>> createProduct(@RequestBody CreateProductRequest request) {

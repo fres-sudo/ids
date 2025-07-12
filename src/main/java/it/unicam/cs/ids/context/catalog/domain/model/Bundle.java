@@ -1,6 +1,6 @@
-// src/main/java/it/unicam/cs/ids/entities/Bundle.java
 package it.unicam.cs.ids.context.catalog.domain.model;
 
+import it.unicam.cs.ids.context.certification.domain.model.Approvable;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.shared.kernel.enums.Currency;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
@@ -32,7 +32,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Bundle extends BaseEntity {
+public class Bundle extends BaseEntity implements Approvable {
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -92,4 +92,14 @@ public class Bundle extends BaseEntity {
     @Column(length = 3)
     @Enumerated(EnumType.STRING)
     private Currency currency;
+
+    @Override
+    public void setApprovalStatus(ApprovalStatus approvalStatus) {
+        this.status = approvalStatus;
+    }
+
+    @Override
+    public ApprovalStatus getApprovalStatus() {
+        return this.status;
+    }
 }

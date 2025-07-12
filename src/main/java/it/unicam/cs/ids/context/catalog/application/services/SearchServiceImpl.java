@@ -16,6 +16,7 @@ import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.company.infrastructure.persistence.specifications.CompanySpecification;
 import it.unicam.cs.ids.context.catalog.infrastructure.persistence.specifications.ProductSpecification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class SearchServiceImpl implements SearchService {
 
@@ -33,15 +35,6 @@ public class SearchServiceImpl implements SearchService {
     private final CompanyRepository companyRepository;
     private final ProductMapper productMapper;
     private final CompanyMapper companyMapper;
-
-    @Autowired
-    public SearchServiceImpl(ProductRepository productRepository, BundleRepository bundleRepository, CompanyRepository companyRepository, ProductMapper productMapper, CompanyMapper companyMapper) {
-        this.productRepository = productRepository;
-        this.bundleRepository = bundleRepository;
-        this.companyRepository = companyRepository;
-        this.productMapper = productMapper;
-        this.companyMapper = companyMapper;
-    }
 
     @Override
     @Transactional(readOnly = true)

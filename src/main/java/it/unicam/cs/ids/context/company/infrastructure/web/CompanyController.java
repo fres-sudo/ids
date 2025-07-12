@@ -9,6 +9,7 @@ import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.application.services.CompanyService;
 import it.unicam.cs.ids.shared.application.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @see Company
  */
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("companies")
 public class CompanyController {
     /**

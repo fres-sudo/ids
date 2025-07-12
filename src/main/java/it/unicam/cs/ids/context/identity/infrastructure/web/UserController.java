@@ -7,12 +7,13 @@ import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.EditUs
 import it.unicam.cs.ids.context.identity.application.services.UserService;
 import it.unicam.cs.ids.shared.application.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("users")
 public class UserController {
     /** Service for managing user operations. */

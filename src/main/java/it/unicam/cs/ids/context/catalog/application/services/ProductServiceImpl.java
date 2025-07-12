@@ -6,11 +6,17 @@ import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.context.certification.application.mappers.CertificateMapper;
+import it.unicam.cs.ids.context.certification.application.services.ApprovalRequestService;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
+import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.context.certification.domain.repositories.CertificateRepository;
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.ApprovalRequestFactory;
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.ProductApprovalRequestFactory;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.SubmitApprovalRequest;
 import it.unicam.cs.ids.context.storage.application.services.StorageService;
 import jakarta.annotation.Nonnull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +27,7 @@ import java.nio.file.Path;
  * Implementation of {@link ProductService},
  * This service handles the creation of product related entities.
  */
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class ProductServiceImpl implements ProductService {
     /**
@@ -36,19 +43,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final StorageService storageService;
 
-    @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, CertificateRepository certificateRepository, StorageService storageService, CertificateMapper certificateMapper) {
-        this.productMapper = productMapper;
-        this.certificateRepository = certificateRepository;
-        this.productRepository = productRepository;
-        this.storageService = storageService;
-        this.certificateMapper = certificateMapper;
-    }
+    private final ProductApprovalRequestFactory approvalRequestFactory;
 
     @Override
     public ProductDTO createProduct(@Nonnull CreateProductRequest request) {
         Product product = productMapper.fromRequest(request);
         Product response = productRepository.save(product);
+        approvalRequestFactory.submit(response.getId(), response.getCreator().getId());
         return productMapper.toDto(response);
     }
 

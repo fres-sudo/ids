@@ -7,6 +7,8 @@ import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyFilter;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductFilter;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.catalog.application.services.SearchService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,14 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/search") // Base path for search operations
 public class SearchController {
 
     private final SearchService searchService;
-
-    public SearchController(SearchService searchService) {
-        this.searchService = searchService;
-    }
 
     @PostMapping(path = "/products")
     ResponseEntity<Page<ProductDTO>> searchProducts(@RequestBody ProductFilter filterParam) {

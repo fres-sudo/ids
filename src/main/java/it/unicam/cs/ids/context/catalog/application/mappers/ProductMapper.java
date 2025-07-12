@@ -22,7 +22,7 @@ public abstract class ProductMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
-    @Mapping(target = "status", constant = "DRAFT")
+    @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.DRAFT)")
     @Mapping(target = "producer", source = "producerId", qualifiedByName = "mapCompanyById")
     @Mapping(target = "creator", source = "creatorId", qualifiedByName = "mapCompanyById")
     @Mapping(target = "distributors", source = "distributorId", qualifiedByName = "mapCompanyByIdMany")

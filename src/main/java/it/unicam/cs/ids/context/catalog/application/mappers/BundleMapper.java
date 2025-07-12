@@ -29,7 +29,7 @@ public abstract class BundleMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "status", constant = "PENDING")
+    @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.PENDING)")
     @Mapping(target = "distributor", source = "distributorId", qualifiedByName = "mapCompanyIdToCompany")
     @Mapping(target = "products", source = "bundledProducts")
     @Mapping(target = "estimatedDeliveryDays", source = "estimatedDeliveryTime")

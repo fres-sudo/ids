@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.context.catalog.domain.model;
 
 
+import lombok.Getter;
+
 /**
  * The approval status of an entity.
  * The statuses include:
@@ -9,6 +11,7 @@ package it.unicam.cs.ids.context.catalog.domain.model;
  * <li> <b>APPROVED:</b> The entity has been approved.</li>
  * <li> <b>REJECTED:</b> The entity has been rejected.</li>
  */
+@Getter
 public enum ApprovalStatus {
     /** The entity is in draft state and not yet submitted for approval. */
     DRAFT,
@@ -17,5 +20,15 @@ public enum ApprovalStatus {
     /** The entity has been approved. */
     APPROVED,
     /** The entity has been rejected. */
-    REJECTED,
+    REJECTED;
+
+    /** The string representation of the approval status. */
+    private final String status;
+
+    /**
+     * Returns the string representation of the approval status.
+     */
+    ApprovalStatus() {
+        this.status = this.name();
+    }
 }

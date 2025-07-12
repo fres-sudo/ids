@@ -90,6 +90,10 @@ public class AdminServiceImpl implements AdminService {
                 requestId,
                 "Certification request not found"
         );
+
+        if (!certifierRequest.getStatus().equals(ApprovalStatus.PENDING))
+            throw new IllegalArgumentException("Certification request is not pending");
+
         if (verdict) {
             certifierRequest.setStatus(ApprovalStatus.APPROVED);
             User user = Finder.findByIdOrThrow(
@@ -98,9 +102,10 @@ public class AdminServiceImpl implements AdminService {
                     "User not found for certification request"
             );
             user.setRole(PlatformRoles.CERTIFIER);
-
+            userRepository.save(user);
         } else {
             certifierRequest.setStatus(ApprovalStatus.REJECTED);
         }
+        certifierRequestRepository.save(certifierRequest);
     }
 }

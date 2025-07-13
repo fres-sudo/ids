@@ -36,6 +36,7 @@ public abstract class BundleMapper {
     @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.PENDING)")
     @Mapping(target = "distributor", source = "distributorId", qualifiedByName = "mapCompanyIdToCompany")
     @Mapping(target = "products", source = "bundledProducts")
+    @Mapping(target = "creator", source = "distributorId", qualifiedByName = "getCompanyById")
     @Mapping(target = "estimatedDeliveryDays", source = "estimatedDeliveryTime")
     public abstract Bundle fromRequest(CreateBundleRequest dto);
 
@@ -45,19 +46,23 @@ public abstract class BundleMapper {
                 .orElseThrow(() -> new EntityNotFoundException("Company with ID " + companyId + " not found."));
     }
 
+    @Named("getCompanyById")
+    protected Company getCompanyById(Long companyId) {
+        return companyRepository.findById(companyId)
+                .orElseThrow(() -> new EntityNotFoundException("Company with ID " + companyId + " not found."));
+    }
     // Special method to link BundledProducts back to the Bundle
     protected List<BundledProduct> mapBundledProducts(List<CreateBundledProductRequest> bundledProductDTOs, @MappingTarget Bundle bundle) {
         if (bundledProductDTOs == null) {
             return null;
         }
-        List<BundledProduct> bundledProducts = bundledProductDTOs.stream()
+        return bundledProductDTOs.stream()
                 .map(bundledProductDTO -> {
                     BundledProduct bp = bundledProductMapper.toEntity(bundledProductDTO);
                     bp.setBundle(bundle);
                     return bp;
                 })
-                .toList(); // Or .collect(Collectors.toList());
-        return bundledProducts;
+                .toList();
     }
 }
 

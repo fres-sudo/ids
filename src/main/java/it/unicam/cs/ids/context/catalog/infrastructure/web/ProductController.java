@@ -34,7 +34,7 @@ public class ProductController {
     @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
     public ResponseEntity<ApiResponse<ProductDTO>> createProduct(
             @RequestBody CreateProductRequest request,
-            @AuthenticationPrincipal AppUserPrincipal principal // <-- important
+            @AuthenticationPrincipal AppUserPrincipal principal
     ) {
         Long companyId = principal.getId();
         request.setCreatorId(companyId);

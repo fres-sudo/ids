@@ -1,8 +1,5 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security;
 
-
-
-
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.UserDetailsServiceImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;

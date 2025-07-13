@@ -2,23 +2,23 @@ package it.unicam.cs.ids.context.catalog.application.mappers;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateBundleRequest;
-import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateBundledProductRequest;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.catalog.domain.model.BundledProduct;
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
-import it.unicam.cs.ids.context.company.domain.models.Company;
-import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring",uses = {BundledProductMapper.class, CompanyMapper.class})
+@Mapper(componentModel = "spring",
+        uses = {BundledProductMapper.class, CompanyMapper.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 @Component
 public abstract class BundleMapper {
-
     @Autowired
     protected BundledProductMapper bundledProductMapper;
 
@@ -33,6 +33,24 @@ public abstract class BundleMapper {
     @Mapping(target = "estimatedDeliveryDays", source = "estimatedDeliveryTime")
     public abstract Bundle fromRequest(CreateBundleRequest dto);
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "category", source = "category")
+    @Mapping(target = "tags", source = "tags")
+    @Mapping(target = "price", source = "price")
+    @Mapping(target = "quantity", source = "quantity")
+    @Mapping(target = "discountPercentage", source = "discountPercentage")
+    @Mapping(target = "currency", source = "currency")
+    @Mapping(target = "availableForSale", source = "availableForSale")
+    @Mapping(target = "availableForShipping", source = "availableForShipping")
+    @Mapping(target = "estimatedDeliveryDays", source = "estimatedDeliveryTime")
+    @Mapping(target = "shippingCost", source = "shippingCost")
+    @Mapping(target = "returnPolicy", source = "returnPolicy")
+    @Mapping(target = "bundleLocation", source = "bundleLocation")
+    @Mapping(target = "distributor", ignore = true)
+    @Mapping(target = "products", source = "bundledProducts")
+    public abstract Bundle updateFromRequest(@MappingTarget Bundle existing, UpdateBundleRequest request);
+
 
     @AfterMapping
     protected void linkBundledProducts(CreateBundleRequest dto, @MappingTarget Bundle bundle) {
@@ -40,12 +58,28 @@ public abstract class BundleMapper {
             List<BundledProduct> bundledProducts = dto.getBundledProducts().stream()
                     .map(bundledProductDTO -> {
                         BundledProduct bp = bundledProductMapper.toEntity(bundledProductDTO);
-                        bp.setBundle(bundle); // Set the bundle reference
+                        bp.setBundle(bundle);
                         return bp;
                     })
                     .toList();
             bundle.setProducts(bundledProducts);
         }
     }
+
+    @AfterMapping
+    protected void linkBundledProductsOnUpdate(UpdateBundleRequest dto, @MappingTarget Bundle bundle) {
+        if (dto.getBundledProducts() != null) {
+            bundle.getProducts().clear(); // Clear existing children (this is okay with orphanRemoval)
+            for (var bundledProductDTO : dto.getBundledProducts()) {
+                BundledProduct bp = bundledProductMapper.toEntity(bundledProductDTO);
+                bp.setBundle(bundle);
+                bundle.getProducts().add(bp);
+            }
+        }
+    }
+
+
+
+
 }
 

@@ -32,7 +32,9 @@ public final class Messages {
         String CERTIFICATE_RETRIEVED = "Certificate retrieved successfully";
 
         String BUNDLE_CREATED = "Bundle created successfully";
+        String BUNDLE_UPDATED = "Bundle updated successfully";
         String BUNDLE_RETRIEVED = "Bundle retrieved successfully";
+        String BUNDLE_DELETED = "Bundle deleted successfully";
 
         String PURCHASE_COMPLETED = "Purchase completed successfully";
         String PURCHASE_RETRIEVED = "Purchase retrieved successfully";
@@ -44,10 +46,13 @@ public final class Messages {
         String COMPANY_DELETED = "Company deleted successfully";
 
 
+
         String CERTIFICATION_REQUEST_APPROVED = "Certifier request Approved";
         String CERTIFICATION_REQUEST_DENIED = "Certifier request Denied";
 
         String ADMIN_REGISTERED = "Admin registered successfully";
+
+
     }
 
     public interface Error {

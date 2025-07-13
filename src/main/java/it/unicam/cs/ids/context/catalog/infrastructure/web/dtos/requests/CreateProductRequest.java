@@ -5,13 +5,13 @@
     import lombok.EqualsAndHashCode;
     import lombok.NoArgsConstructor;
 
-    /**
-     * CreateProductRequest is used to create a new product.
-     */
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class CreateProductRequest extends BaseProductRequest {
-        private Long creatorId;
-    }
+/**
+ * CreateProductRequest is used to create a new product.
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+public class CreateProductRequest extends BaseProductRequest {
+    private Long creatorId;
+}

@@ -60,12 +60,8 @@ public class ProductController {
     @PatchMapping("/{productId}")
     ResponseEntity<ApiResponse<ProductDTO>> updateProduct(
             @PathVariable Long productId,
-            @RequestBody UpdateProductRequest request,
-            @AuthenticationPrincipal AppUserPrincipal principal
+            @RequestBody UpdateProductRequest request
     ) {
-        Long currentCompanyId = principal.getId();
-
-
         ApiResponse<ProductDTO> response = responseFactory.createSuccessResponse(
                 Messages.Success.PRODUCT_CREATED,
                 productService.updateProduct(productId, request)

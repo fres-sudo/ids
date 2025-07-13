@@ -49,6 +49,10 @@ public class Company extends BaseEntity {
     /** Company's email verified status */
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified = true; // Initialize to true for testing purposes
+    /** Role of the company in the platform */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private CompanyRoles role = CompanyRoles.PRODUCER;
     /** Date when the company was verified */
     @Column(name = "verified_at")
     @Temporal(TemporalType.TIMESTAMP)

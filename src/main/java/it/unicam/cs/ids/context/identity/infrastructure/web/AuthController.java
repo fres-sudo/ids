@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web;
 
+import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAdminRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterCompanyRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.responses.AuthResponse;
@@ -105,11 +106,16 @@ public class AuthController {
      * @param request the registration request containing company details
      * @return a response entity indicating success
      */
-    @PostMapping("/register/company")
-    public ResponseEntity<ApiResponse<?>> registerCompany(@RequestBody RegisterCompanyRequest request) {
+    @PostMapping("/register/company/{role}")
+    public ResponseEntity<ApiResponse<?>> registerCompany(
+            @PathVariable("role") String role,
+            @RequestBody RegisterCompanyRequest request
+    ) {
+        request.setRole(CompanyRoles.fromString(role));
         authService.registerCompany(request);
+
         ApiResponse<?> response = responseFactory.createSuccessResponse(
-                Messages.Success.COMPANY_REGISTERED,null
+                Messages.Success.COMPANY_REGISTERED, null
         );
         return ResponseEntity.ok(response);
     }

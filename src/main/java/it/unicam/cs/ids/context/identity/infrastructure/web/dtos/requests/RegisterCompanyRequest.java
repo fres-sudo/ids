@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests;
 
+import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,4 +21,6 @@ public class RegisterCompanyRequest extends BaseRegisterRequest {
     private String name;
     /** The VAT number of the company */
     private String vat;
+    /** The role of the company */
+    private CompanyRoles role = CompanyRoles.PRODUCER; // Default role for the company
 }

@@ -51,6 +51,7 @@ public abstract class CompanyMapper {
     @Mapping(target = "address", ignore = true)
     @Mapping(target = "website", ignore = true)
     @Mapping(target = "billingInformation", ignore = true)
+    @Mapping(target = "role", expression = "java(request.getRole())")
     public abstract Company fromRequest(RegisterCompanyRequest request);
 
     /**
@@ -70,6 +71,7 @@ public abstract class CompanyMapper {
     @Mapping(target = "address", source = "address", qualifiedByName = "validateString")
     @Mapping(target = "website", source = "website", qualifiedByName = "validateString")
     @Mapping(target = "billingInformation", source = "billingInformation")
+    @Mapping(target = "role", expression = "java(existing.getRole())")
     public abstract Company updateCompanyFromRequest(
             @MappingTarget Company existing,
             EditCompanyRequest request

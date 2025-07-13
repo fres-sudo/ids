@@ -129,11 +129,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void registerCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) {
         emailValidatorService.validateEmailInUse(registerCompanyRequest.getEmail());
+
         Company company = companyMapper.fromRequest(registerCompanyRequest);
         companyRepository.save(company);
     }
-
-   
 
     @Override
     public Company getAuthenticatedCompany() {

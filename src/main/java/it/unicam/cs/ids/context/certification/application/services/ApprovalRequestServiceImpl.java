@@ -6,7 +6,7 @@ import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.certification.application.mappers.ApprovalRequestMapper;
-import it.unicam.cs.ids.context.certification.domain.model.Approvable;
+import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
 import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.context.certification.domain.repositories.ApprovalRequestRepository;

@@ -1,29 +1,18 @@
 package it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
+import it.unicam.cs.ids.context.identity.domain.model.User;
+import it.unicam.cs.ids.shared.infrastructure.persistence.ApprovableEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "certifier_requests", schema = "ids_schema")
 @Data
 @NoArgsConstructor
-public class CertifierRequest  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private Long userId;
-
-    @Column(name = "request_date", nullable = false)
-    private Date requestDate;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private ApprovalStatus status;
-
+public class CertifierRequest extends ApprovableEntity {
+    @ManyToOne
+    private User requestingUser;
 }

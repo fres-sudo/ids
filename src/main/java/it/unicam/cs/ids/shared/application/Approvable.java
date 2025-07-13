@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.context.certification.domain.model;
+package it.unicam.cs.ids.shared.application;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 

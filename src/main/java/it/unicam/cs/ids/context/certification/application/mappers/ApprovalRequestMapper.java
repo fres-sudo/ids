@@ -1,21 +1,15 @@
 package it.unicam.cs.ids.context.certification.application.mappers;
 
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
-import it.unicam.cs.ids.context.certification.domain.model.Approvable;
+import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
 import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
-import it.unicam.cs.ids.context.certification.domain.repositories.ApprovalRequestRepository;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.ApprovalRequestDTO;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.SubmitApprovalRequest;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.CertificateDTO;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
-import it.unicam.cs.ids.context.certification.domain.model.Certificate;
-import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

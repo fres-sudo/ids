@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.context.catalog.domain.model;
 
-import it.unicam.cs.ids.context.certification.domain.model.Approvable;
+import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.shared.kernel.enums.Currency;

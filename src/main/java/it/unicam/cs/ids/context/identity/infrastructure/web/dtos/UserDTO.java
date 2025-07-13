@@ -12,11 +12,10 @@ import lombok.NoArgsConstructor;
 @Data @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 public class UserDTO extends DTO {
-    private long id;
+    private Long id;
     private String name;
     private String surname;
     private String email;
     private String phoneNumber;
     private String address;
-    private String hashedPassword;
 }

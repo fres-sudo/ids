@@ -37,7 +37,7 @@ public abstract class CompanyMapper {
      * @return a new Company entity populated with values from the requests
      * This method maps ALL the requests fields to the Company entity,
      */
-    @Mapping(target = "id", ignore = true) // assuming id is in BaseEntity, ignore it
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true) // ignore audit fields
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true) // ignore deletedAt for new entities

@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.certification.application.mappers;
 
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.CertifierRequestDTO;
 import it.unicam.cs.ids.context.identity.application.mappers.UserMapper;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CertifierRequest;
 import it.unicam.cs.ids.context.identity.domain.model.User;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        uses = {Validator.class}
+        uses = {Validator.class, UserMapper.class}
 )
 @Component
 public abstract class CertifierMapper {
@@ -33,10 +34,12 @@ public abstract class CertifierMapper {
      * @return a new {@link CertifierRequest} instance with the user's details
      */
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "userId", source = "user.id")
-    @Mapping(target = "requestDate", source = "user.createdAt")
+    @Mapping(target = "submittedAt", ignore = true)
+    @Mapping(target = "processedAt", ignore = true)
+    @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "requestingUser", source = "user")
     @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.PENDING)")
     public abstract CertifierRequest fromUser(User user);
 
-
+    public abstract CertifierRequestDTO toDto(CertifierRequest certifierRequest);
 }

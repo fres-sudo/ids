@@ -34,6 +34,10 @@ public final class Messages {
         String BUNDLE_CREATED = "Bundle created successfully";
         String BUNDLE_RETRIEVED = "Bundle retrieved successfully";
 
+        String PURCHASE_COMPLETED = "Purchase completed successfully";
+        String PURCHASE_RETRIEVED = "Purchase retrieved successfully";
+        String PURCHASES_RETRIEVED = "Purchases retrieved successfully";
+
         String COMPANY_REGISTERED = "Company registered successfully";
         String COMPANY_RETRIEVED = "Company retrieved successfully";
         String COMPANY_UPDATED = "Company updated successfully";

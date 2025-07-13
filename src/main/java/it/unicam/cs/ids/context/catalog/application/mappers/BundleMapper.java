@@ -8,10 +8,7 @@ import it.unicam.cs.ids.context.catalog.domain.model.BundledProduct;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +20,6 @@ import java.util.List;
 public abstract class BundleMapper {
 
     @Autowired
-    protected CompanyRepository companyRepository;
-
-    @Autowired
     protected BundledProductMapper bundledProductMapper;
 
     public abstract BundleDTO toDto(Bundle bundle);
@@ -34,35 +28,24 @@ public abstract class BundleMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.PENDING)")
-    @Mapping(target = "distributor", source = "distributorId", qualifiedByName = "mapCompanyIdToCompany")
-    @Mapping(target = "products", source = "bundledProducts")
-    @Mapping(target = "creator", source = "distributorId", qualifiedByName = "getCompanyById")
+    @Mapping(target = "distributor", source = "distributorId", qualifiedByName = "mapCompanyById")
+    @Mapping(target = "products", ignore = true)
     @Mapping(target = "estimatedDeliveryDays", source = "estimatedDeliveryTime")
     public abstract Bundle fromRequest(CreateBundleRequest dto);
 
-    @Named("mapCompanyIdToCompany")
-    protected Company mapCompanyIdToCompany(Long companyId) {
-        return companyRepository.findById(companyId)
-                .orElseThrow(() -> new EntityNotFoundException("Company with ID " + companyId + " not found."));
-    }
 
-    @Named("getCompanyById")
-    protected Company getCompanyById(Long companyId) {
-        return companyRepository.findById(companyId)
-                .orElseThrow(() -> new EntityNotFoundException("Company with ID " + companyId + " not found."));
-    }
-    // Special method to link BundledProducts back to the Bundle
-    protected List<BundledProduct> mapBundledProducts(List<CreateBundledProductRequest> bundledProductDTOs, @MappingTarget Bundle bundle) {
-        if (bundledProductDTOs == null) {
-            return null;
+    @AfterMapping
+    protected void linkBundledProducts(CreateBundleRequest dto, @MappingTarget Bundle bundle) {
+        if (dto.getBundledProducts() != null) {
+            List<BundledProduct> bundledProducts = dto.getBundledProducts().stream()
+                    .map(bundledProductDTO -> {
+                        BundledProduct bp = bundledProductMapper.toEntity(bundledProductDTO);
+                        bp.setBundle(bundle); // Set the bundle reference
+                        return bp;
+                    })
+                    .toList();
+            bundle.setProducts(bundledProducts);
         }
-        return bundledProductDTOs.stream()
-                .map(bundledProductDTO -> {
-                    BundledProduct bp = bundledProductMapper.toEntity(bundledProductDTO);
-                    bp.setBundle(bundle);
-                    return bp;
-                })
-                .toList();
     }
 }
 

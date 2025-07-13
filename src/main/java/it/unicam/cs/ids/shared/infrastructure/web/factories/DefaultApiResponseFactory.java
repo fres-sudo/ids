@@ -1,10 +1,11 @@
 package it.unicam.cs.ids.shared.infrastructure.web.factories;
 
+import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
-import it.unicam.cs.ids.shared.infrastructure.web.responses.FieldError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.FieldError;
 
 import java.util.List;
 
@@ -28,6 +29,16 @@ public class DefaultApiResponseFactory implements ApiResponseFactory {
     }
 
     @Override
+    public ApiResponse<String> createGenericErrorResponse(HttpStatus status, String message) {
+        return ApiResponse.<String>builder()
+                .success(false)
+                .code(status.value())
+                .message(Messages.Error.GENERIC_ERROR)
+                .data(message)
+                .build();
+    }
+
+    @Override
     public ApiResponse<List<FieldError>> createValidationErrorResponse(String message, List<FieldError> errors) {
         return ApiResponse.<List<FieldError>>builder()
                 .success(false)
@@ -44,7 +55,7 @@ public class DefaultApiResponseFactory implements ApiResponseFactory {
                 .code(status.value())
                 .requestId(req.getRequestId())
                 .path(req.getRequestURI())
-                .message("An error occurred")
+                .message(Messages.Error.GENERIC_ERROR)
                 .data(ex.getLocalizedMessage())
                 .build();
     }

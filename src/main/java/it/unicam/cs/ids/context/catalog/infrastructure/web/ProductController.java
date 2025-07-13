@@ -6,6 +6,7 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateP
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
+import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
@@ -29,6 +30,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final ApiResponseFactory responseFactory;
+    private final AuthService authService;
 
     @PostMapping
     @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
@@ -39,9 +41,8 @@ public class ProductController {
         Long companyId = principal.getId();
         request.setCreatorId(companyId);
 
-        String role = principal.getAuthorities().iterator().next().getAuthority();
-        CompanyRoles companyRole = CompanyRoles.valueOf(role);
-        switch (companyRole) {
+        CompanyRoles role = authService.getAuthenticatedCompany().getRole();
+        switch (role) {
             case PRODUCER -> request.setProducerId(companyId);
             case DISTRIBUTOR -> request.setDistributorId(List.of(companyId));
             case TRANSFORMER -> request.setTransformerId(List.of(companyId));
@@ -55,9 +56,16 @@ public class ProductController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
     @PatchMapping("/{productId}")
-    ResponseEntity<ApiResponse<ProductDTO>> updateProduct(@PathVariable Long productId, @RequestBody UpdateProductRequest request) {
+    ResponseEntity<ApiResponse<ProductDTO>> updateProduct(
+            @PathVariable Long productId,
+            @RequestBody UpdateProductRequest request,
+            @AuthenticationPrincipal AppUserPrincipal principal
+    ) {
+        Long currentCompanyId = principal.getId();
+
+
         ApiResponse<ProductDTO> response = responseFactory.createSuccessResponse(
                 Messages.Success.PRODUCT_CREATED,
                 productService.updateProduct(productId, request)

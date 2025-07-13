@@ -85,10 +85,6 @@ public class Bundle extends BaseEntity implements Approvable {
     @Embedded
     private Coordinates bundleLocation;
 
-    @ManyToOne
-    @JoinColumn(name = "creator_company_id", nullable = false)
-    private Company creator;
-
     @Column(length = 3)
     @Enumerated(EnumType.STRING)
     private Currency currency;

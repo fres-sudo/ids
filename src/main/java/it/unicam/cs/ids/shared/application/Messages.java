@@ -52,6 +52,8 @@ public final class Messages {
 
         String INVALID_REQUEST = "Invalid requests data";
         String INTERNAL_ERROR = "An internal error occurred";
+
+        String GENERIC_ERROR = "An error occurred";
     }
 
     public interface Warning {

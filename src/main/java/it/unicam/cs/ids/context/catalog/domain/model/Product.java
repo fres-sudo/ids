@@ -49,7 +49,7 @@ public class Product extends BaseEntity implements Approvable {
 
     @Column(name = "unit_of_measure", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UnitOfMeasure unityOfMeasure;
+    private UnitOfMeasure unitOfMeasure;
 
     @Column(length = 3)
     @Enumerated(EnumType.STRING)

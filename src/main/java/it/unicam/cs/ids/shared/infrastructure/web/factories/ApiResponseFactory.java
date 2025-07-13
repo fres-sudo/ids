@@ -1,9 +1,9 @@
 package it.unicam.cs.ids.shared.infrastructure.web.factories;
 
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
-import it.unicam.cs.ids.shared.infrastructure.web.responses.FieldError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 
 import java.util.List;
 
@@ -24,6 +24,8 @@ public interface ApiResponseFactory {
      */
     <T> ApiResponse<T> createSuccessResponse(String message, T data);
 
+    ApiResponse<String> createGenericErrorResponse(HttpStatus status, String message);
+
     /**
      * Creates a validation error response with the given message and list of field errors.
      *
@@ -34,7 +36,7 @@ public interface ApiResponseFactory {
     ApiResponse<List<FieldError>> createValidationErrorResponse(String message, List<FieldError> errors);
 
     /**
-     * Creates a general error response with the given code and message.
+     * Creates am error response based on the exception thrown.
      *
      * @param req the HttpServletRequest that caused the error
      * @param ex the actual Exception that was thrown

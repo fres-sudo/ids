@@ -32,7 +32,6 @@ public abstract class ProductMapper {
     public abstract Product fromRequest(CreateProductRequest dto);
 
     @Mapping(target = "company", source = "producer")
-    @Mapping(target = "unitOfMeasure", source = "unityOfMeasure")
     public abstract ProductDTO toDto(Product product);
 
     @Mapping(target = "id", ignore = true)

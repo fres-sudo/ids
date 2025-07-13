@@ -24,7 +24,7 @@ public abstract class BaseProductRequest extends DTO {
     private ProductCategory category;
     private int quantity;
     private double pricePerQuantity;
-    private UnitOfMeasure unityOfMeasure;
+    private UnitOfMeasure unitOfMeasure;
     private Currency currency;
     private List<String> tags;
     private Long producerId;

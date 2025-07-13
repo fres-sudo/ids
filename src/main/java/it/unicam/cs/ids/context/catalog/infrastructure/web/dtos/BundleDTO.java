@@ -36,7 +36,6 @@ public class BundleDTO extends DTO {
     private double shippingCost;
     private String returnPolicy;
     private Coordinates bundleLocation;
-    private CompanyDTO creator;
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;

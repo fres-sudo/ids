@@ -38,7 +38,7 @@ public class BundleServiceImpl implements BundleService {
         Bundle bundle = bundleMapper.fromRequest(request);
 
         Bundle response = bundleRepository.save(bundle);
-        approvalRequestFactory.submit(response.getId(), response.getCreator().getId());
+        approvalRequestFactory.submit(response.getId(), response.getDistributor().getId());
         return bundleMapper.toDto(response);
     }
 }

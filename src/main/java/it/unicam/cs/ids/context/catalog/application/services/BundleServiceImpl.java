@@ -14,8 +14,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
+/*
  * Implementation of {@link BundleService},
  * This service handles the creation of bundles.
  */
@@ -31,12 +32,11 @@ public class BundleServiceImpl implements BundleService {
     private final BundleApprovalRequestFactory approvalRequestFactory;
 
     @Override
+    @Transactional
     public BundleDTO createBundle(CreateBundleRequest request) {
         Company creator = authService.getAuthenticatedCompany();
-        System.out.println("Authenticated company: " + creator.getId());
         request.setDistributorId(creator.getId());
         Bundle bundle = bundleMapper.fromRequest(request);
-
         Bundle response = bundleRepository.save(bundle);
         approvalRequestFactory.submit(response.getId(), response.getDistributor().getId());
         return bundleMapper.toDto(response);

@@ -15,5 +15,5 @@ public class CreateBundledProductRequest extends DTO {
     private long productId;
     private long bundleId;
     private int quantityInBundle;
-    private double unitPriceInBundle;
+    private double pricePerUnit;
 }

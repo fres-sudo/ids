@@ -23,8 +23,6 @@ public abstract class BundledProductMapper {
     @Mapping(target = "id", ignore = true) // ID is auto-generated
     @Mapping(target = "bundle", ignore = true) // Bundle will be set by the BundleMapper
     @Mapping(target = "product", source = "productId", qualifiedByName = "mapProductIdToProduct")
-    @Mapping(target = "quantityInBundle", source = "quantityInBundle")
-    @Mapping(target = "pricePerUnit", source = "unitPriceInBundle")
     public abstract BundledProduct toEntity(CreateBundledProductRequest dto);
 
 

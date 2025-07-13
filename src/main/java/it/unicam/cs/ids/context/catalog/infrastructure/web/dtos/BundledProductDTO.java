@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class BundledProductDTO extends DTO {
     private int quantityInBundle;
     private ProductDTO product;
-    private double unitPriceInBundle;
+    private double pricePerUnit;
 }

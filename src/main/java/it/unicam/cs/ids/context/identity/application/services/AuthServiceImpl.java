@@ -114,8 +114,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void registerAdmin(@RequestBody RegisterAdminRequest registerAdminRequest) {
         emailValidatorService.validateEmailInUse(registerAdminRequest.getEmail());
-        final String ADMIN_BY_PASS_PASSWORD =  "admin";
         // FIXME: -- TESTING PURPOSES ONLY --
+        final String ADMIN_BY_PASS_PASSWORD =  "admin";
         if (!registerAdminRequest.getAdminByPassPasswordField().equals(
                 ADMIN_BY_PASS_PASSWORD)
         ) {

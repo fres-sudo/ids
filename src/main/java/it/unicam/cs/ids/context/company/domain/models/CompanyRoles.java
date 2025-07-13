@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  */
 public enum CompanyRoles {
     /** Represents a company that produces products. */
-    PRODUCER("PRODUCER"),
+    PRODUCER("ROLE_PRODUCER"),
     /** Represents a company that transforms raw materials into products. */
-    TRANSFORMER("TRANSFORMER"),
+    TRANSFORMER("ROLE_TRANSFORMER"),
     /** Represents a company that single & bundled products */
-    DISTRIBUTOR("DISTRIBUTOR");
+    DISTRIBUTOR("ROLE_DISTRIBUTOR");
 
     /** The string representation of the company role. */
     private final String companyRole;
@@ -45,5 +45,17 @@ public enum CompanyRoles {
     @Override
     public String toString() {
         return this.companyRole;
+    }
+
+    /**
+     * Returns an array of all company roles as strings.
+     * @return an array of company role strings
+     */
+    public static String[] getCompanyRoles() {
+        String[] roles = new String[CompanyRoles.values().length];
+        for (int i = 0; i < CompanyRoles.values().length; i++) {
+            roles[i] = CompanyRoles.values()[i].toString();
+        }
+        return roles;
     }
 }

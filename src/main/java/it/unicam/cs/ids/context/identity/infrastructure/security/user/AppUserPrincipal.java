@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security.user;
 
 
+import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
@@ -48,7 +49,7 @@ public class AppUserPrincipal implements UserDetails {
                 company.getEmail(),
                 company.getHashedPassword(),
                 company.getVat(),
-                Collections.singletonList(new SimpleGrantedAuthority(PlatformRoles.COMPANY.getRole())),
+                Collections.singletonList(new SimpleGrantedAuthority(company.getRole().toString())),
                 company.isEmailVerified(),
                 true
         );

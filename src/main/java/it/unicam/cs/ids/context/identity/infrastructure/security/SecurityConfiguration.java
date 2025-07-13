@@ -3,6 +3,7 @@ package it.unicam.cs.ids.context.identity.infrastructure.security;
 
 
 
+import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.UserDetailsServiceImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -68,6 +69,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/search/**").permitAll()
+                        .requestMatchers("products/**").permitAll()
+                        .requestMatchers("bundles/**").hasRole(CompanyRoles.DISTRIBUTOR.name())
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

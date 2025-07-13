@@ -14,8 +14,12 @@ import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.ProductApprovalRequestFactory;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.SubmitApprovalRequest;
+import it.unicam.cs.ids.context.company.domain.models.Company;
+import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.context.storage.application.services.StorageService;
+import it.unicam.cs.ids.shared.application.Finder;
 import jakarta.annotation.Nonnull;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,14 +44,19 @@ public class ProductServiceImpl implements ProductService {
      */
     private final CertificateRepository certificateRepository;
     private final ProductRepository productRepository;
+    private final CompanyRepository companyRepository;
 
     private final StorageService storageService;
 
     private final ProductApprovalRequestFactory approvalRequestFactory;
 
     @Override
-    public ProductDTO createProduct(@Nonnull CreateProductRequest request) {
+    public ProductDTO createProduct(@Nonnull CreateProductRequest request, @Nonnull Long creatorId) {
         Product product = productMapper.fromRequest(request);
+        Company creator = Finder.findByIdOrThrow(companyRepository, creatorId,
+                "Company with ID " + creatorId + " not found.");
+
+        product.setCreator(creator);
         Product response = productRepository.save(product);
         approvalRequestFactory.submit(response.getId(), response.getCreator().getId());
         return productMapper.toDto(response);

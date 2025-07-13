@@ -4,6 +4,7 @@ import it.unicam.cs.ids.context.catalog.application.services.ProductService;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
+import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,15 +27,25 @@ public class ProductController {
     private final ApiResponseFactory responseFactory;
 
     @PostMapping
-    ResponseEntity<ApiResponse<ProductDTO>> createProduct(@RequestBody CreateProductRequest request) {
+    @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
+    public ResponseEntity<ApiResponse<ProductDTO>> createProduct(
+            @RequestBody CreateProductRequest request,
+            @AuthenticationPrincipal AppUserPrincipal principal // <-- important
+    ) {
+        Long companyId = principal.getId();
+        request.setProducerId(companyId);
+
         ApiResponse<ProductDTO> response = responseFactory.createSuccessResponse(
                 Messages.Success.PRODUCT_CREATED,
-                productService.createProduct(request)
+                productService.createProduct(request, companyId)
         );
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+
     @PostMapping(path = "/certificate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PreAuthorize("hasRole('PRODUCER') || hasRole('DISTRIBUTOR') || hasRole('TRANSFORMER')")
     ResponseEntity<ApiResponse<ProductDTO>> createCertificate(@RequestPart CreateCertificateRequest request, @RequestPart MultipartFile file) {
         request.setCertificateFile(file);
         ApiResponse<ProductDTO> response = responseFactory.createSuccessResponse(

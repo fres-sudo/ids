@@ -3,6 +3,7 @@ package it.unicam.cs.ids.context.catalog.application.services;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
+import jakarta.annotation.Nonnull;
 
 /**
  * Product Service defines the operations related to products.
@@ -15,7 +16,7 @@ public interface ProductService {
      * @param request the requests containing product creation details
      * @return an ApiResponse containing the created ProductDTO
      */
-    ProductDTO createProduct(CreateProductRequest request);
+    ProductDTO createProduct(CreateProductRequest request, @Nonnull Long creatorId);
     /**
      * Creates a new certificate based on the provided requests.
      *

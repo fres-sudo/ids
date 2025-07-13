@@ -1,10 +1,12 @@
 package it.unicam.cs.ids.context.catalog.application.services;
 
 import it.unicam.cs.ids.context.catalog.application.mappers.ProductMapper;
+import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
 import it.unicam.cs.ids.context.certification.application.mappers.CertificateMapper;
 import it.unicam.cs.ids.context.certification.application.services.ApprovalRequestService;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
@@ -51,15 +53,27 @@ public class ProductServiceImpl implements ProductService {
     private final ProductApprovalRequestFactory approvalRequestFactory;
 
     @Override
-    public ProductDTO createProduct(@Nonnull CreateProductRequest request, @Nonnull Long creatorId) {
+    public ProductDTO createProduct(@Nonnull CreateProductRequest request) {
         Product product = productMapper.fromRequest(request);
-        Company creator = Finder.findByIdOrThrow(companyRepository, creatorId,
-                "Company with ID " + creatorId + " not found.");
+        Company creator = Finder.findByIdOrThrow(companyRepository, request.getCreatorId(),
+                "Company with ID " + request.getCreatorId() + " not found.");
 
         product.setCreator(creator);
         Product response = productRepository.save(product);
         approvalRequestFactory.submit(response.getId(), response.getCreator().getId());
         return productMapper.toDto(response);
+    }
+
+    @Override
+    public ProductDTO updateProduct(Long productId, UpdateProductRequest request) {
+        Product existingProduct = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+        Product product = productMapper.updateProductFromRequest(request, existingProduct);
+        Product updatedProduct = productRepository.save(product);
+        // Submit approval request for the updated product
+        approvalRequestFactory.submit(updatedProduct.getId(), updatedProduct.getCreator().getId());
+        return productMapper.toDto(updatedProduct);
     }
 
     @Override

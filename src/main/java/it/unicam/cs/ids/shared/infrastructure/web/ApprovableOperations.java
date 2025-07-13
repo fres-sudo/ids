@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/approvable")
 public interface ApprovableOperations<T extends DTO> {
 
-
     @GetMapping("/approve/{requestId}")
     ResponseEntity<ApiResponse<T>> approve(@PathVariable Long requestId, @RequestBody(required = false) String comments);
 

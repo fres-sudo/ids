@@ -25,6 +25,7 @@ public final class Messages {
         String CERTIFIER_DELETED = "Certifier deleted successfully";
 
         String PRODUCT_CREATED = "Product created successfully";
+        String PRODUCT_UPDATED = "Product updated successfully";
         String PRODUCT_RETRIEVED = "Product retrieved successfully";
 
         String CERTIFICATE_CREATED = "Certificate created successfully";

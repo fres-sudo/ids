@@ -6,6 +6,8 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.Purchas
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseProductRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.responses.PurchaseBundleResponse;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.responses.PurchaseProductResponse;
+import it.unicam.cs.ids.context.identity.application.services.AuthService;
+import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
@@ -25,15 +27,15 @@ public class PurchaseController {
 
     private final PurchaseService purchaseService;
     private final ApiResponseFactory responseFactory;
+    private final AuthService authService;
 
     @PostMapping("/product/{productId}")
     public ApiResponse<PurchaseProductResponse> purchaseProduct(
             @RequestBody PurchaseProductRequest request,
-            @PathVariable Long productId,
-            @AuthenticationPrincipal AppUserPrincipal principal
+            @PathVariable Long productId
     ) {
-        Long buyerId = principal.getId();
-        PurchaseDTO purchase = purchaseService.purchaseProduct(productId, buyerId, request);
+        User authenticatedUser = authService.getAuthenticatedUser();
+        PurchaseDTO purchase = purchaseService.purchaseProduct(productId, authenticatedUser.getId(), request);
         
         PurchaseProductResponse response = PurchaseProductResponse.builder()
                 .purchase(purchase)
@@ -50,11 +52,10 @@ public class PurchaseController {
     @PostMapping("/bundle/{bundleId}")
     public ApiResponse<PurchaseBundleResponse> purchaseBundle(
             @RequestBody PurchaseBundleRequest request,
-            @PathVariable Long bundleId,
-            @AuthenticationPrincipal AppUserPrincipal principal
+            @PathVariable Long bundleId
     ) {
-        Long buyerId = principal.getId();
-        PurchaseDTO purchase = purchaseService.purchaseBundle(bundleId, buyerId, request);
+        User authenticatedUser = authService.getAuthenticatedUser();
+        PurchaseDTO purchase = purchaseService.purchaseBundle(bundleId, authenticatedUser.getId(), request);
         
         PurchaseBundleResponse response = PurchaseBundleResponse.builder()
                 .purchase(purchase)

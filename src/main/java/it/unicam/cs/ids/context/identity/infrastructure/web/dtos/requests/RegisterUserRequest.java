@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests;
 
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,9 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class RegisterUserRequest extends BaseRegisterRequest {
     /** The name of the user */
+    @Min(3)
     private String name;
     /** The surname of the user */
+    @Min(3)
     private String surname;
 }

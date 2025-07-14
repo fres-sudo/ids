@@ -1,7 +1,6 @@
-package it.unicam.cs.ids.context.certification.infrastructure.web.dtos;
+package it.unicam.cs.ids.context.identity.infrastructure.web.dtos;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.UserDTO;
 import it.unicam.cs.ids.shared.application.DTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

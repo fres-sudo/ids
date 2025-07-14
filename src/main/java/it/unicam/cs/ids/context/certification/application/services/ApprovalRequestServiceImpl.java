@@ -52,10 +52,8 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
     }
 
     @Override
-    public Page<ApprovalRequestDTO<Approvable>> findPendingRequests(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
-        Page<ApprovalRequest> requests = approvalRequestRepository.findAll(paging);
+    public Page<ApprovalRequestDTO<Approvable>> findPendingRequests(Pageable pageable) {
+        Page<ApprovalRequest> requests = approvalRequestRepository.findAll(pageable);
         return requests.map(approvalRequestMapper::toDto);
     }
 

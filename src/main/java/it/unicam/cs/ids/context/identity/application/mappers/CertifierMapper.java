@@ -1,16 +1,13 @@
-package it.unicam.cs.ids.context.certification.application.mappers;
+package it.unicam.cs.ids.context.identity.application.mappers;
 
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.CertifierRequestDTO;
-import it.unicam.cs.ids.context.identity.application.mappers.UserMapper;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CertifierRequest;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.CertifierRequestDTO;
+import it.unicam.cs.ids.context.identity.domain.model.CertifierRequest;
 import it.unicam.cs.ids.context.identity.domain.model.User;
-import it.unicam.cs.ids.context.certification.domain.repositories.CertifierRequestRepository;
 import it.unicam.cs.ids.shared.application.Validator;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,10 +22,7 @@ import org.springframework.stereotype.Component;
 )
 @Component
 public abstract class CertifierMapper {
-    @Autowired
-    CertifierRequestRepository certifierRequestRepository;
-
-    /**
+     /**
      * Maps a {@link User} to a {@link CertifierRequest}
      * @param user the user to map
      * @return a new {@link CertifierRequest} instance with the user's details

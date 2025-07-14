@@ -1,22 +1,30 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security.jwt;
 
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.unicam.cs.ids.context.identity.infrastructure.security.user.UserDetailsServiceImpl;
+import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
+import it.unicam.cs.ids.shared.infrastructure.web.factories.DefaultApiResponseFactory;
+import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.FilterChain;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import it.unicam.cs.ids.context.identity.infrastructure.security.user.UserDetailsServiceImpl;
-import jakarta.servlet.ServletException;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
-import org.springframework.lang.NonNull;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Filter that processes JWT authentication for incoming HTTP requests.
@@ -29,9 +37,13 @@ import org.springframework.lang.NonNull;
 @Component
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    /** The Token Provider */
+    /**
+     * The Token Provider
+     */
     private final JwtTokenProvider tokenProvider;
-    /** The user details */
+    /**
+     * The user details
+     */
     private final UserDetailsServiceImpl userDetailsService;
 
     @Override
@@ -40,27 +52,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        final String token = getJwtFromRequest(request);
+        try {
+            final String token = getJwtFromRequest(request);
 
-        if (token != null && tokenProvider.validateToken(token)) {
-            String username = tokenProvider.getUsernameFromToken(token);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (token != null && tokenProvider.validateToken(token)) {
+                String username = tokenProvider.getUsernameFromToken(token);
+                // Extract authorities from JWT token
+                String authoritiesString = tokenProvider.getAuthoritiesFromToken(token);
+                Collection<? extends GrantedAuthority> authorities =
+                        Arrays.stream(authoritiesString.split(","))
+                                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                                .collect(Collectors.toList());
 
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                username,
+                                null,
+                                authorities
+                        );
+                authentication.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
 
-            authentication.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
-            );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            // Handle the exception directly in the filter
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType("application/json");
+
+            ApiResponseFactory apiResponseFactory = new DefaultApiResponseFactory();
+            ApiResponse<String> apiResponse = apiResponseFactory.createErrorResponse(request, e, HttpStatus.UNAUTHORIZED);
+
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(apiResponse));
         }
-
-        filterChain.doFilter(request, response);
     }
 
     /**

@@ -1,10 +1,10 @@
 package it.unicam.cs.ids.context.identity.application.services;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
-import it.unicam.cs.ids.context.certification.application.mappers.CertifierMapper;
-import it.unicam.cs.ids.context.certification.domain.repositories.CertifierRequestRepository;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.CertifierRequestDTO;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CertifierRequest;
+import it.unicam.cs.ids.context.identity.application.mappers.CertifierMapper;
+import it.unicam.cs.ids.context.identity.domain.repositories.CertifierRequestRepository;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.CertifierRequestDTO;
+import it.unicam.cs.ids.context.identity.domain.model.CertifierRequest;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
@@ -12,9 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,10 +34,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<CertifierRequestDTO> findPendingRequests(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
-        Page<CertifierRequest> requests = certifierRequestRepository.findAll(paging);
+    public Page<CertifierRequestDTO> findPendingRequests(Pageable pageable) {
+        Page<CertifierRequest> requests = certifierRequestRepository.findAll(pageable);
         return requests.map(certifierMapper::toDto);
     }
 

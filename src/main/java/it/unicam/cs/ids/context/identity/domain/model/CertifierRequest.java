@@ -1,6 +1,5 @@
-package it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests;
+package it.unicam.cs.ids.context.identity.domain.model;
 
-import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.shared.infrastructure.persistence.ApprovableEntity;
 import jakarta.persistence.*;
 import lombok.Data;

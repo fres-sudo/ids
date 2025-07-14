@@ -3,19 +3,18 @@ package it.unicam.cs.ids.context.identity.application.services;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAdminRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterCompanyRequest;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CertifierRequest;
+import it.unicam.cs.ids.context.identity.domain.model.CertifierRequest;
 import it.unicam.cs.ids.shared.application.Validator;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotFound;
-import it.unicam.cs.ids.context.certification.application.mappers.CertifierMapper;
+import it.unicam.cs.ids.context.identity.application.mappers.CertifierMapper;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import it.unicam.cs.ids.context.identity.application.mappers.UserMapper;
-import it.unicam.cs.ids.context.certification.domain.repositories.CertifierRequestRepository;
+import it.unicam.cs.ids.context.identity.domain.repositories.CertifierRequestRepository;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.shared.application.EmailValidatorService;
 import it.unicam.cs.ids.shared.application.Messages;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +80,7 @@ public class AuthServiceImpl implements AuthService {
         } else {
             // Try Company next
             Company company = companyRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("Company not found"));
+                    .orElseThrow(() -> new IllegalArgumentException("Email not found"));
 
             Validator.validatePassword(passwordEncoder, password, company.getHashedPassword());
         }

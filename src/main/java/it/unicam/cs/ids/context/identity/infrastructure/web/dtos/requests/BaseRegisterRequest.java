@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,8 +17,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public abstract class BaseRegisterRequest implements Serializable {
-    /** The name of the issuer */
+    @Email
     private String email;
-    /** The password for the issuer account */
+    @Min(value = 3, message = "Password must be at least 3 characters long")
     private String password;
 }

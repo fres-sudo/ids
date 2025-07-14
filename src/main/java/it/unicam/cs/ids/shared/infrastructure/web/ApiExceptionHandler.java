@@ -2,6 +2,7 @@ package it.unicam.cs.ids.shared.infrastructure.web;
 
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
+import it.unicam.cs.ids.shared.kernel.exceptions.auth.JwtAuthenticationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.security.SignatureException;
 import java.util.List;
 
 /**
@@ -62,7 +64,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
      * @param ex the exception that was thrown
      * @return a ResponseEntity containing the ApiResponse with error details
      */
-    @ExceptionHandler(AccessDeniedException.class)
+    @ExceptionHandler({AccessDeniedException.class, JwtAuthenticationException.class, SignatureException.class})
     public ResponseEntity<ApiResponse<String>> handleUnauthorized(HttpServletRequest req, Exception ex) {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         ApiResponse<String> response = apiResponseFactory.createErrorResponse(req, ex, status);

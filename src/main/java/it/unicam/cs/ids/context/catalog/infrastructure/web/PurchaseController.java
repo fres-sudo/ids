@@ -73,17 +73,11 @@ public class PurchaseController {
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user")
     public ResponseEntity<ApiResponse<List<PurchaseDTO>>> getUserPurchases(
-            @PathVariable Long userId,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
-        if (!principal.getId().equals(userId) && !principal.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        
-        List<PurchaseDTO> purchases = purchaseService.getUserPurchases(userId);
+        List<PurchaseDTO> purchases = purchaseService.getUserPurchases(principal.getId());
         
         ApiResponse<List<PurchaseDTO>> apiResponse = responseFactory.createSuccessResponse(
                 Messages.Success.PURCHASES_RETRIEVED,

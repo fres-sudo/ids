@@ -22,5 +22,4 @@ public class CompanyDTO extends DTO {
     private String address;
     private String phoneNumber;
     private Date createdAt;
-    private Date verifiedAt;
 }

@@ -85,6 +85,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
+    @Transactional
     public List<PurchaseDTO> getUserPurchases(Long buyerId) {
         User buyer = Finder.findByIdOrThrow(userRepository, buyerId,
                 "User not found with id: " + buyerId);

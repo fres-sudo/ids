@@ -56,6 +56,12 @@ A comprehensive Spring Boot application for managing local supply chains.
 
 The application will start on `http://localhost:8080/api`
 
+## 🔍 Usage
+
+You can access the API using tools like Postman or cURL. Make sure to include the JWT token in the `Authorization` header for protected endpoints.
+
+For the json Postman collection, you can find it [here](./ids.postman_collection.json)
+
 ## 🏗️ Project Structure
 
 ```
@@ -72,39 +78,6 @@ src/main/java/it/unicam/cs/ids/
 │   └── storage/                     # File storage domain
 └── shared/                          # Shared utilities & base classes
 ```
-
-## 🔐 Authentication
-
-The application uses JWT-based authentication. Key endpoints:
-
-- `POST /api/auth/login` - User login
-- `POST /api/auth/user/register` - User registration
-- `POST /api/auth/admin/register` - Admin registration
-- `POST /api/auth/admin/company` - Company registration
-
-## 📊 API Endpoints
-
-### Products
-- `GET /api/products` - List all products
-- `POST /api/products` - Create new product
-- `PUT /api/products/{id}` - Update product
-- `DELETE /api/products/{id}` - Delete product
-
-### Bundles
-- `GET /api/bundles` - List all bundles
-- `POST /api/bundles` - Create new bundle
-- `PUT /api/bundles/{id}` - Update bundle
-
-### Purchases
-- `POST /api/purchases/product` - Purchase a product
-- `POST /api/purchases/bundle` - Purchase a bundle
-- `GET /api/purchases/user/{userId}` - Get user purchases
-
-### Search
-- `POST /api/search/products` - Search products
-- `POST /api/search/bundles` - Search bundles
-- `POST /api/search/companies` - Search companies
-
 
 ## 👥 Roles
 

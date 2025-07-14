@@ -71,6 +71,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    public void deleteProduct(Long productId) {
+        Product product = Finder.findByIdOrThrow(productRepository, productId, "Product not found");
+        productRepository.delete(product);
+    }
+
+    @Override
+    @Transactional
     public ProductDTO createCertificate(@Nonnull CreateCertificateRequest request) {
         try {
             // Validate product exists first

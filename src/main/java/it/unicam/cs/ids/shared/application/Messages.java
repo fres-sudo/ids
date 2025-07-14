@@ -29,6 +29,7 @@ public final class Messages {
         String PRODUCT_CREATED = "Product created successfully, please submit it for approval";
         String PRODUCT_UPDATED = "Product updated successfully";
         String PRODUCT_RETRIEVED = "Product retrieved successfully";
+        String PRODUCT_DELETED = "Product deleted successfully";
 
         String CERTIFICATE_CREATED = "Certificate created successfully";
         String CERTIFICATE_RETRIEVED = "Certificate retrieved successfully";
@@ -51,6 +52,7 @@ public final class Messages {
         String CERTIFICATION_REQUEST_DENIED = "Certifier request Denied";
 
         String ADMIN_REGISTERED = "Admin registered successfully";
+
 
 
     }

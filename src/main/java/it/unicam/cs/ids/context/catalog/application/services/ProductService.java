@@ -33,4 +33,10 @@ public interface ProductService {
      * @return an ApiResponse containing the created CertificateDTO
      */
     ProductDTO createCertificate(CreateCertificateRequest request);
+    /**
+     * Deletes a product by its ID.
+     *
+     * @param productId the ID of the product to be deleted
+     */
+    void deleteProduct(Long productId);
 }

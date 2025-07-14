@@ -44,4 +44,15 @@ public class BundleController {
                 bundleService.updateBundle(request)
         );
     }
+
+    @DeleteMapping()
+    @PreAuthorize("hasRole('DISTRIBUTOR')")
+    ResponseEntity<ApiResponse<Void>> deleteBundle(@RequestParam("bundleId") Long bundleId) {
+        bundleService.deleteBundle(bundleId, authService.getAuthenticatedCompany().getId());
+        ApiResponse<Void> response = responseFactory.createSuccessResponse(
+                Messages.Success.BUNDLE_DELETED, null
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
 }

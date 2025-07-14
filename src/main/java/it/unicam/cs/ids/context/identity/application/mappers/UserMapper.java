@@ -54,23 +54,6 @@ public abstract class UserMapper {
             EditUserRequest request
     );
 
-
-    @Named("mapUserById")
-    public User fromId(Long id) {
-        if (id == null) return null;
-        return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User with ID " + id + " not found"));
-    }
-
-
-    @Named("mapUserByIdMany")
-    public List<User> fromIdMany(List<Long> ids) {
-        if (ids == null || ids.isEmpty()) return null;
-        return ids.stream()
-                .map(this::fromId)
-                .toList();
-    }
-
     /**
      * Maps a raw password to an encoded password using the configured PasswordEncoder.
      *

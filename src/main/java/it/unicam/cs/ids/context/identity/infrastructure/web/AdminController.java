@@ -2,6 +2,7 @@ package it.unicam.cs.ids.context.identity.infrastructure.web;
 
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.CertifierRequestDTO;
 import it.unicam.cs.ids.context.identity.application.services.AdminService;
+import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.ApprovableOperations;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
@@ -29,7 +30,7 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
     @Override
     public ApiResponse<CertifierRequestDTO> approve(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
-                "Request Accepted", //TODO use Messages
+                Messages.Success.CERTIFIER_ACCEPTED,
                 adminService.approve(requestId, comments)
         );
     }
@@ -38,7 +39,7 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
     @Override
     public ApiResponse<CertifierRequestDTO> reject(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
-                "Request Rejected", //TODO use Messages
+                Messages.Success.CERTIFIER_ACCEPTED,
                 adminService.reject(requestId, comments)
         );
     }

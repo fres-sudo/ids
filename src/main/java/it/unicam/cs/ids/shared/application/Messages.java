@@ -23,6 +23,8 @@ public final class Messages {
         String CERTIFIER_RETRIEVED = "Certifier retrieved successfully";
         String CERTIFIER_UPDATED = "Certifier updated successfully";
         String CERTIFIER_DELETED = "Certifier deleted successfully";
+        String CERTIFIER_ACCEPTED = "Certifier accepted";
+        String CERTIFIER_REJECTED = "Certifier rejected";
 
         String PRODUCT_CREATED = "Product created successfully";
         String PRODUCT_UPDATED = "Product updated successfully";

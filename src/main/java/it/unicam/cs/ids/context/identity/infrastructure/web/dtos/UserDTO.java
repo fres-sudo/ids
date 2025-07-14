@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web.dtos;
 
+import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
 import it.unicam.cs.ids.shared.application.DTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,4 +19,5 @@ public class UserDTO extends DTO {
     private String email;
     private String phoneNumber;
     private String address;
+    private PlatformRoles role;
 }

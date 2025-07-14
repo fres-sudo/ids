@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.catalog.infrastructure.web;
 
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleFilter;
@@ -33,8 +34,8 @@ public class SearchController {
     }
 
     @PostMapping(path = "/bundles")
-    ResponseEntity<Page<Bundle>> searchBundles(@RequestBody BundleFilter filterParam) {
-        Page<Bundle> response = searchService.searchBundles(filterParam);
+    ResponseEntity<Page<BundleDTO>> searchBundles(@RequestBody BundleFilter filterParam) {
+        Page<BundleDTO> response = searchService.searchBundles(filterParam);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -45,6 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * The user details
      */
     private final UserDetailsServiceImpl userDetailsService;
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -61,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String authoritiesString = tokenProvider.getAuthoritiesFromToken(token);
                 Collection<? extends GrantedAuthority> authorities =
                         Arrays.stream(authoritiesString.split(","))
-                                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                                .map(SimpleGrantedAuthority::new)
                                 .collect(Collectors.toList());
 
                 UsernamePasswordAuthenticationToken authentication =
@@ -86,8 +87,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             ApiResponseFactory apiResponseFactory = new DefaultApiResponseFactory();
             ApiResponse<String> apiResponse = apiResponseFactory.createErrorResponse(request, e, HttpStatus.UNAUTHORIZED);
 
-            ObjectMapper mapper = new ObjectMapper();
-            response.getWriter().write(mapper.writeValueAsString(apiResponse));
+            response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
         }
     }
 

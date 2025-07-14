@@ -20,6 +20,5 @@ public class CertificateDTO extends DTO {
     private String name;
     private Date issueDate;
     private Date expirationDate;
-    private String certificateUrl;
     private Date createdAt;
 }

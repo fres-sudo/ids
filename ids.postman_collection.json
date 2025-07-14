@@ -1,0 +1,1201 @@
+{
+	"info": {
+		"_postman_id": "35d4419e-04e4-42b9-9103-ef101a53c1b9",
+		"name": "IDS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32468446"
+	},
+	"item": [
+		{
+			"name": "Catalog",
+			"item": [
+				{
+					"name": "Search",
+					"item": [
+						{
+							"name": "Search Products",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-CRSF-TOKEN",
+										"value": "U4L0dY26_UKuoTOYXfNe7gisYIWUNNhuLmfv0lzmnueQzfycauCXQr7fm3SDxASqbN5qi2nITbymAetDS1eLsG_Rq4Gir8Wt"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/search/products",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"search",
+										"products"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "product",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Companies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/11.2.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/search/companies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"search",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Bundles",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/11.2.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/search/bundles?searchBy=Sto cazzo&tags=seasonal",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"search",
+										"bundles"
+									],
+									"query": [
+										{
+											"key": "searchBy",
+											"value": "Sto cazzo"
+										},
+										{
+											"key": "tags",
+											"value": "seasonal"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Bundles",
+					"item": [
+						{
+							"name": "Create Bundle",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Summer Gadget Bundle\",\n  \"description\": \"A fantastic collection of electronics for your summer adventures!\",\n  \"category\": \"SAUCES_AND_CONDIMENTS\",\n  \"bundledProducts\": [\n    {\n      \"productId\": 1,\n      \"bundleId\": 1,\n      \"quantityInBundle\": 1,\n      \"unitPriceInBundle\": 199.99\n    }\n  ],\n  \"price\": 299.99,\n  \"discountPercentage\": 15.0,\n  \"tags\": [\"summer\", \"electronics\", \"bundle\", \"discount\"],\n  \"quantity\": 50,\n  \"distributorId\": 10,\n  \"availableForSale\": true,\n  \"availableForShipping\": true,\n  \"estimatedDeliveryTime\": 5,\n  \"shippingCost\": 10.00,\n  \"returnPolicy\": \"30-day money-back guarantee.\",\n  \"bundleLocation\": {\n    \"latitude\": 34.0522,\n    \"longitude\": -118.2437\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/bundles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"bundles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Bundle",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Summer Gadget Bundle\",\n  \"description\": \"A fantastic collection of electronics for your summer adventures!\",\n  \"category\": \"SAUCES_AND_CONDIMENTS\",\n  \"bundledProducts\": [\n    {\n      \"productId\": 1,\n      \"bundleId\": 1,\n      \"quantityInBundle\": 1,\n      \"unitPriceInBundle\": 199.99\n    }\n  ],\n  \"price\": 299.99,\n  \"discountPercentage\": 15.0,\n  \"tags\": [\"summer\", \"electronics\", \"bundle\", \"discount\"],\n  \"quantity\": 50,\n  \"distributorId\": 10,\n  \"availableForSale\": true,\n  \"availableForShipping\": true,\n  \"estimatedDeliveryTime\": 5,\n  \"shippingCost\": 10.00,\n  \"returnPolicy\": \"30-day money-back guarantee.\",\n  \"bundleLocation\": {\n    \"latitude\": 34.0522,\n    \"longitude\": -118.2437\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/bundles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"bundles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Purchase",
+					"item": [
+						{
+							"name": "Purcahse Bundle",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": []
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGIwNEBnbWFpbC5jb20iLCJhdXRoIjoiQlVZRVIiLCJpc3MiOiJpZHNfZGV2X2lzc3VlciIsImlhdCI6MTc1MjQ0NDM1NSwiZXhwIjoxNzUyNTMwNzU1fQ.VgrCkGiXoML_wBvT90-x4PR-QQzr5BROPjBvZq2eOek",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/10.3.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quantity\": 1,\n  \"shippingAddress\": \"123 Main Street\",\n  \"paymentMethod\": \"CREDIT_CARD\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/purchase/bundle/17",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"purchase",
+										"bundle",
+										"17"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Purcahse Product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": []
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGIwNEBnbWFpbC5jb20iLCJhdXRoIjoiQlVZRVIiLCJpc3MiOiJpZHNfZGV2X2lzc3VlciIsImlhdCI6MTc1MjQ0NDM1NSwiZXhwIjoxNzUyNTMwNzU1fQ.VgrCkGiXoML_wBvT90-x4PR-QQzr5BROPjBvZq2eOek",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/10.3.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quantity\": 10,\n  \"shippingAddress\": \"123 Main Street\",\n  \"paymentMethod\": \"CREDIT_CARD\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/purchase/product/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"purchase",
+										"product",
+										"10"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Products",
+					"item": [
+						{
+							"name": "Create Product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/11.2.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Organic Tomatoes\",\n  \"description\": \"Fresh organic tomatoes grown in sunny Italian fields. Perfect for salads, sauces, and cooking. Harvested at peak ripeness for maximum flavor and nutritional value.\",\n  \"productionDate\": \"2025-06-01\",\n  \"category\": \"VEGETABLES\",\n  \"quantity\": 100,\n  \"pricePerQuantity\": 2.50,\n  \"unitOfMeasure\": \"KG\",\n  \"currency\": \"EUR\",\n  \"tags\": [\n    \"organic\",\n    \"fresh\",\n    \"locally-grown\",\n    \"pesticide-free\",\n    \"italian\"\n  ],\n  \"producerId\": 1,\n  \"creatorId\": 1,\n  \"cultivationMethod\": \"Organic farming with natural fertilizers\",\n  \"expirationDate\": \"2025-06-25\",\n  \"harvestDate\": \"2025-06-15\",\n  \"availableForSale\": true,\n  \"availableForShipping\": true,\n  \"estimatedDeliveryDays\": 3,\n  \"shippingCost\": 5.99,\n  \"returnPolicy\": \"Full refund within 7 days if product is not satisfactory. Product must be returned in original condition.\",\n  \"productLocation\": {\n    \"latitude\": 44.4949,\n    \"longitude\": 11.3426\n  },\n  \"distributorId\": [],\n  \"transformerId\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/products",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Product Certificate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"productId\": 10,\n    \"name\": \"Organic Certification\",\n    \"description\": \"This certificate verifies that the product meets organic standards.\",\n    \"issuerId\": 8,\n    \"certificationDate\": \"2023-10-01T00:00:00Z\",\n    \"issueDate\": \"2023-10-01T00:00:00Z\",\n    \"expirationDate\": \"2024-10-01T00:00:00Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/products/certificate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"certificate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{ base_url }}/products/10",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"products",
+										"10"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Certification",
+			"item": [
+				{
+					"name": "Approvable Operations",
+					"item": [
+						{
+							"name": "List Requests",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{ base_url }}/certifier/requests",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"certifier",
+										"requests"
+									],
+									"query": [
+										{
+											"key": "pageNo",
+											"value": "0",
+											"disabled": true
+										},
+										{
+											"key": "pageSize",
+											"value": "10",
+											"disabled": true
+										},
+										{
+											"key": "sortBy",
+											"value": "id",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Approve Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}"
+								},
+								"url": {
+									"raw": "{{ base_url }}/admin/requests/approve/4",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"admin",
+										"requests",
+										"approve",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reject Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}"
+								},
+								"url": {
+									"raw": "{{ base_url }}/admin/requests/reject/4",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"admin",
+										"requests",
+										"reject",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Identity",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Register User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": []
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/11.2.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"alberto\",  \n\t\"surname\": \"gentile\",\n  \"email\": \"test3@example.com\",\n  \"password\": \"bho\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/auth/register/user",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"register",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"francesco@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Certifier",
+					"item": [
+						{
+							"name": "Register Certifier",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/10.3.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"mufasa\",\n\t\"surname\": \"gentile\",\n    \"email\": \"mufasa@gmail.comdssd\",\n    \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/register/certifier",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"register",
+										"certifier"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Approvable Operations",
+							"item": [
+								{
+									"name": "List Requests",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{ base_url }}/admin/requests?pageNo=1&pageSize=10&sortBy=id",
+											"host": [
+												"{{ base_url }}"
+											],
+											"path": [
+												"admin",
+												"requests"
+											],
+											"query": [
+												{
+													"key": "pageNo",
+													"value": "1"
+												},
+												{
+													"key": "pageSize",
+													"value": "10"
+												},
+												{
+													"key": "sortBy",
+													"value": "id"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Approve Request",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}"
+										},
+										"url": {
+											"raw": "{{ base_url }}/admin/requests/approve/4",
+											"host": [
+												"{{ base_url }}"
+											],
+											"path": [
+												"admin",
+												"requests",
+												"approve",
+												"4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Reject Request",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}"
+										},
+										"url": {
+											"raw": "{{ base_url }}/admin/requests/reject/4",
+											"host": [
+												"{{ base_url }}"
+											],
+											"path": [
+												"admin",
+												"requests",
+												"reject",
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Register Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/10.3.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"mufasa\",\n\t\"surname\": \"gentile\",\n    \"email\": \"mufasa@gmadsil.com\",\n    \"password\": \"123\",\n    \"adminByPassPasswordField\" : \"admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register/admin",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Company",
+					"item": [
+						{
+							"name": "Register Company",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/11.2.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Innovate Solutions Inc.\",\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\",\n  \"vat\": \"US120DS5678\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/register/company/PRODUCER",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"register",
+										"company",
+										"PRODUCER"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Company",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"francesco@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/companies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Company",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/companies",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"companies"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ base_url }}/auth/login",
+							"host": [
+								"{{ base_url }}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login Admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"mufasa@gmadsil.com\",\n  \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/login",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Login Company",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"ciao@ciao.it\",\n  \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/login",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Login Certifier",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"mufasa@gmail.comdssd\",\n    \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/login",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Login User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"test3@example.com\",\n  \"password\": \"bho\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/login",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjaWFvQGNpYW8uaXQiLCJhdXRoIjoiUk9MRV9ESVNUUklCVVRPUiIsImlzcyI6Imlkc19kZXZfaXNzdWVyIiwiaWF0IjoxNzUyNTI2NjU2LCJleHAiOjE3NTI2MTMwNTZ9.tSAQqFBC39hL2_5xcYir-stlBsxNsVpUWrhlHhS4ZTc",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		}
+	]
+}

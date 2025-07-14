@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.company.infrastructure.web.dtos;
 
+import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.shared.application.DTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +15,7 @@ import java.util.Date;
 @Data @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 public class CompanyDTO extends DTO {
-    private long id;
+    private Long id;
     private String name;
     private String website;
     private String email;
@@ -22,4 +23,5 @@ public class CompanyDTO extends DTO {
     private String address;
     private String phoneNumber;
     private Date createdAt;
+    private CompanyRoles role;
 }

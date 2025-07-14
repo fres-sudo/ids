@@ -46,9 +46,6 @@ public class Certificate extends BaseEntity {
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
 
-    @Column(name = "certificate_url", length = 500)
-    private String certificateUrl;
-
     @Column(name = "issue_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date issueDate;

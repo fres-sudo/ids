@@ -19,22 +19,22 @@ public final class Messages {
         String USER_UPDATED = "User updated successfully";
         String USER_DELETED = "User deleted successfully";
 
-        String CERTIFIER_REGISTERED = "Certifier registered successfully";
+        String CERTIFIER_REGISTERED = "Certifier registered successfully, please wait for approval";
         String CERTIFIER_RETRIEVED = "Certifier retrieved successfully";
         String CERTIFIER_UPDATED = "Certifier updated successfully";
         String CERTIFIER_DELETED = "Certifier deleted successfully";
         String CERTIFIER_ACCEPTED = "Certifier accepted";
         String CERTIFIER_REJECTED = "Certifier rejected";
 
-        String PRODUCT_CREATED = "Product created successfully";
+        String PRODUCT_CREATED = "Product created successfully, please submit it for approval";
         String PRODUCT_UPDATED = "Product updated successfully";
         String PRODUCT_RETRIEVED = "Product retrieved successfully";
 
         String CERTIFICATE_CREATED = "Certificate created successfully";
         String CERTIFICATE_RETRIEVED = "Certificate retrieved successfully";
 
-        String BUNDLE_CREATED = "Bundle created successfully";
-        String BUNDLE_UPDATED = "Bundle updated successfully";
+        String BUNDLE_CREATED = "Bundle created successfully, please wait it for approval";
+        String BUNDLE_UPDATED = "Bundle updated successfully, please wait it for approval";
         String BUNDLE_RETRIEVED = "Bundle retrieved successfully";
         String BUNDLE_DELETED = "Bundle deleted successfully";
 
@@ -42,7 +42,7 @@ public final class Messages {
         String PURCHASE_RETRIEVED = "Purchase retrieved successfully";
         String PURCHASES_RETRIEVED = "Purchases retrieved successfully";
 
-        String COMPANY_REGISTERED = "Company registered successfully";
+        String COMPANY_REGISTERED = "Company registered successfully, please wait for approval";
         String COMPANY_RETRIEVED = "Company retrieved successfully";
         String COMPANY_UPDATED = "Company updated successfully";
         String COMPANY_DELETED = "Company deleted successfully";

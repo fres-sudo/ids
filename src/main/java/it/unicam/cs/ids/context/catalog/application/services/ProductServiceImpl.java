@@ -13,7 +13,6 @@ import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
-import it.unicam.cs.ids.context.storage.application.services.StorageService;
 import it.unicam.cs.ids.shared.application.Finder;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,8 +42,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CompanyRepository companyRepository;
 
-    private final StorageService storageService;
-
     private final ProductApprovalRequestFactory approvalRequestFactory;
 
     @Override
@@ -60,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDTO updateProduct(Long productId, UpdateProductRequest request) {
         Product existingProduct = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
@@ -78,18 +76,8 @@ public class ProductServiceImpl implements ProductService {
             // Validate product exists first
             Product product = productRepository.findById(request.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("Product with ID " + request.getProductId() + " not found."));
-
-            // Store the certificate file
-            Path path = storageService.store(request.getCertificateFile());
-
             // Create certificate entity
             Certificate certificate = certificateMapper.fromCreateRequest(request);
-
-            // Generate proper URL for file access
-            String fileUrl = "/api/files/" + path.getFileName().toString();
-            certificate.setCertificateUrl(fileUrl);
-
-            // Save certificate
             Certificate savedCertificate = certificateRepository.save(certificate);
 
             // Add certificate to product

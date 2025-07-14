@@ -64,9 +64,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
      * @param ex the exception that was thrown
      * @return a ResponseEntity containing the ApiResponse with error details
      */
-    @ExceptionHandler({AccessDeniedException.class, JwtAuthenticationException.class, SignatureException.class})
+    @ExceptionHandler({JwtAuthenticationException.class, SignatureException.class})
     public ResponseEntity<ApiResponse<String>> handleUnauthorized(HttpServletRequest req, Exception ex) {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ApiResponse<String> response = apiResponseFactory.createErrorResponse(req, ex, status);
+        return new ResponseEntity<>(response, status);
+    }
+
+    // For authorization errors (403)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<String>> handleForbidden(HttpServletRequest req, Exception ex) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
         ApiResponse<String> response = apiResponseFactory.createErrorResponse(req, ex, status);
         return new ResponseEntity<>(response, status);
     }

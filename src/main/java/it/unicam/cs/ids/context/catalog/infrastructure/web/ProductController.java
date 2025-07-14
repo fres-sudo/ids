@@ -5,12 +5,14 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
+import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,10 +40,10 @@ public class ProductController {
             @RequestBody CreateProductRequest request,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
-        Long companyId = principal.getId();
+        Company company = authService.getAuthenticatedCompany();
+        Long companyId = company.getId();
         request.setCreatorId(companyId);
-
-        CompanyRoles role = authService.getAuthenticatedCompany().getRole();
+        CompanyRoles role = company.getRole();
         switch (role) {
             case PRODUCER -> request.setProducerId(companyId);
             case DISTRIBUTOR -> request.setDistributorId(List.of(companyId));
@@ -66,10 +68,9 @@ public class ProductController {
         );
     }
 
-    @PostMapping(path = "/certificate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping( "/certificate")
     @PreAuthorize("hasRole('PRODUCER') || hasRole('DISTRIBUTOR') || hasRole('TRANSFORMER')")
-    ApiResponse<ProductDTO> createCertificate(@RequestPart CreateCertificateRequest request, @RequestPart MultipartFile file) {
-        request.setCertificateFile(file);
+    ApiResponse<ProductDTO> createCertificate(@Valid @RequestBody CreateCertificateRequest request) {
         return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFICATE_CREATED,
                 productService.createCertificate(request)

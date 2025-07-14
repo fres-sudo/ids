@@ -18,7 +18,6 @@ public class CreateCertificateRequest extends DTO {
     private String name;
     private String description;
     private Long issuerId;
-    private MultipartFile certificateFile;
     private Date certificationDate;
     private Date issueDate;
     private Date expirationDate;

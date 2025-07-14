@@ -21,7 +21,6 @@ public abstract class BundledProductMapper {
 
     // This method will be used to map CreateBundledProductRequest to BundledProduct
     @Mapping(target = "id", ignore = true) // ID is auto-generated
-    @Mapping(target = "bundle", ignore = true) // Bundle will be set by the BundleMapper
     @Mapping(target = "product", source = "productId", qualifiedByName = "mapProductIdToProduct")
     public abstract BundledProduct toEntity(CreateBundledProductRequest dto);
 

@@ -48,7 +48,7 @@ public class Bundle extends BaseEntity implements Approvable, Purchasable {
     private ApprovalStatus status;
 
     // orphanRemoval = true: If a BundledProduct is removed from the 'products' list, it's also deleted from the DB
-    @OneToMany(mappedBy = "bundle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BundledProduct> products = new ArrayList<>();
 
     @Column(name = "discount_percentage")
@@ -91,11 +91,6 @@ public class Bundle extends BaseEntity implements Approvable, Purchasable {
     @Override
     public void setApprovalStatus(ApprovalStatus approvalStatus) {
         this.status = approvalStatus;
-    }
-
-    @Override
-    public ApprovalStatus getApprovalStatus() {
-        return this.status;
     }
 
     @Override

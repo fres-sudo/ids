@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.shared.application;
 
+import it.unicam.cs.ids.context.catalog.domain.model.ProductCategory;
 import it.unicam.cs.ids.shared.kernel.enums.SortDirection;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -11,10 +12,11 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor
 @SuperBuilder
 public class FilterParam implements Serializable {
-    private int pageNo;
-    private int pageSize;
-    private SortDirection sortDirection;
-    private String sortBy;
     private String searchBy;
     private List<String> tags;
+    private boolean available;
+    private boolean availableForShipping;
+    private double minPrice;
+    private double maxPrice;
+    private List<ProductCategory> categories;
 }

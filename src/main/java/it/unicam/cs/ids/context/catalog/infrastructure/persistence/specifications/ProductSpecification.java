@@ -31,7 +31,7 @@ public final class ProductSpecification extends AbstractSpecification {
             }
 
             // 4. Filter by Producer ID
-            if (filter.getProducerId() > 0) {
+            if (filter.getProducerId() != null && filter.getProducerId() >= 0) {
                 predicates.add(criteriaBuilder.equal(root.get("producer").get("id"), filter.getProducerId()));
             }
 

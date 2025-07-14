@@ -3,12 +3,14 @@ package it.unicam.cs.ids.context.catalog.infrastructure.persistence.specificatio
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unicam.cs.ids.context.catalog.domain.model.BundledProduct;
+import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.shared.infrastructure.persistence.AbstractSpecification;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleFilter;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
-import jakarta.persistence.criteria.Predicate;
 
 public final class BundleSpecification extends AbstractSpecification {
     public static Specification<Bundle> withFilter(BundleFilter filter) {
@@ -30,21 +32,32 @@ public final class BundleSpecification extends AbstractSpecification {
                 predicates.add(criteriaBuilder.isTrue(root.get("availableForShipping")));
             }
 
-            // 4. Filter by Minimum Discount Percentage
-            if (filter.getMinDiscountPercentage() > 0) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("discountPercentage"), filter.getMinDiscountPercentage()));
-            }
+            // Price filtering using subquery to calculate bundle unit price
+            if (filter.getMinPrice() > 0 || filter.getMaxPrice() > 0) {
+                // Subquery to calculate the total price of bundled products
+                assert query != null;
+                Subquery<Double> priceSubquery = query.subquery(Double.class);
+                Root<BundledProduct> bundledProductRoot = priceSubquery.from(BundledProduct.class);
+                Join<BundledProduct, Product> productJoin = bundledProductRoot.join("product");
 
-            // 5. Filter by Price Range (minPrice)
-            if (filter.getMinPrice() > 0) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("pricePerQuantity"), filter.getMinPrice()));
-            }
+                Expression<Double> totalPrice = criteriaBuilder.sum(
+                        criteriaBuilder.prod(
+                                productJoin.get("pricePerQuantity"),
+                                bundledProductRoot.get("quantityInBundle")
+                        )
+                );
 
-            // 6. Filter by Price Range (maxPrice)
-            if (filter.getMaxPrice() > 0) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("pricePerQuantity"), filter.getMaxPrice()));
-            }
+                priceSubquery.select(totalPrice)
+                        .where(criteriaBuilder.equal(bundledProductRoot.get("bundle"), root));
 
+                if (filter.getMinPrice() > 0) {
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(priceSubquery, filter.getMinPrice()));
+                }
+
+                if (filter.getMaxPrice() > 0) {
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(priceSubquery, filter.getMaxPrice()));
+                }
+            }
             // 7. Filer by SearchBy (name, description, etc.) - assuming 'name' and 'description' fields
             Predicate searchPredicate = buildSearchByPredicate(root, criteriaBuilder, filter.getSearchBy(), "name", "description");
             if (searchPredicate != null) predicates.add(searchPredicate);

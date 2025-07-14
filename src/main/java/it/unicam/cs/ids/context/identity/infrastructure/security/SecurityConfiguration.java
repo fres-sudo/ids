@@ -66,8 +66,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/search/**").permitAll()
-                        .requestMatchers("products/**").permitAll()
-                        .requestMatchers("bundles/**").hasRole(CompanyRoles.DISTRIBUTOR.name())
+                        .requestMatchers("/products/**").permitAll()
+                        .requestMatchers("/bundles/**").hasRole(CompanyRoles.DISTRIBUTOR.name())
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

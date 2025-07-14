@@ -47,36 +47,5 @@ public abstract class BundleMapper {
     @Mapping(target = "distributor", ignore = true)
     @Mapping(target = "products", source = "bundledProducts")
     public abstract Bundle updateFromRequest(@MappingTarget Bundle existing, UpdateBundleRequest request);
-
-
-    @AfterMapping
-    protected void linkBundledProducts(CreateBundleRequest dto, @MappingTarget Bundle bundle) {
-        if (dto.getBundledProducts() != null) {
-            List<BundledProduct> bundledProducts = dto.getBundledProducts().stream()
-                    .map(bundledProductDTO -> {
-                        BundledProduct bp = bundledProductMapper.toEntity(bundledProductDTO);
-                        bp.setBundle(bundle);
-                        return bp;
-                    })
-                    .toList();
-            bundle.setProducts(bundledProducts);
-        }
-    }
-
-    @AfterMapping
-    protected void linkBundledProductsOnUpdate(UpdateBundleRequest dto, @MappingTarget Bundle bundle) {
-        if (dto.getBundledProducts() != null) {
-            bundle.getProducts().clear(); // Clear existing children (this is okay with orphanRemoval)
-            for (var bundledProductDTO : dto.getBundledProducts()) {
-                BundledProduct bp = bundledProductMapper.toEntity(bundledProductDTO);
-                bp.setBundle(bundle);
-                bundle.getProducts().add(bp);
-            }
-        }
-    }
-
-
-
-
 }
 

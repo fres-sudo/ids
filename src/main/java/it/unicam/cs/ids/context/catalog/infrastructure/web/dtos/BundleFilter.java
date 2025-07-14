@@ -11,10 +11,5 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor
 @SuperBuilder
 public class BundleFilter extends FilterParam {
-    private List<ProductCategory> categories;
-    private boolean available;
-    private boolean availableForShipping;
     private double minDiscountPercentage;
-    private double minPrice;
-    private double maxPrice;
 }

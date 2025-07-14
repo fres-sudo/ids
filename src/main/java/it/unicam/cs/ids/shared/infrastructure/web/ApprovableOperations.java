@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public interface ApprovableOperations<T extends DTO> {
 
     @PostMapping("/approve/{requestId}")
-    ResponseEntity<ApiResponse<T>> approve(@PathVariable Long requestId, @RequestBody(required = false) String comments);
+    ApiResponse<T> approve(@PathVariable Long requestId, @RequestBody(required = false) String comments);
 
     @PostMapping("/reject/{requestId}")
-    ResponseEntity<ApiResponse<T>> reject(@PathVariable Long requestId, @RequestBody(required = false) String comments);
+    ApiResponse<T> reject(@PathVariable Long requestId, @RequestBody(required = false) String comments);
 
     @GetMapping()
-    ResponseEntity<Page<T>> findPendingRequests(
-            @PageableDefault(size = 30) Pageable pageable
+    Page<T> findPendingRequests(
+            @PageableDefault() Pageable pageable
     );
 }

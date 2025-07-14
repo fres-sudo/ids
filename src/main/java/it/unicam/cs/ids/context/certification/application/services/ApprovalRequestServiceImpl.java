@@ -40,23 +40,25 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ApprovalRequestDTO<Approvable> approve(Long requestId, String adminComments) {
         return processApprovalRequest(requestId, ApprovalStatus.APPROVED, adminComments);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ApprovalRequestDTO<Approvable> reject(Long requestId, String adminComments) {
         return processApprovalRequest(requestId, ApprovalStatus.REJECTED, adminComments);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ApprovalRequestDTO<Approvable>> findPendingRequests(Pageable pageable) {
         Page<ApprovalRequest> requests = approvalRequestRepository.findAll(pageable);
         return requests.map(approvalRequestMapper::toDto);
     }
 
-
-    private ApprovalRequestDTO<Approvable> processApprovalRequest(Long requestId, ApprovalStatus newStatus, String adminComments) {
+    protected ApprovalRequestDTO<Approvable> processApprovalRequest(Long requestId, ApprovalStatus newStatus, String adminComments) {
         ApprovalRequest approvalRequest = approvalRequestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException("Request not found with id: " + requestId));
 

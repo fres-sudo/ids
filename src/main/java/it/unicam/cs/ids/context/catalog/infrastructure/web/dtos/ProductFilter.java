@@ -12,9 +12,5 @@ import java.util.List;
 @SuperBuilder
 public class ProductFilter extends FilterParam {
     private List<ProductCategory> categories;
-    private boolean available;
-    private boolean availableForShipping;
-    private long producerId;
-    private double minPrice;
-    private double maxPrice;
+    private Long producerId;
 }

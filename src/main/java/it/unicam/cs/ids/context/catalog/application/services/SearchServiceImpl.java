@@ -41,42 +41,26 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ProductDTO> searchProducts(ProductFilter filter) {
+    public Page<ProductDTO> searchProducts(ProductFilter filter, Pageable pageable) {
         Specification<Product> spec = ProductSpecification.withFilter(filter);
-        Sort sort = Sort.by(
-                filter.getSortDirection().getValue(),
-                filter.getSortBy() != null ? filter.getSortBy() : "id"
-        );
-
-        Pageable pageable = PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort);
 
         Page<Product> products = productRepository.findAll(spec, pageable);
         return products.map(productMapper::toDto);
     }
 
-    public Page<BundleDTO> searchBundles(BundleFilter filter) {
+    @Override
+    @Transactional(readOnly = true)
+    public Page<BundleDTO> searchBundles(BundleFilter filter, Pageable pageable) {
         Specification<Bundle> spec = BundleSpecification.withFilter(filter);
-        Sort sort = Sort.by(
-            filter.getSortDirection().getValue(),
-            filter.getSortBy() != null ? filter.getSortBy() : "id"
-        );
-
-        Pageable pageable = PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort);
 
         Page<Bundle> bundles = bundleRepository.findAll(spec, pageable);
         return bundles.map(bundleMapper::toDto);
     }
 
     @Override
-    public Page<CompanyDTO> searchCompanies(CompanyFilter filter) {
+    @Transactional(readOnly = true)
+    public Page<CompanyDTO> searchCompanies(CompanyFilter filter, Pageable pageable) {
         Specification<Company> spec = CompanySpecification.withFilter(filter);
-
-        Sort sort = Sort.by(
-            filter.getSortDirection().getValue(),
-            filter.getSortBy() != null ? filter.getSortBy() : "id"
-        );
-
-        Pageable pageable = PageRequest.of(filter.getPageNo(), filter.getPageSize(), sort);
 
         Page<Company> companies = companyRepository.findAll(spec, pageable);
         return companies.map(companyMapper::toDto);

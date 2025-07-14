@@ -29,8 +29,4 @@ public class BundledProduct {
 
     @Column(name = "price_per_unit", nullable = false)
     private double pricePerUnit; // Price per unit of the product in the bundle
-
-    @ManyToOne // Many BundledProducts belong to one Bundle
-    @JoinColumn(name = "bundle_id", nullable = false) // Foreign key to the Bundle table
-    private Bundle bundle; // Back-reference to the parent Bundle
 }

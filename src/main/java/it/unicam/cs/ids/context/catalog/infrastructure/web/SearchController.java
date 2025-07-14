@@ -7,40 +7,81 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleFilter;
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyFilter;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductFilter;
 import it.unicam.cs.ids.context.catalog.application.services.SearchService;
+import it.unicam.cs.ids.context.catalog.domain.model.ProductCategory;
+import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping("/search") // Base path for search operations
+@RequestMapping("/search")
 public class SearchController {
 
     private final SearchService searchService;
 
-    @PostMapping(path = "/products")
-    ResponseEntity<Page<ProductDTO>> searchProducts(@RequestBody ProductFilter filterParam) {
-        Page<ProductDTO> response = searchService.searchProducts(filterParam);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping(path = "/products")
+    Page<ProductDTO> searchProducts(
+            @PageableDefault() Pageable pageable,
+            @RequestParam(required = false) List<ProductCategory> categories,
+            @RequestParam(required = false, defaultValue = "true") boolean available,
+            @RequestParam(required = false, defaultValue = "true") boolean availableForShipping,
+            @RequestParam(required = false) Long producerId,
+            @RequestParam(required = false, defaultValue = "0") double minPrice,
+            @RequestParam(required = false, defaultValue = "10000") double maxPrice,
+            @RequestParam(required = false) String searchBy,
+            @RequestParam(required = false) List<String> tags) {
+        ProductFilter filter = ProductFilter.builder()
+                .categories(categories)
+                .available(available)
+                .availableForShipping(availableForShipping)
+                .producerId(producerId)
+                .minPrice(minPrice)
+                .maxPrice(maxPrice)
+                .searchBy(searchBy)
+                .tags(tags)
+                .build();
+        return searchService.searchProducts(filter, pageable);
     }
 
-    @PostMapping(path = "/bundles")
-    ResponseEntity<Page<BundleDTO>> searchBundles(@RequestBody BundleFilter filterParam) {
-        Page<BundleDTO> response = searchService.searchBundles(filterParam);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping(path = "/bundles")
+    Page<BundleDTO> searchBundles(
+            @PageableDefault() Pageable pageable,
+            @RequestParam(required = false) List<ProductCategory> categories,
+            @RequestParam(required = false, defaultValue = "true") boolean available,
+            @RequestParam(required = false, defaultValue = "true") boolean availableForShipping,
+            @RequestParam(required = false, defaultValue = "0") double minDiscountPercentage,            @RequestParam(required = false, defaultValue = "0") double minPrice,
+            @RequestParam(required = false, defaultValue = "10000") double maxPrice,
+            @RequestParam(required = false) String searchBy,
+            @RequestParam(required = false) List<String> tags) {
+        BundleFilter filter = BundleFilter.builder()
+                .categories(categories)
+                .available(available)
+                .availableForShipping(availableForShipping)
+                .minDiscountPercentage(minDiscountPercentage)
+                .minPrice(minPrice)
+                .maxPrice(maxPrice)
+                .searchBy(searchBy)
+                .tags(tags)
+                .build();
+        return searchService.searchBundles(filter, pageable);
     }
 
-    @PostMapping(path = "/companies", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Page<CompanyDTO>> searchCompanies(@RequestBody CompanyFilter filterParam) {
-        Page<CompanyDTO> response = searchService.searchCompanies(filterParam);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping(path = "/companies")
+    Page<CompanyDTO> searchCompanies(
+            @PageableDefault() Pageable pageable,
+            @RequestParam(required = false) CompanyRoles companyRole,
+            @RequestParam(required = false) String searchBy) {
+        CompanyFilter filter = CompanyFilter.builder()
+                .companyRole(companyRole)
+                .searchBy(searchBy)
+                .build();
+        return searchService.searchCompanies(filter, pageable);
     }
 }

@@ -19,10 +19,6 @@ public final class CompanySpecification extends AbstractSpecification {
             Predicate searchPredicate = buildSearchByPredicate(root, criteriaBuilder, filter.getSearchBy(), "name", "description");
             if (searchPredicate != null) predicates.add(searchPredicate);
 
-            // 4. Filter by Tags
-            Predicate tagsPredicate = buildTagsPredicate(root, criteriaBuilder, filter.getTags());
-            if (tagsPredicate != null) predicates.add(tagsPredicate);
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,27 +27,25 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<ApiResponse<CertifierRequestDTO>> approve(Long requestId, String comments) {
-        ApiResponse<CertifierRequestDTO> response = responseFactory.createSuccessResponse(
+    public ApiResponse<CertifierRequestDTO> approve(Long requestId, String comments) {
+        return responseFactory.createSuccessResponse(
                 "Request Accepted", //TODO use Messages
                 adminService.approve(requestId, comments)
         );
-        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<ApiResponse<CertifierRequestDTO>> reject(Long requestId, String comments) {
-        ApiResponse<CertifierRequestDTO> response = responseFactory.createSuccessResponse(
+    public ApiResponse<CertifierRequestDTO> reject(Long requestId, String comments) {
+        return responseFactory.createSuccessResponse(
                 "Request Rejected", //TODO use Messages
                 adminService.reject(requestId, comments)
         );
-        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<Page<CertifierRequestDTO>> findPendingRequests(Pageable pageable) {
-        return ResponseEntity.ok(adminService.findPendingRequests(pageable));
+    public Page<CertifierRequestDTO> findPendingRequests(Pageable pageable) {
+        return adminService.findPendingRequests(pageable);
     }
 }

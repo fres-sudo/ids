@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,15 +38,7 @@ public abstract class ApprovalRequestMapper {
     @Mapping(target = "entity", expression = "java(mapEntityByEntityId(entity.getEntityType(), entity.getEntityId()))")
     public abstract ApprovalRequestDTO<Approvable> toDto(ApprovalRequest entity);
 
-    public List<ApprovalRequestDTO<Approvable>> toDtoMany(List<ApprovalRequest> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return null;
-        }
-        return entities.stream()
-                .map(this::toDto)
-                .toList();
-    }
-
+    @Transactional(readOnly = true)
     protected Approvable mapEntityByEntityId(RequestEntityType entityType, Long entityId) {
         return switch (entityType) {
             case PRODUCT -> productRepository.findById(entityId)

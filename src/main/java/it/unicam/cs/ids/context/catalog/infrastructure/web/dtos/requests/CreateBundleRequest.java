@@ -21,7 +21,6 @@ public class CreateBundleRequest extends DTO {
     private String description;
     private ProductCategory category;
     private List<CreateBundledProductRequest> bundledProducts;
-    private double price;
     private Currency currency;
     private double discountPercentage;
     private List<String> tags;

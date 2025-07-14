@@ -2,6 +2,7 @@ package it.unicam.cs.ids.context.catalog.domain.model;
 
 import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.context.company.domain.models.Company;
+import it.unicam.cs.ids.shared.application.Purchasable;
 import it.unicam.cs.ids.shared.kernel.enums.Currency;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
 import it.unicam.cs.ids.shared.infrastructure.persistence.Coordinates;
@@ -21,6 +22,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Bundle extends BaseEntity implements Approvable {
+public class Bundle extends BaseEntity implements Approvable, Purchasable {
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -48,9 +50,6 @@ public class Bundle extends BaseEntity implements Approvable {
     // orphanRemoval = true: If a BundledProduct is removed from the 'products' list, it's also deleted from the DB
     @OneToMany(mappedBy = "bundle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BundledProduct> products = new ArrayList<>();
-
-    @Column(nullable = false)
-    private double price;
 
     @Column(name = "discount_percentage")
     private double discountPercentage;
@@ -97,5 +96,56 @@ public class Bundle extends BaseEntity implements Approvable {
     @Override
     public ApprovalStatus getApprovalStatus() {
         return this.status;
+    }
+
+    @Override
+    public void updateQuantity(int purchasedQuantity) {
+        this.quantity -= purchasedQuantity;
+        if (this.quantity <= 0) {
+            this.availableForSale = false;
+        }
+    }
+
+    @Override
+    public void validatePurchase(int requestedQuantity) {
+        if (!this.availableForSale) {
+            throw new IllegalArgumentException("This Bundle not available for sale");
+        }
+        if (this.quantity < requestedQuantity) {
+            throw new IllegalArgumentException("Insufficient quantity in stock");
+        }
+    }
+
+    @Override
+    public double computeTotalPrice(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+        double totalPrice = 0;
+        for (BundledProduct bundledProduct : this.products) {
+            totalPrice += bundledProduct.getProduct().getPricePerQuantity() * bundledProduct.getQuantityInBundle();
+        }
+        totalPrice *= quantity;
+        if (this.discountPercentage > 0) {
+            totalPrice -= (totalPrice * this.discountPercentage / 100);
+        }
+        return totalPrice + this.shippingCost;
+    }
+
+    @Override
+    public double getUnitPrice() {
+        double totalPrice = 0;
+        for (BundledProduct bundledProduct : this.products) {
+            totalPrice += bundledProduct.getProduct().getPricePerQuantity() * bundledProduct.getQuantityInBundle();
+        }
+        return totalPrice;
+    }
+
+    @Override
+    public LocalDateTime computeDeliveryDate() {
+        if (this.estimatedDeliveryDays <= 0) {
+            return null; // No delivery date if estimated days are not set
+        }
+        return java.time.LocalDateTime.now().plusDays(this.estimatedDeliveryDays);
     }
 }

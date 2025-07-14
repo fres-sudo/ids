@@ -25,7 +25,6 @@ public class BundleDTO extends DTO {
     private ProductCategory category;
     private ApprovalStatus status;
     private List<BundledProductDTO> products;
-    private double price;
     private double discountPercentage;
     private List<String> tags;
     private int quantity;

@@ -3,8 +3,7 @@ package it.unicam.cs.ids.context.catalog.application.services;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.PurchaseDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseBundleRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseProductRequest;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  * Purchase Service defines the operations related to purchases.
@@ -37,7 +36,7 @@ public interface PurchaseService {
      * @param buyerId the ID of the buyer
      * @return list of PurchaseDTO objects
      */
-    List<PurchaseDTO> getUserPurchases(Long buyerId);
+    Page<PurchaseDTO> getUserPurchases(Long buyerId, Integer pageNo, Integer pageSize, String sortBy);
     
     /**
      * Retrieves a specific purchase by its ID.

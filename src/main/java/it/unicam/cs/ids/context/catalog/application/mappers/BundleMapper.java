@@ -37,7 +37,6 @@ public abstract class BundleMapper {
     @Mapping(target = "description", source = "description")
     @Mapping(target = "category", source = "category")
     @Mapping(target = "tags", source = "tags")
-    @Mapping(target = "price", source = "price")
     @Mapping(target = "quantity", source = "quantity")
     @Mapping(target = "discountPercentage", source = "discountPercentage")
     @Mapping(target = "currency", source = "currency")

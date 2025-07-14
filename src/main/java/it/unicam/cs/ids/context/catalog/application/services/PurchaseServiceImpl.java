@@ -13,14 +13,17 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.Purchas
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
 import it.unicam.cs.ids.shared.application.Finder;
-import jakarta.persistence.EntityNotFoundException;
+import it.unicam.cs.ids.shared.application.Purchasable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.time.Instant;
 
 /**
  * Implementation of {@link PurchaseService}.
@@ -29,6 +32,8 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
+
+    private static final long MILLISECONDS_PER_DAY = 24L * 60 * 60 * 1000;
 
     private final PurchaseRepository purchaseRepository;
     private final ProductRepository productRepository;
@@ -39,61 +44,26 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     @Transactional
     public PurchaseDTO purchaseProduct(Long productId, Long buyerId, PurchaseProductRequest request) {
-        Product product = Finder.findByIdOrThrow(productRepository, productId,
-                "Product not found with id: " + productId);
-        
-        User buyer = Finder.findByIdOrThrow(userRepository, buyerId,
-                "User not found with id: " + buyerId);
+        Product product = Finder.findByIdOrThrow(productRepository, productId, "Product not found");
 
-        validateProductPurchase(product, request.getQuantity());
-
-        Purchase purchase = purchaseMapper.fromProductRequest(request, buyerId, productId);
-        purchase.setUnitPrice(product.getPricePerQuantity());
-        purchase.setTotalAmount(calculateTotalAmount(product.getPricePerQuantity(), request.getQuantity(), product.getShippingCost()));
-        purchase.setCurrency(product.getCurrency());
-        purchase.setShippingCost(product.getShippingCost());
-        purchase.setEstimatedDeliveryDate(calculateEstimatedDeliveryDate(product.getEstimatedDeliveryDays()));
-
-        updateProductQuantity(product, request.getQuantity());
-        
-        Purchase savedPurchase = purchaseRepository.save(purchase);
-        return purchaseMapper.toDto(savedPurchase);
+        return processPurchase(product, buyerId, request.getQuantity());
     }
 
     @Override
     @Transactional
     public PurchaseDTO purchaseBundle(Long bundleId, Long buyerId, PurchaseBundleRequest request) {
-        Bundle bundle = Finder.findByIdOrThrow(bundleRepository, bundleId,
-                "Bundle not found with id: " + bundleId);
-        
-        User buyer = Finder.findByIdOrThrow(userRepository, buyerId,
-                "User not found with id: " + buyerId);
+        Bundle bundle = Finder.findByIdOrThrow(bundleRepository, bundleId, "Bundle not found");
 
-        validateBundlePurchase(bundle, request.getQuantity());
-
-        Purchase purchase = purchaseMapper.fromBundleRequest(request, buyerId, bundleId);
-        purchase.setUnitPrice(bundle.getPrice());
-        purchase.setTotalAmount(calculateTotalAmount(bundle.getPrice(), request.getQuantity(), bundle.getShippingCost()));
-        purchase.setCurrency(bundle.getCurrency());
-        purchase.setShippingCost(bundle.getShippingCost());
-        purchase.setEstimatedDeliveryDate(calculateEstimatedDeliveryDate(bundle.getEstimatedDeliveryDays()));
-
-        updateBundleQuantity(bundle, request.getQuantity());
-        
-        Purchase savedPurchase = purchaseRepository.save(purchase);
-        return purchaseMapper.toDto(savedPurchase);
+        return processPurchase(bundle, buyerId, request.getQuantity());
     }
 
     @Override
     @Transactional
-    public List<PurchaseDTO> getUserPurchases(Long buyerId) {
-        User buyer = Finder.findByIdOrThrow(userRepository, buyerId,
-                "User not found with id: " + buyerId);
-        
-        List<Purchase> purchases = purchaseRepository.findPurchasesByBuyerId(buyerId);
-        return purchases.stream()
-                .map(purchaseMapper::toDto)
-                .toList();
+    public Page<PurchaseDTO> getUserPurchases(Long buyerId, Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Purchase> purchases = purchaseRepository.findAll(paging);
+        return purchases.map(purchaseMapper::toDto);
     }
 
     @Override
@@ -104,58 +74,30 @@ public class PurchaseServiceImpl implements PurchaseService {
         return purchaseMapper.toDto(purchase);
     }
 
-    private void validateProductPurchase(Product product, int requestedQuantity) {
-        if (!product.isAvailableForSale()) {
-            throw new IllegalArgumentException("Product is not available for sale");
-        }
-        
-        if (product.getQuantity() < requestedQuantity) {
-            throw new IllegalArgumentException("Insufficient product quantity. Available: " + product.getQuantity() + ", Requested: " + requestedQuantity);
-        }
-    }
+    private <T extends Purchasable> PurchaseDTO processPurchase(T item, Long buyerId, int quantity) {
+        item.validatePurchase(quantity);
 
-    private void validateBundlePurchase(Bundle bundle, int requestedQuantity) {
-        if (!bundle.isAvailableForSale()) {
-            throw new IllegalArgumentException("Bundle is not available for sale");
-        }
-        
-        if (bundle.getQuantity() < requestedQuantity) {
-            throw new IllegalArgumentException("Insufficient bundle quantity. Available: " + bundle.getQuantity() + ", Requested: " + requestedQuantity);
-        }
-    }
+        User buyer = Finder.findByIdOrThrow(userRepository, buyerId,
+                "User not found with id: " + buyerId);
 
-    private double calculateTotalAmount(double unitPrice, int quantity, double shippingCost) {
-        return (unitPrice * quantity) + shippingCost;
-    }
+        Purchase purchase = new Purchase();
+        purchase.setName("Purchase#" + Instant.now().getEpochSecond());
+        purchase.setBuyer(buyer);
+        purchase.setQuantity(quantity);
+        purchase.setUnitPrice(item.getUnitPrice());
+        purchase.setTotalAmount(item.computeTotalPrice(quantity));
+        purchase.setCurrency(item.getCurrency());
+        purchase.setShippingCost(item.getShippingCost());
+        purchase.setEstimatedDeliveryDate(item.computeDeliveryDate());
 
-    private Date calculateEstimatedDeliveryDate(int estimatedDeliveryDays) {
-        if (estimatedDeliveryDays <= 0) {
-            return null;
+        switch (item) {
+            case Product product -> purchase.setProduct(product);
+            case Bundle bundle -> purchase.setBundle(bundle);
+            default -> throw new IllegalArgumentException("Unsupported purchasable type: " + item.getClass());
         }
-        
-        long deliveryTime = System.currentTimeMillis() + (estimatedDeliveryDays * 24L * 60 * 60 * 1000);
-        return new Date(deliveryTime);
-    }
 
-    private void updateProductQuantity(Product product, int purchasedQuantity) {
-        int newQuantity = product.getQuantity() - purchasedQuantity;
-        product.setQuantity(newQuantity);
-        
-        if (newQuantity == 0) {
-            product.setAvailableForSale(false);
-        }
-        
-        productRepository.save(product);
-    }
+        item.updateQuantity(quantity);
 
-    private void updateBundleQuantity(Bundle bundle, int purchasedQuantity) {
-        int newQuantity = bundle.getQuantity() - purchasedQuantity;
-        bundle.setQuantity(newQuantity);
-        
-        if (newQuantity == 0) {
-            bundle.setAvailableForSale(false);
-        }
-        
-        bundleRepository.save(bundle);
+        return purchaseMapper.toDto(purchaseRepository.save(purchase));
     }
 }

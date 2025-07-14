@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -47,7 +48,7 @@ public class Purchase extends BaseEntity {
 
     @Column(name = "purchase_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date purchaseDate;
+    private LocalDateTime purchaseDate;
 
     @Column(name = "purchase_status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -60,8 +61,8 @@ public class Purchase extends BaseEntity {
     private double shippingCost;
 
     @Column(name = "estimated_delivery_date")
-    @Temporal(TemporalType.DATE)
-    private Date estimatedDeliveryDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime estimatedDeliveryDate;
 
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
@@ -69,7 +70,7 @@ public class Purchase extends BaseEntity {
     @PrePersist
     protected void onCreate() {
         if (purchaseDate == null) {
-            purchaseDate = new Date();
+            purchaseDate = LocalDateTime.now();
         }
     }
 

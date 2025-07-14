@@ -12,6 +12,7 @@ import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -74,17 +75,15 @@ public class PurchaseController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<ApiResponse<List<PurchaseDTO>>> getUserPurchases(
+    public ResponseEntity<Page<PurchaseDTO>> getUserPurchases(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
-        List<PurchaseDTO> purchases = purchaseService.getUserPurchases(principal.getId());
-        
-        ApiResponse<List<PurchaseDTO>> apiResponse = responseFactory.createSuccessResponse(
-                Messages.Success.PURCHASES_RETRIEVED,
-                purchases
-        );
-        
-        return ResponseEntity.ok(apiResponse);
+        Page<PurchaseDTO> purchases = purchaseService.getUserPurchases(principal.getId(), pageNo, pageSize, sortBy);
+
+        return ResponseEntity.ok(purchases);
     }
 
     @GetMapping("/{purchaseId}")

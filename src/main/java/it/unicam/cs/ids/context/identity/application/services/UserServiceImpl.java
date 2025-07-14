@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final AuthService authService;
 
-
     @Override
     public UserDTO editUser(EditUserRequest request) {
         User authenticatedUser = authService.getAuthenticatedUser();

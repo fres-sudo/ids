@@ -6,7 +6,6 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleFilter;
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyFilter;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductFilter;
-import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.catalog.application.services.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

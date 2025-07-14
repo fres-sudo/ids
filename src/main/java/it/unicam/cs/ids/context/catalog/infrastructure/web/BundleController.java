@@ -9,7 +9,6 @@ import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateBundleRequest;
 import it.unicam.cs.ids.context.catalog.application.services.BundleService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,6 +51,5 @@ public class BundleController {
     @PreAuthorize("hasRole('DISTRIBUTOR')")
     ResponseEntity<ApiResponse<Void>> deleteBundle(@RequestParam("bundleId") Long bundleId) {
         return null;
-
     }
 }

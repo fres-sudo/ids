@@ -73,7 +73,7 @@ public final class Validator {
     /**
      * Validates the provided VAT number against a standard VAT format.
      * @param vat the VAT number to validate
-     * @return true if the VAT is valid, false otherwise
+     * @return the VAT number after validation
      * @throws IllegalArgumentException if the VAT is null, empty, or does not match the expected format
      * @throws java.util.regex.PatternSyntaxException if the regex pattern is invalid
      */

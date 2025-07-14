@@ -1,21 +1,16 @@
 package it.unicam.cs.ids.context.catalog.application.services;
 
 import it.unicam.cs.ids.context.catalog.application.mappers.ProductMapper;
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
 import it.unicam.cs.ids.context.certification.application.mappers.CertificateMapper;
-import it.unicam.cs.ids.context.certification.application.services.ApprovalRequestService;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
-import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.context.certification.domain.repositories.CertificateRepository;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.ApprovalRequestFactory;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.ProductApprovalRequestFactory;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.SubmitApprovalRequest;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.context.storage.application.services.StorageService;

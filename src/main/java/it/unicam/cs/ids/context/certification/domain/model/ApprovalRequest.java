@@ -1,19 +1,10 @@
 package it.unicam.cs.ids.context.certification.domain.model;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
-import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.shared.infrastructure.persistence.ApprovableEntity;
-import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Certificate represents a document issued for a product, which is a proof of authenticity or compliance to territorial regulations.

@@ -10,9 +10,7 @@ import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring",
         uses = {BundledProductMapper.class, CompanyMapper.class},

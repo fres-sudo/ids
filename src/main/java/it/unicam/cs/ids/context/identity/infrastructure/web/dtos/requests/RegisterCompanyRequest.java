@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests;
 
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

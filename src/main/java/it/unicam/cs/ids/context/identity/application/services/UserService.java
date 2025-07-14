@@ -17,8 +17,6 @@ public interface UserService {
 
     /**
      * Deletes a user based on the provided requests.
-     *
-     * @param request the requests containing the user ID to be deleted
      */
     void deleteUser();
 }

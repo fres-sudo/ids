@@ -2,7 +2,6 @@ package it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests;
 
 import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.shared.application.DTO;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;

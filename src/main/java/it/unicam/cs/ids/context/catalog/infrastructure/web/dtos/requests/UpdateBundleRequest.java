@@ -2,7 +2,6 @@ package it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ProductCategory;
 import it.unicam.cs.ids.shared.application.BaseRequest;
-import it.unicam.cs.ids.shared.application.DTO;
 import it.unicam.cs.ids.shared.infrastructure.persistence.Coordinates;
 import it.unicam.cs.ids.shared.kernel.enums.Currency;
 import lombok.AllArgsConstructor;

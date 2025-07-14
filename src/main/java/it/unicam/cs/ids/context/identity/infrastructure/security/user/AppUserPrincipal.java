@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security.user;
 
 
-import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
@@ -25,7 +24,6 @@ public class AppUserPrincipal implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean emailVerified;
     private final boolean isCompany;
-
 
     // Factory method for User
     public static AppUserPrincipal fromUser(@NonNull User user) {
@@ -59,15 +57,6 @@ public class AppUserPrincipal implements UserDetails {
     public String getUsername() {
         return email;
     }
-
-    @Override
-    public boolean isAccountNonExpired() { return true; }
-
-    @Override
-    public boolean isAccountNonLocked() { return true; }
-
-    @Override
-    public boolean isCredentialsNonExpired() { return true; }
 
     @Override
     public boolean isEnabled() {

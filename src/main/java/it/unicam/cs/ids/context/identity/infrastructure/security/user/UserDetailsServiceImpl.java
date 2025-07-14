@@ -3,7 +3,6 @@ package it.unicam.cs.ids.context.identity.infrastructure.security.user;
 
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

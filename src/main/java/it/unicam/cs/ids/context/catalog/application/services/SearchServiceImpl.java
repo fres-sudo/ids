@@ -11,7 +11,6 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductFilter;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.catalog.domain.model.Product;
-import it.unicam.cs.ids.shared.kernel.enums.SortDirection;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import it.unicam.cs.ids.context.catalog.application.mappers.ProductMapper;
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;

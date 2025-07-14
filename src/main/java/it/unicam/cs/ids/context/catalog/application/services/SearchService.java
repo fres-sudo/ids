@@ -6,7 +6,6 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleFilter;
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyFilter;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductFilter;
-import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import org.springframework.data.domain.Page;
 
 public interface SearchService {

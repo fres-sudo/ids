@@ -38,13 +38,11 @@ public class AuthController {
      * @return a response entity containing the authentication response
      */
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody LoginRequest loginRequest) {
+    public ApiResponse<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         AuthResponse authResponse = authService.login(loginRequest);
-        ApiResponse<AuthResponse> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.USER_LOGGED_IN, authResponse
         );
-
-        return ResponseEntity.ok(response);
     }
 
     /**
@@ -56,12 +54,11 @@ public class AuthController {
      * @return a response entity indicating success
      */
     @PostMapping("/register/user")
-    public ResponseEntity<ApiResponse<?>> registerUser(@RequestBody RegisterUserRequest request) {
+    public ApiResponse<?> registerUser(@RequestBody RegisterUserRequest request) {
         authService.registerUser(request);
-        ApiResponse<?> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.USER_REGISTERED,null
         );
-        return ResponseEntity.ok(response);
     }
 
     /**
@@ -73,12 +70,11 @@ public class AuthController {
      * @return a response entity indicating success
      */
     @PostMapping("register/certifier")
-    public ResponseEntity<ApiResponse<?>> registerCertifier(@RequestBody RegisterUserRequest request) {
+    public ApiResponse<?> registerCertifier(@RequestBody RegisterUserRequest request) {
         authService.registerCertifier(request);
-        ApiResponse<?> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFIER_REGISTERED,null
         );
-        return ResponseEntity.ok(response);
     }
 
     /**
@@ -90,12 +86,11 @@ public class AuthController {
      * @return a response entity indicating success
      */
     @PostMapping("/register/admin")
-    public ResponseEntity<ApiResponse<?>> registerAdmin(@RequestBody RegisterAdminRequest request) {
+    public ApiResponse<?> registerAdmin(@RequestBody RegisterAdminRequest request) {
         authService.registerAdmin(request);
-        ApiResponse<?> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.ADMIN_REGISTERED,null
         );
-        return ResponseEntity.ok(response);
     }
 
     /**

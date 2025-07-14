@@ -11,5 +11,4 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateB
 public interface BundleService {
     BundleDTO createBundle(CreateBundleRequest request);
     BundleDTO updateBundle(UpdateBundleRequest request);
-    void deleteBundle(Long bundleId, Long id);
 }

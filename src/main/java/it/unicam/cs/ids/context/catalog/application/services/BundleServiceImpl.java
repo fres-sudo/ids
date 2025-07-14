@@ -59,8 +59,4 @@ public class BundleServiceImpl implements BundleService {
         approvalRequestFactory.submit(response.getId(), response.getDistributor().getId());
         return bundleMapper.toDto(response);
     }
-
-    @Override
-    public void deleteBundle(Long bundleId, @NotNull Long id) {
-    }
 }

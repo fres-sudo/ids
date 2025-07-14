@@ -34,7 +34,7 @@ public class ProductController {
 
     @PostMapping
     @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
-    public ResponseEntity<ApiResponse<ProductDTO>> createProduct(
+    public ApiResponse<ProductDTO> createProduct(
             @RequestBody CreateProductRequest request,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
@@ -48,35 +48,31 @@ public class ProductController {
             case TRANSFORMER -> request.setTransformerId(List.of(companyId));
         }
 
-        ApiResponse<ProductDTO> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.PRODUCT_CREATED,
                 productService.createProduct(request)
         );
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
     @PatchMapping("/{productId}")
-    ResponseEntity<ApiResponse<ProductDTO>> updateProduct(
+    ApiResponse<ProductDTO> updateProduct(
             @PathVariable Long productId,
             @RequestBody UpdateProductRequest request
     ) {
-        ApiResponse<ProductDTO> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.PRODUCT_CREATED,
                 productService.updateProduct(productId, request)
         );
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping(path = "/certificate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @PreAuthorize("hasRole('PRODUCER') || hasRole('DISTRIBUTOR') || hasRole('TRANSFORMER')")
-    ResponseEntity<ApiResponse<ProductDTO>> createCertificate(@RequestPart CreateCertificateRequest request, @RequestPart MultipartFile file) {
+    ApiResponse<ProductDTO> createCertificate(@RequestPart CreateCertificateRequest request, @RequestPart MultipartFile file) {
         request.setCertificateFile(file);
-        ApiResponse<ProductDTO> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFICATE_CREATED,
                 productService.createCertificate(request)
         );
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

@@ -8,8 +8,6 @@ import it.unicam.cs.ids.context.identity.application.services.UserService;
 import it.unicam.cs.ids.shared.application.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,12 +25,11 @@ public class UserController {
      * @return a response entity containing the updated user information
      */
     @PatchMapping()
-    ResponseEntity<ApiResponse<UserDTO>> editUser(@RequestBody EditUserRequest request) {
+    ApiResponse<UserDTO> editUser(@RequestBody EditUserRequest request) {
         UserDTO dto =  userService.editUser(request);
-        ApiResponse<UserDTO> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.USER_UPDATED, dto
         );
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -40,11 +37,10 @@ public class UserController {
      * @return a response entity indicating the success of the deletion
      */
     @DeleteMapping()
-    ResponseEntity<ApiResponse<Void>> deleteUser() {
+    ApiResponse<Void> deleteUser() {
         userService.deleteUser();
-        ApiResponse<Void> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.USER_DELETED, null
         );
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

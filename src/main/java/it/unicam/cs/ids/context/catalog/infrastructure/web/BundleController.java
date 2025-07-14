@@ -27,29 +27,21 @@ public class BundleController {
 
     @PostMapping
     @PreAuthorize("hasRole('DISTRIBUTOR')")
-    ResponseEntity<ApiResponse<BundleDTO>> createBundle(@RequestBody CreateBundleRequest request) {
+    ApiResponse<BundleDTO> createBundle(@RequestBody CreateBundleRequest request) {
         Company authedCompany = authService.getAuthenticatedCompany();
         request.setDistributorId(authedCompany.getId());
-        ApiResponse<BundleDTO> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_CREATED,
                 bundleService.createBundle(request)
         );
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PatchMapping()
     @PreAuthorize("hasRole('DISTRIBUTOR')")
-    ResponseEntity<ApiResponse<BundleDTO>> updateBundle(@RequestBody UpdateBundleRequest request) {
-        ApiResponse<BundleDTO> response = responseFactory.createSuccessResponse(
+    ApiResponse<BundleDTO> updateBundle(@RequestBody UpdateBundleRequest request) {
+        return responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_UPDATED,
                 bundleService.updateBundle(request)
         );
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @DeleteMapping()
-    @PreAuthorize("hasRole('DISTRIBUTOR')")
-    ResponseEntity<ApiResponse<Void>> deleteBundle(@RequestParam("bundleId") Long bundleId) {
-        return null;
     }
 }

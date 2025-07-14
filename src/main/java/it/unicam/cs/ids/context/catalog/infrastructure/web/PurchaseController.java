@@ -27,7 +27,7 @@ public class PurchaseController {
     private final ApiResponseFactory responseFactory;
 
     @PostMapping("/product/{productId}")
-    public ResponseEntity<ApiResponse<PurchaseProductResponse>> purchaseProduct(
+    public ApiResponse<PurchaseProductResponse> purchaseProduct(
             @RequestBody PurchaseProductRequest request,
             @PathVariable Long productId,
             @AuthenticationPrincipal AppUserPrincipal principal
@@ -41,16 +41,14 @@ public class PurchaseController {
                 .success(true)
                 .build();
         
-        ApiResponse<PurchaseProductResponse> apiResponse = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.PURCHASE_COMPLETED,
                 response
         );
-        
-        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/bundle/{bundleId}")
-    public ResponseEntity<ApiResponse<PurchaseBundleResponse>> purchaseBundle(
+    public ApiResponse<PurchaseBundleResponse> purchaseBundle(
             @RequestBody PurchaseBundleRequest request,
             @PathVariable Long bundleId,
             @AuthenticationPrincipal AppUserPrincipal principal
@@ -64,38 +62,32 @@ public class PurchaseController {
                 .success(true)
                 .build();
         
-        ApiResponse<PurchaseBundleResponse> apiResponse = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.PURCHASE_COMPLETED,
                 response
         );
-        
-        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Page<PurchaseDTO>> getUserPurchases(
+    public Page<PurchaseDTO> getUserPurchases(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
-        Page<PurchaseDTO> purchases = purchaseService.getUserPurchases(principal.getId(), pageNo, pageSize, sortBy);
-
-        return ResponseEntity.ok(purchases);
+       return purchaseService.getUserPurchases(principal.getId(), pageNo, pageSize, sortBy);
     }
 
     @GetMapping("/{purchaseId}")
-    public ResponseEntity<ApiResponse<PurchaseDTO>> getPurchase(
+    public ApiResponse<PurchaseDTO> getPurchase(
             @PathVariable Long purchaseId,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
         PurchaseDTO purchase = purchaseService.getPurchaseById(purchaseId);
         
-        ApiResponse<PurchaseDTO> apiResponse = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.PURCHASE_RETRIEVED,
                 purchase
         );
-        
-        return ResponseEntity.ok(apiResponse);
     }
 }

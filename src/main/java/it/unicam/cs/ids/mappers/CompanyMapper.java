@@ -8,6 +8,7 @@ import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.shared.application.Validator;
 import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,10 @@ import java.util.List;
 @Component
 public abstract class CompanyMapper {
     /** Repository for accessing Company entities */
+    @Autowired
     protected CompanyRepository companyRepository;
     /** Password encoder for hashing passwords */
+    @Autowired
     protected PasswordEncoder passwordEncoder;
 
     /** Constructor for dependency injection */

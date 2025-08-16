@@ -6,6 +6,7 @@ import it.unicam.cs.ids.web.requests.company.CreateProductRequest;
 import it.unicam.cs.ids.web.requests.company.UpdateProductRequest;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class ProductMapper {
     /** Repository for accessing company data. */
+    @Autowired
     protected CompanyRepository companyRepository;
 
     /**

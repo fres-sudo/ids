@@ -5,6 +5,7 @@ import it.unicam.cs.ids.web.requests.company.CreateBundleRequest;
 import it.unicam.cs.ids.models.Bundle;
 import it.unicam.cs.ids.web.requests.company.UpdateBundleRequest;
 import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class BundleMapper {
     /** Mapper for converting bundled products within a bundle. */
+    @Autowired
     protected BundledProductMapper bundledProductMapper;
     /** Mapper for converting company-related information. */
     public abstract BundleDTO toDto(Bundle bundle);

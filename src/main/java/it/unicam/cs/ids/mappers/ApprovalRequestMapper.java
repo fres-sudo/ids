@@ -23,8 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public abstract class ApprovalRequestMapper {
     /** Repository for accessing product data. */
+    @Autowired
     protected ProductRepository productRepository;
     /** Repository for accessing bundle data. */
+    @Autowired
     protected BundleRepository bundleRepository;
 
 

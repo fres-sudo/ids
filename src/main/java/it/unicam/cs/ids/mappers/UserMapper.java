@@ -7,7 +7,10 @@ import it.unicam.cs.ids.web.requests.user.EditUserRequest;
 import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.repositories.UserRepository;
 import it.unicam.cs.ids.shared.application.Validator;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -24,9 +27,13 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class UserMapper {
     /** Repository for accessing User entities */
+    @Autowired
     protected UserRepository userRepository;
     /** Password encoder for hashing passwords */
+    @Autowired
     protected PasswordEncoder passwordEncoder;
+
+
     /**
      * Converts a {@link User} entity to a {@link UserDTO}.
      * This method maps the fields of the User entity to the corresponding fields in the DTO.

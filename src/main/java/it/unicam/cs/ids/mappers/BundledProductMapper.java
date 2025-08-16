@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class BundledProductMapper {
     /** Repository for accessing product data. */
+    @Autowired
     protected ProductRepository productRepository; // Inject the repository
 
     /**

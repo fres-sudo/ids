@@ -16,13 +16,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the AdminService interface that handles certifier requests.
+ */
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class AdminServiceImpl implements AdminService {
+    /** Repository for accessing user data */
     private final UserRepository userRepository;
+    /** Repository for accessing certifier requests */
     private final CertifierRequestRepository certifierRequestRepository;
+    /** Mapper for converting CertifierRequest to CertifierRequestDTO */
     private final CertifierMapper certifierMapper;
-
 
     @Override
     public CertifierRequestDTO approve(Long requestId, String comments) {

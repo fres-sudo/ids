@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.controller;
 
 import it.unicam.cs.ids.dto.BundleDTO;
+import it.unicam.cs.ids.shared.kernel.enums.CompanyRoles;
 import it.unicam.cs.ids.web.requests.company.UpdateBundleRequest;
 import it.unicam.cs.ids.model.Company;
 import it.unicam.cs.ids.services.AuthService;
@@ -16,19 +17,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for managing bundles.
+ * Provides endpoints for creating, updating, and deleting bundles.
+ * Requires the user to have the {@link CompanyRoles#DISTRIBUTOR} role to access these endpoints.
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("bundles")
 public class BundleController {
-
+    /** Service for handling bundle-related operations */
     private final BundleService bundleService;
+    /** Service for handling authentication and authorization */
     private final AuthService authService;
+    /** Factory for creating API responses */
     private final ApiResponseFactory responseFactory;
 
     @PostMapping
     @PreAuthorize("hasRole('DISTRIBUTOR')")
     ApiResponse<BundleDTO> createBundle(@RequestBody CreateBundleRequest request) {
-        System.out.println("Creating bundle with request: " + request);
         Company authedCompany = authService.getAuthenticatedCompany();
         request.setDistributorId(authedCompany.getId());
         return responseFactory.createSuccessResponse(
@@ -54,6 +61,5 @@ public class BundleController {
                 Messages.Success.BUNDLE_DELETED, null
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
-
     }
 }

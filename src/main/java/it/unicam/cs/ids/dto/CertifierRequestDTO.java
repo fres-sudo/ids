@@ -7,6 +7,10 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Represents a request for certification of a user.
+ * This DTO is used to transfer certifier request data between layers.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CertifierRequestDTO extends DTO implements Serializable {

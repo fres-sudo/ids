@@ -12,6 +12,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * ProductDTO is used to represent a product in the system.
+ * It contains various attributes related to the product, including its category, status, pricing, and more.
+ * This DTO is used for transferring product data between layers.
+ */
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class ProductDTO extends DTO implements Serializable {

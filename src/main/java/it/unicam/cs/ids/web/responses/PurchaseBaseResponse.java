@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Represents a base response for purchase-related operations.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

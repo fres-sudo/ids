@@ -11,6 +11,10 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * BundledProduct represents a product that is part of a bundle.
+ * It contains the product details and the quantity of that product in the bundle.
+ */
 @Entity
 @Table(name = "bundled_products", schema = "ids_schema")
 @Data

@@ -7,10 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Factory for creating and submitting approval requests for bundles.
+ * This class is responsible for encapsulating the logic to create a
+ * {@link SubmitApprovalRequest} for a bundle and submit it for approval.
+ */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleApprovalRequestFactory implements ApprovalRequestFactory {
-
+    /** Service to handle approval requests */
     private final ApprovalRequestService approvalRequestService;
 
     @Override

@@ -13,8 +13,6 @@ import it.unicam.cs.ids.web.requests.LoginRequest;
 import it.unicam.cs.ids.web.requests.company.RegisterCompanyRequest;
 import it.unicam.cs.ids.web.requests.user.RegisterUserRequest;
 
-
-
 /**
  * Interface defining operations for user authentication and registration.
  */
@@ -27,7 +25,6 @@ public interface AuthService {
      * @throws AuthenticationException if authentication fails due to invalid credentials
      */
     AuthResponse login(LoginRequest loginRequest);
-
     /**
      * Registers a new user with the provided details.
      *

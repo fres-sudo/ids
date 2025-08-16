@@ -4,6 +4,9 @@ import jakarta.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AbstractSpecification is a base class for building JPA specifications.
+ */
 public abstract class AbstractSpecification {
     /**
      * Builds a predicate for the search fields.
@@ -21,7 +24,7 @@ public abstract class AbstractSpecification {
         List<Predicate> predicates = new ArrayList<>();
         for (String field : fields)
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get(field)),searchTerm));
-        
+
         return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
     }
 

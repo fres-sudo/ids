@@ -33,13 +33,17 @@ import java.time.Instant;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
-
+    /** Constant for milliseconds in a day */
     private static final long MILLISECONDS_PER_DAY = 24L * 60 * 60 * 1000;
-
+    /** Repository for accessing purchase data */
     private final PurchaseRepository purchaseRepository;
+    /** Repository for accessing product data */
     private final ProductRepository productRepository;
+    /** Repository for accessing bundle data */
     private final BundleRepository bundleRepository;
+    /** Repository for accessing user data */
     private final UserRepository userRepository;
+    /** Mapper for converting Purchase to PurchaseDTO */
     private final PurchaseMapper purchaseMapper;
 
     @Override
@@ -75,6 +79,15 @@ public class PurchaseServiceImpl implements PurchaseService {
         return purchaseMapper.toDto(purchase);
     }
 
+    /**
+     * Processes a purchase for a given item (product or bundle).
+     * Validates the purchase, creates a Purchase entity, and saves it to the repository.
+     *
+     * @param item    The purchasable item (Product or Bundle).
+     * @param buyerId The ID of the user making the purchase.
+     * @param quantity The quantity of the item being purchased.
+     * @return The PurchaseDTO representing the completed purchase.
+     */
     private <T extends Purchasable> PurchaseDTO processPurchase(T item, Long buyerId, int quantity) {
         item.validatePurchase(quantity);
 

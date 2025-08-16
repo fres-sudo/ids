@@ -5,6 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+
+/**
+ * Represents a response to purchasing a product.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

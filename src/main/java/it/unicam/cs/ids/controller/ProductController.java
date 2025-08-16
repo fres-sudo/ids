@@ -2,6 +2,7 @@ package it.unicam.cs.ids.controller;
 
 import it.unicam.cs.ids.services.ProductService;
 import it.unicam.cs.ids.dto.ProductDTO;
+import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import it.unicam.cs.ids.web.requests.company.CreateProductRequest;
 import it.unicam.cs.ids.web.requests.company.UpdateProductRequest;
 import it.unicam.cs.ids.web.requests.company.CreateCertificateRequest;
@@ -21,14 +22,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for managing products.
+ * Provides endpoints for creating, updating, and certifying products.
+ * Requires the user to have the {@link PlatformRoles#COMPANY role to access these endpoints.
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("products")
 public class ProductController {
-
+    /** Service for handling product-related operations */
     private final ProductService productService;
-    private final ApiResponseFactory responseFactory;
+    /** Service for handling authentication and authorization */
     private final AuthService authService;
+    /** Factory for creating API responses */
+    private final ApiResponseFactory responseFactory;
 
     @PostMapping
     @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")

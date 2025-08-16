@@ -10,6 +10,9 @@ import it.unicam.cs.ids.shared.infrastructure.api.filters.CompanyFilter;
 import it.unicam.cs.ids.model.Company;
 import jakarta.persistence.criteria.Predicate;
 
+/**
+ * Specification for filtering companies based on various criteria.
+ */
 public final class CompanySpecification extends AbstractSpecification {
     public static Specification<Company> withFilter(CompanyFilter filter) {
         return (root, query, criteriaBuilder) -> {

@@ -5,6 +5,10 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * CompanyFilter is a filter class used to specify search criteria for companies.
+ * It includes the company role and a search term.
+ */
 @Data
 @Builder
 @NoArgsConstructor

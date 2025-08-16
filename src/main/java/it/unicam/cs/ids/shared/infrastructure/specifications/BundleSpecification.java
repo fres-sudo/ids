@@ -12,6 +12,9 @@ import org.springframework.data.jpa.domain.Specification;
 import it.unicam.cs.ids.shared.infrastructure.api.filters.BundleFilter;
 import it.unicam.cs.ids.model.Bundle;
 
+/**
+ * Specification for filtering bundles based on various criteria.
+ */
 public final class BundleSpecification extends AbstractSpecification {
     public static Specification<Bundle> withFilter(BundleFilter filter) {
         return (root, query, criteriaBuilder) -> {

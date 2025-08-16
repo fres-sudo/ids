@@ -7,11 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Factory for creating and submitting approval requests for products.
+ *
+ */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProductApprovalRequestFactory implements ApprovalRequestFactory {
-
+    /** Service to handle approval requests */
     private final ApprovalRequestService approvalRequestService;
 
     @Override

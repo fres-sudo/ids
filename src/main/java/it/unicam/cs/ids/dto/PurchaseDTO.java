@@ -8,6 +8,10 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * PurchaseDTO is used to represent a purchase made by a user.
+ * It contains details about the buyer, product, bundle, quantity, pricing, and delivery information.
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PurchaseDTO extends DTO implements Serializable {

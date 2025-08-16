@@ -18,14 +18,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/** Controller for searching products, bundles, and companies in the catalog.
+ * Provides endpoints to search based on various filters such as categories, availability, price range, etc.
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/search")
 public class SearchController {
-
+    /** Service for searching in the catalog */
     private final SearchService searchService;
 
+    /** Searches for products based on various filters. */
     @GetMapping(path = "/products")
     Page<ProductDTO> searchProducts(
             @PageableDefault() Pageable pageable,
@@ -50,6 +53,7 @@ public class SearchController {
         return searchService.searchProducts(filter, pageable);
     }
 
+    /** Searches for bundles based on various filters. */
     @GetMapping(path = "/bundles")
     Page<BundleDTO> searchBundles(
             @PageableDefault() Pageable pageable,
@@ -73,6 +77,7 @@ public class SearchController {
         return searchService.searchBundles(filter, pageable);
     }
 
+    /** Searches for companies based on their roles and other criteria. */
     @GetMapping(path = "/companies")
     Page<CompanyDTO> searchCompanies(
             @PageableDefault() Pageable pageable,

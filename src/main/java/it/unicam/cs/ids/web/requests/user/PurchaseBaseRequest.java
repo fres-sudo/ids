@@ -6,6 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Represents a base request for purchase-related operations.
+ * This class contains common fields that are required for making a purchase.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

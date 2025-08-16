@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * UpdateProductRequest is used to update an existing product.
+ * It extends BaseProductRequest to inherit common product attributes.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor

@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Represents a request to purchase a bundle of items.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

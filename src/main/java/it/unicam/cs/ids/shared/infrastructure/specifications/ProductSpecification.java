@@ -9,6 +9,9 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Specification for filtering products based on various criteria.
+ */
 public final class ProductSpecification extends AbstractSpecification {
 
     public static Specification<Product> withFilter(ProductFilter filter) {

@@ -21,14 +21,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementation of the {@link ApprovalRequestService} interface that handles approval requests for products and bundles.
+ */
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 @Transactional
 public class ApprovalRequestServiceImpl implements ApprovalRequestService {
-
+    /** Repository for accessing approval requests */
     final ApprovalRequestRepository approvalRequestRepository;
+    /** Repository for accessing products */
     final ProductRepository productRepository;
+    /** Repository for accessing bundles */
     final BundleRepository bundleRepository;
+    /** Mapper for converting ApprovalRequest to ApprovalRequestDTO */
     final ApprovalRequestMapper approvalRequestMapper;
 
     @Override

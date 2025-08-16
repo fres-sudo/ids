@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-
 /**
  * Represents a requests to register a new user.
  * This class contains the necessary information for creating a user account.

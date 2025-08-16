@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 
+/**
+ * Mapper for converting {@link RegisterCompanyRequest} and {@link EditCompanyRequest} to {@link Company} entity.
+ */
 @Mapper(
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
@@ -23,11 +26,12 @@ import java.util.List;
 )
 @Component
 public abstract class CompanyMapper {
-    @Autowired  //todo: remove this and use constructor injection
+    /** Repository for accessing Company entities */
     protected CompanyRepository companyRepository;
-    @Autowired
+    /** Password encoder for hashing passwords */
     protected PasswordEncoder passwordEncoder;
 
+    /** Constructor for dependency injection */
     public abstract CompanyDTO toDto(Company company);
 
 

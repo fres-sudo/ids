@@ -7,6 +7,10 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * FilterParam is a filter class used to specify search criteria for products.
+ * It includes fields for searching by name, tags, availability, price range, and product categories
+ */
 @Data
 @NoArgsConstructor @AllArgsConstructor
 @SuperBuilder

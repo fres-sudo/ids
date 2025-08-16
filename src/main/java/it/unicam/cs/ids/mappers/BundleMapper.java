@@ -8,16 +8,27 @@ import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper for converting between {@link Bundle} and {@link BundleDTO} objects.
+ */
 @Mapper(componentModel = "spring",
         uses = {BundledProductMapper.class, CompanyMapper.class},
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 @Component
 public abstract class BundleMapper {
-    @Autowired
+    /** Mapper for converting bundled products within a bundle. */
     protected BundledProductMapper bundledProductMapper;
-
+    /** Mapper for converting company-related information. */
     public abstract BundleDTO toDto(Bundle bundle);
 
+    /**
+     * Converts a {@link CreateBundleRequest} to a {@link Bundle} entity.
+     * The method maps the request fields to the corresponding Bundle fields,
+     * setting the status to PENDING and ignoring certain fields.
+     *
+     * @param dto the request containing bundle creation details
+     * @return a new Bundle instance populated with the request data
+     */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -27,6 +38,15 @@ public abstract class BundleMapper {
     @Mapping(target = "estimatedDeliveryDays", source = "estimatedDeliveryTime")
     public abstract Bundle fromRequest(CreateBundleRequest dto);
 
+    /**
+     * Updates an existing {@link Bundle} entity with the data from an {@link UpdateBundleRequest}.
+     * The method maps the request fields to the corresponding Bundle fields,
+     * updating the existing entity in place.
+     *
+     * @param existing the existing Bundle entity to be updated
+     * @param request  the request containing updated bundle details
+     * @return the updated Bundle entity
+     */
     @Mapping(target = "id", source = "id")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "category", source = "category")

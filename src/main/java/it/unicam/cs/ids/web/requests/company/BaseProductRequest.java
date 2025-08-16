@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * BaseProductRequest is an abstract class that serves as a base for product-related requests.
+ * It contains common fields that are applicable to all product requests.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor

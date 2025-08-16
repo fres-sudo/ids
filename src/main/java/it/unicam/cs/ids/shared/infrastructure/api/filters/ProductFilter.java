@@ -6,6 +6,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+/**
+ * ProductFilter is a filter class used to specify search criteria for products.
+ * It includes fields for product categories and producer ID.
+ */
 @Data @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor @AllArgsConstructor
 @SuperBuilder

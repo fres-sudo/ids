@@ -13,6 +13,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * ApprovableEntity is a base class for entities that require approval.
+ * It includes fields for approval status, timestamps for submission and processing,
+ * and optional comments.
+ */
 @MappedSuperclass
 @Data
 @AllArgsConstructor

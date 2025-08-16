@@ -27,15 +27,23 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementation of {@link SearchService} that provides methods for searching products, bundles, and companies.
+ */
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class SearchServiceImpl implements SearchService {
-
+    /** Repository for accessing products */
     private final ProductRepository productRepository;
+    /** Repository for accessing bundles */
     private final BundleRepository bundleRepository;
+    /** Repository for accessing companies */
     private final CompanyRepository companyRepository;
+    /** Mappers for converting between entities and DTOs */
     private final ProductMapper productMapper;
+    /** Mapper for converting between Company entities and DTOs */
     private final CompanyMapper companyMapper;
+    /** Mapper for converting between Bundle entities and DTOs */
     private final BundleMapper bundleMapper;
 
     @Override

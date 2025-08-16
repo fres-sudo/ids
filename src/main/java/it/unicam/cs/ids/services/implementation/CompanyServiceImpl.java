@@ -12,14 +12,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of {@link CompanyService} that provides methods for editing and deleting a company.
+ */
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CompanyServiceImpl implements CompanyService {
-
+    /** Mapper for converting between Company entities and DTOs */
     private final CompanyMapper companyMapper;
+    /** Repository for accessing company data */
     private final CompanyRepository companyRepository;
+    /** Service for handling authentication and authorization */
     private final AuthService authService;
-
 
     @Override
     public CompanyDTO editCompany(EditCompanyRequest request) {
@@ -33,5 +37,4 @@ public class CompanyServiceImpl implements CompanyService {
         Company authenticatedCompany = authService.getAuthenticatedCompany();
         companyRepository.deleteById(authenticatedCompany.getId());
     }
-
 }

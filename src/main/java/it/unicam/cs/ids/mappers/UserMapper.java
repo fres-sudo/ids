@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Mapper for converting {@link RegisterUserRequest} and {@link EditUserRequest} to {@link User} entity.
+ * This class provides methods to map user-related requests to the User entity and vice versa.
+ */
 @Mapper(
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
@@ -21,14 +24,27 @@ import org.springframework.stereotype.Component;
 )
 @Component
 public abstract class UserMapper {
-
-    @Autowired
+    /** Repository for accessing User entities */
     protected UserRepository userRepository;
-    @Autowired
+    /** Password encoder for hashing passwords */
     protected PasswordEncoder passwordEncoder;
-
+    /**
+     * Converts a {@link User} entity to a {@link UserDTO}.
+     * This method maps the fields of the User entity to the corresponding fields in the DTO.
+     *
+     * @param company the User entity to be converted
+     * @return a new UserDTO instance with the details from the User entity
+     */
     public abstract UserDTO toDto(User company);
 
+    /**
+     * Converts a {@link RegisterUserRequest} to a {@link User} entity.
+     * This method maps all the request fields to the User entity, ignoring certain fields that are not applicable during the creation phase,
+     * such as ID, createdAt, updatedAt, and deletedAt.
+     *
+     * @param request the RegisterUserRequest containing user details
+     * @return a new User instance populated with values from the request
+     */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -40,6 +56,14 @@ public abstract class UserMapper {
     @Mapping(target = "role", expression = "java(it.unicam.cs.ids.shared.kernel.enums.PlatformRoles.BUYER)")
     public abstract User fromRequest(RegisterUserRequest request);
 
+    /**
+     * Updates an existing {@link User} entity with the data from an {@link EditUserRequest}.
+     * The method maps the request fields to the corresponding User fields, updating the existing entity in place.
+     *
+     * @param authenticatedUser the existing User entity to be updated
+     * @param request the EditUserRequest containing updated user details
+     * @return the updated User entity
+     */
     @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
     @Mapping(target = "name", source = "name", qualifiedByName = "validateString")
     @Mapping(target = "surname", source = "surname", qualifiedByName = "validateString")

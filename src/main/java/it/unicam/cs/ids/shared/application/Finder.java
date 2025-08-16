@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Provides a method to find an entity by its ID and throw an exception if not found.
  */
 public final class Finder {
-
+    // Private constructor to prevent instantiation
     private Finder() {}
 
     /**

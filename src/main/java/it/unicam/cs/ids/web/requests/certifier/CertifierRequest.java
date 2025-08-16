@@ -7,6 +7,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * CertifierRequest represents a request made by a user to become a certifier.
+ * It extends the ApprovableEntity to include approval status and timestamps.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "certifier_requests", schema = "ids_schema")

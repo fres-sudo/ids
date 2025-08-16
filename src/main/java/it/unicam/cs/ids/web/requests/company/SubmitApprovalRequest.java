@@ -8,6 +8,9 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
+/**
+ * SubmitApprovalRequest is used to submit an approval request for a specific entity.
+ */
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data

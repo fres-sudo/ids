@@ -22,8 +22,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("admin/requests")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AdminController implements ApprovableOperations<CertifierRequestDTO> {
-
+    /** Service for handling administrative operations related to certifier requests. */
     private final AdminService adminService;
+    /** Factory for creating API responses. */
     private final ApiResponseFactory responseFactory;
 
     @PreAuthorize("hasRole('ADMIN')")

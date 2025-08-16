@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * UpdateBundleRequest is used to update an existing bundle of products.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor

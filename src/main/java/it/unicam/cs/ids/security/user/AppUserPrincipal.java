@@ -28,7 +28,7 @@ public class AppUserPrincipal implements UserDetails {
     // Factory method for User
     public static AppUserPrincipal fromUser(@NonNull User user) {
         PlatformRoles role = user.getRole();
-        String authority = role.getRole();
+        String authority = "ROLE_" + role.getRole();
         return new AppUserPrincipal(
                 user.getId(),
                 user.getEmail(),
@@ -42,12 +42,13 @@ public class AppUserPrincipal implements UserDetails {
 
     // Factory method for Company
     public static AppUserPrincipal fromCompany(@NonNull Company company) {
+        String authority = "ROLE_" + company.getRole().toString();
         return new AppUserPrincipal(
                 company.getId(),
                 company.getEmail(),
                 company.getHashedPassword(),
                 company.getVat(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + company.getRole().toString())),
+                Collections.singletonList(new SimpleGrantedAuthority(authority)),
                 company.isEmailVerified(),
                 true
         );

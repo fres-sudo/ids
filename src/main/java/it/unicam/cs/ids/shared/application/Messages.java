@@ -19,7 +19,8 @@ public final class Messages {
         String USER_UPDATED = "User updated successfully";
         String USER_DELETED = "User deleted successfully";
 
-        String CERTIFIER_REGISTERED = "Certifier registered successfully, please wait for approval";
+        String CERTIFIER_REGISTERED = "Certifier registered successfully, you can now login as regular user, " +
+                "for certifier access, please wait for approval";
         String CERTIFIER_RETRIEVED = "Certifier retrieved successfully";
         String CERTIFIER_UPDATED = "Certifier updated successfully";
         String CERTIFIER_DELETED = "Certifier deleted successfully";
@@ -43,7 +44,8 @@ public final class Messages {
         String PURCHASE_RETRIEVED = "Purchase retrieved successfully";
         String PURCHASES_RETRIEVED = "Purchases retrieved successfully";
 
-        String COMPANY_REGISTERED = "Company registered successfully, please wait for approval";
+        // TODO: see if creating a company needs approval
+        String COMPANY_REGISTERED = "Company registered successfully";
         String COMPANY_RETRIEVED = "Company retrieved successfully";
         String COMPANY_UPDATED = "Company updated successfully";
         String COMPANY_DELETED = "Company deleted successfully";

@@ -33,7 +33,6 @@ public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
-
     /**
      * Converts a {@link User} entity to a {@link UserDTO}.
      * This method maps the fields of the User entity to the corresponding fields in the DTO.

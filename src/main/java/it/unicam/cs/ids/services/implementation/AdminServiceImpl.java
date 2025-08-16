@@ -1,0 +1,68 @@
+package it.unicam.cs.ids.services.implementation;
+
+import it.unicam.cs.ids.services.AdminService;
+import it.unicam.cs.ids.shared.kernel.enums.ApprovalStatus;
+import it.unicam.cs.ids.mappers.CertifierMapper;
+import it.unicam.cs.ids.repositories.CertifierRequestRepository;
+import it.unicam.cs.ids.dto.CertifierRequestDTO;
+import it.unicam.cs.ids.web.requests.certifier.CertifierRequest;
+import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
+import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class AdminServiceImpl implements AdminService {
+    private final UserRepository userRepository;
+    private final CertifierRequestRepository certifierRequestRepository;
+    private final CertifierMapper certifierMapper;
+
+
+    @Override
+    public CertifierRequestDTO approve(Long requestId, String comments) {
+        return processApprovalRequest(requestId, ApprovalStatus.APPROVED, comments);
+    }
+
+    @Override
+    public CertifierRequestDTO reject(Long requestId, String comments) {
+        return processApprovalRequest(requestId, ApprovalStatus.REJECTED, comments);
+    }
+
+    @Override
+    public Page<CertifierRequestDTO> findPendingRequests(Pageable pageable) {
+        Page<CertifierRequest> requests = certifierRequestRepository.findAll(pageable);
+        return requests.map(certifierMapper::toDto);
+    }
+
+    private CertifierRequestDTO processApprovalRequest(Long requestId, ApprovalStatus newStatus, String comments) {
+        CertifierRequest certifierRequest = certifierRequestRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("Request not found with id: " + requestId));
+
+        if (certifierRequest.getStatus() != ApprovalStatus.PENDING) {
+            throw new IllegalStateException("Only pending requests can be processed");
+        }
+
+        // Update user
+        User user = userRepository.findById(certifierRequest.getRequestingUser().getId()).orElseThrow(
+                () -> {
+                    certifierRequest.setStatus(ApprovalStatus.REJECTED);
+                    return new IllegalArgumentException("User not found");
+                }
+        );
+        user.setRole(PlatformRoles.CERTIFIER);
+        userRepository.save(user);
+
+        // Update certifier request
+        certifierRequest.setStatus(newStatus);
+        certifierRequest.setComments(comments);
+        CertifierRequest savedRequest = certifierRequestRepository.save(certifierRequest);
+        // TODO: notify user with emails or something if necessary
+        return certifierMapper.toDto(savedRequest);
+    }
+}

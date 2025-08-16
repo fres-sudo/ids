@@ -1,8 +1,8 @@
 package it.unicam.cs.ids.shared.application;
 
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotUniqueEmail;
-import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
-import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
+import it.unicam.cs.ids.repositories.CompanyRepository;
+import it.unicam.cs.ids.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

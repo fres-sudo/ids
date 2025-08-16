@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.shared.infrastructure.persistence;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
+import it.unicam.cs.ids.shared.kernel.enums.ApprovalStatus;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

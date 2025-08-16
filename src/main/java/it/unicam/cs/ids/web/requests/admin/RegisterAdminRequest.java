@@ -1,0 +1,23 @@
+package it.unicam.cs.ids.web.requests.admin;
+
+import it.unicam.cs.ids.web.requests.user.RegisterUserRequest;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+/**
+ * Represents a request to register a new admin.
+ * This class contains the necessary information for creating an admin account.
+ */
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class RegisterAdminRequest extends RegisterUserRequest {
+    /*
+    * The password field for admin bypass, the user that wishes to register as an admin
+    * should send the correct by pass password
+    */
+    private String adminByPassPasswordField;
+}

@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.shared.application;
 
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.web.requests.user.DeleteUserRequest;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import lombok.NonNull;

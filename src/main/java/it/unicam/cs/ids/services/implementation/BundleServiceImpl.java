@@ -3,13 +3,13 @@ package it.unicam.cs.ids.services.implementation;
 import it.unicam.cs.ids.dto.BundleDTO;
 import it.unicam.cs.ids.web.requests.company.CreateBundleRequest;
 
-import it.unicam.cs.ids.model.Bundle;
+import it.unicam.cs.ids.models.Bundle;
 import it.unicam.cs.ids.mappers.BundleMapper;
 import it.unicam.cs.ids.repositories.BundleRepository;
 
 import it.unicam.cs.ids.web.requests.company.UpdateBundleRequest;
 import it.unicam.cs.ids.web.requests.factories.BundleApprovalRequestFactory;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.services.AuthService;
 import it.unicam.cs.ids.services.BundleService;
 import it.unicam.cs.ids.shared.application.Finder;

@@ -2,7 +2,7 @@ package it.unicam.cs.ids.services.implementation;
 
 import it.unicam.cs.ids.dto.CompanyDTO;
 import it.unicam.cs.ids.web.requests.company.EditCompanyRequest;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.mappers.CompanyMapper;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 

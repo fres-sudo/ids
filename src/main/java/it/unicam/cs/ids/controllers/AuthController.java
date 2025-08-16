@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.controller;
+package it.unicam.cs.ids.controllers;
 
 import it.unicam.cs.ids.shared.kernel.enums.CompanyRoles;
 import it.unicam.cs.ids.web.requests.admin.RegisterAdminRequest;

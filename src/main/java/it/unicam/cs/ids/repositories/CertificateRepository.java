@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.repositories;
 
-import it.unicam.cs.ids.model.Certificate;
+import it.unicam.cs.ids.models.Certificate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

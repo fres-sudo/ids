@@ -1,12 +1,11 @@
 package it.unicam.cs.ids.mappers;
 
-import it.unicam.cs.ids.model.Product;
+import it.unicam.cs.ids.models.Product;
 import it.unicam.cs.ids.dto.ProductDTO;
 import it.unicam.cs.ids.web.requests.company.CreateProductRequest;
 import it.unicam.cs.ids.web.requests.company.UpdateProductRequest;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**

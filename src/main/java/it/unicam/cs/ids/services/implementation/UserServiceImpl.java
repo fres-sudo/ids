@@ -5,7 +5,7 @@ import it.unicam.cs.ids.services.UserService;
 import lombok.RequiredArgsConstructor;
 import it.unicam.cs.ids.dto.UserDTO;
 import it.unicam.cs.ids.web.requests.user.EditUserRequest;
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.mappers.UserMapper;
 import it.unicam.cs.ids.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

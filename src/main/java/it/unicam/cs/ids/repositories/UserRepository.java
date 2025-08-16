@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.repositories;
 
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

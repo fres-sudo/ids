@@ -2,8 +2,8 @@ package it.unicam.cs.ids.services.implementation;
 
 import it.unicam.cs.ids.services.ApprovalRequestService;
 import it.unicam.cs.ids.shared.kernel.enums.ApprovalStatus;
-import it.unicam.cs.ids.model.Bundle;
-import it.unicam.cs.ids.model.Product;
+import it.unicam.cs.ids.models.Bundle;
+import it.unicam.cs.ids.models.Product;
 import it.unicam.cs.ids.repositories.BundleRepository;
 import it.unicam.cs.ids.repositories.ProductRepository;
 import it.unicam.cs.ids.mappers.ApprovalRequestMapper;

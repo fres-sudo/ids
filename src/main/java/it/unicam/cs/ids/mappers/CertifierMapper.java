@@ -2,7 +2,7 @@ package it.unicam.cs.ids.mappers;
 
 import it.unicam.cs.ids.dto.CertifierRequestDTO;
 import it.unicam.cs.ids.web.requests.certifier.CertifierRequest;
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.shared.application.Validator;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

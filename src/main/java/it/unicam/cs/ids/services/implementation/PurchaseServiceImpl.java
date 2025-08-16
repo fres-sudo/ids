@@ -1,16 +1,16 @@
 package it.unicam.cs.ids.services.implementation;
 
 import it.unicam.cs.ids.mappers.PurchaseMapper;
-import it.unicam.cs.ids.model.Bundle;
-import it.unicam.cs.ids.model.Product;
-import it.unicam.cs.ids.model.Purchase;
+import it.unicam.cs.ids.models.Bundle;
+import it.unicam.cs.ids.models.Product;
+import it.unicam.cs.ids.models.Purchase;
 import it.unicam.cs.ids.repositories.BundleRepository;
 import it.unicam.cs.ids.repositories.ProductRepository;
 import it.unicam.cs.ids.repositories.PurchaseRepository;
 import it.unicam.cs.ids.dto.PurchaseDTO;
 import it.unicam.cs.ids.web.requests.user.PurchaseBundleRequest;
 import it.unicam.cs.ids.web.requests.user.PurchaseProductRequest;
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.repositories.UserRepository;
 import it.unicam.cs.ids.services.PurchaseService;
 import it.unicam.cs.ids.shared.application.Finder;

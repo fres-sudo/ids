@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.model;
+package it.unicam.cs.ids.models;
 
 import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import jakarta.persistence.*;

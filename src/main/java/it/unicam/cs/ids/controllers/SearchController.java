@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.controller;
+package it.unicam.cs.ids.controllers;
 
 import it.unicam.cs.ids.dto.BundleDTO;
 import it.unicam.cs.ids.dto.CompanyDTO;

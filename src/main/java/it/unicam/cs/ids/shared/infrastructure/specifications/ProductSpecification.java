@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.shared.infrastructure.specifications;
 
 import it.unicam.cs.ids.shared.infrastructure.api.filters.ProductFilter;
-import it.unicam.cs.ids.model.Product;
+import it.unicam.cs.ids.models.Product;
 import it.unicam.cs.ids.shared.infrastructure.persistence.AbstractSpecification;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;

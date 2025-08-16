@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.repositories;
 
-import it.unicam.cs.ids.model.Bundle;
+import it.unicam.cs.ids.models.Bundle;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -3,14 +3,14 @@ package it.unicam.cs.ids.shared.infrastructure.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unicam.cs.ids.model.BundledProduct;
-import it.unicam.cs.ids.model.Product;
+import it.unicam.cs.ids.models.BundledProduct;
+import it.unicam.cs.ids.models.Product;
 import it.unicam.cs.ids.shared.infrastructure.persistence.AbstractSpecification;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import it.unicam.cs.ids.shared.infrastructure.api.filters.BundleFilter;
-import it.unicam.cs.ids.model.Bundle;
+import it.unicam.cs.ids.models.Bundle;
 
 /**
  * Specification for filtering bundles based on various criteria.

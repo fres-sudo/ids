@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.controller;
+package it.unicam.cs.ids.controllers;
 
 import it.unicam.cs.ids.services.ProductService;
 import it.unicam.cs.ids.dto.ProductDTO;
@@ -6,7 +6,7 @@ import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import it.unicam.cs.ids.web.requests.company.CreateProductRequest;
 import it.unicam.cs.ids.web.requests.company.UpdateProductRequest;
 import it.unicam.cs.ids.web.requests.company.CreateCertificateRequest;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.shared.kernel.enums.CompanyRoles;
 import it.unicam.cs.ids.services.AuthService;
 import it.unicam.cs.ids.security.user.AppUserPrincipal;

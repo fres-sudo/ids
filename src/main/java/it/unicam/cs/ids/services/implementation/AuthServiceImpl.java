@@ -7,7 +7,7 @@ import it.unicam.cs.ids.web.requests.company.RegisterCompanyRequest;
 import it.unicam.cs.ids.web.requests.certifier.CertifierRequest;
 import it.unicam.cs.ids.shared.application.Validator;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotFound;
 import it.unicam.cs.ids.mappers.CertifierMapper;
 import it.unicam.cs.ids.mappers.CompanyMapper;
@@ -30,7 +30,7 @@ import it.unicam.cs.ids.security.AuthResponse;
 import it.unicam.cs.ids.web.requests.LoginRequest;
 import it.unicam.cs.ids.web.requests.user.RegisterUserRequest;
 import it.unicam.cs.ids.security.jwt.JwtTokenProvider;
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.RequestBody;
 

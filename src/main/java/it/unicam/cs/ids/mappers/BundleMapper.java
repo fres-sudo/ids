@@ -2,10 +2,9 @@ package it.unicam.cs.ids.mappers;
 
 import it.unicam.cs.ids.dto.BundleDTO;
 import it.unicam.cs.ids.web.requests.company.CreateBundleRequest;
-import it.unicam.cs.ids.model.Bundle;
+import it.unicam.cs.ids.models.Bundle;
 import it.unicam.cs.ids.web.requests.company.UpdateBundleRequest;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**

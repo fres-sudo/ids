@@ -4,11 +4,10 @@ package it.unicam.cs.ids.mappers;
 import it.unicam.cs.ids.web.requests.company.RegisterCompanyRequest;
 import it.unicam.cs.ids.dto.CompanyDTO;
 import it.unicam.cs.ids.web.requests.company.EditCompanyRequest;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.shared.application.Validator;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

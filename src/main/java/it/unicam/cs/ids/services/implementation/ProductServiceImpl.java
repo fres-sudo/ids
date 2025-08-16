@@ -1,17 +1,17 @@
 package it.unicam.cs.ids.services.implementation;
 
 import it.unicam.cs.ids.mappers.ProductMapper;
-import it.unicam.cs.ids.model.Product;
+import it.unicam.cs.ids.models.Product;
 import it.unicam.cs.ids.repositories.ProductRepository;
 import it.unicam.cs.ids.dto.ProductDTO;
 import it.unicam.cs.ids.web.requests.company.CreateProductRequest;
 import it.unicam.cs.ids.web.requests.company.UpdateProductRequest;
 import it.unicam.cs.ids.mappers.CertificateMapper;
-import it.unicam.cs.ids.model.Certificate;
+import it.unicam.cs.ids.models.Certificate;
 import it.unicam.cs.ids.repositories.CertificateRepository;
 import it.unicam.cs.ids.web.requests.factories.ProductApprovalRequestFactory;
 import it.unicam.cs.ids.web.requests.company.CreateCertificateRequest;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.services.ProductService;
 import it.unicam.cs.ids.shared.application.Finder;

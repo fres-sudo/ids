@@ -2,13 +2,12 @@ package it.unicam.cs.ids.mappers;
 
 import it.unicam.cs.ids.dto.CertificateDTO;
 import it.unicam.cs.ids.web.requests.company.CreateCertificateRequest;
-import it.unicam.cs.ids.model.Certificate;
-import it.unicam.cs.ids.model.Product;
+import it.unicam.cs.ids.models.Certificate;
+import it.unicam.cs.ids.models.Product;
 import it.unicam.cs.ids.repositories.ProductRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;

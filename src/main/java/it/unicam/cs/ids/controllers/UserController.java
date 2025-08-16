@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.controller;
+package it.unicam.cs.ids.controllers;
 
 import it.unicam.cs.ids.shared.infrastructure.api.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.api.ApiResponse;

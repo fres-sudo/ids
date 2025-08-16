@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.controller;
+package it.unicam.cs.ids.controllers;
 
 import it.unicam.cs.ids.services.PurchaseService;
 import it.unicam.cs.ids.dto.PurchaseDTO;
@@ -7,7 +7,7 @@ import it.unicam.cs.ids.web.requests.user.PurchaseProductRequest;
 import it.unicam.cs.ids.web.responses.PurchaseBundleResponse;
 import it.unicam.cs.ids.web.responses.PurchaseProductResponse;
 import it.unicam.cs.ids.services.AuthService;
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.api.factories.ApiResponseFactory;

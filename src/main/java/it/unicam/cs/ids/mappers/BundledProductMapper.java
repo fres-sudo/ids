@@ -1,8 +1,8 @@
 package it.unicam.cs.ids.mappers;
 
 import it.unicam.cs.ids.web.requests.company.CreateBundledProductRequest;
-import it.unicam.cs.ids.model.BundledProduct;
-import it.unicam.cs.ids.model.Product;
+import it.unicam.cs.ids.models.BundledProduct;
+import it.unicam.cs.ids.models.Product;
 import it.unicam.cs.ids.repositories.ProductRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

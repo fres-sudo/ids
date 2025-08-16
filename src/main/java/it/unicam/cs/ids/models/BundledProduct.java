@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.model;
+package it.unicam.cs.ids.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

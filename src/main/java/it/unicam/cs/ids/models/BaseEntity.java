@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.model;
+package it.unicam.cs.ids.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

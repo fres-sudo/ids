@@ -1,9 +1,9 @@
-package it.unicam.cs.ids.controller;
+package it.unicam.cs.ids.controllers;
 
 import it.unicam.cs.ids.dto.BundleDTO;
 import it.unicam.cs.ids.shared.kernel.enums.CompanyRoles;
 import it.unicam.cs.ids.web.requests.company.UpdateBundleRequest;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.services.AuthService;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.api.factories.ApiResponseFactory;

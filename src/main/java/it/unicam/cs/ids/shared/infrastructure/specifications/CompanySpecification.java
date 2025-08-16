@@ -7,7 +7,7 @@ import it.unicam.cs.ids.shared.infrastructure.persistence.AbstractSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
 import it.unicam.cs.ids.shared.infrastructure.api.filters.CompanyFilter;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import jakarta.persistence.criteria.Predicate;
 
 /**

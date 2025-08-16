@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.services;
 
-import it.unicam.cs.ids.model.Company;
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.Company;
+import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.web.requests.admin.RegisterAdminRequest;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotFound;

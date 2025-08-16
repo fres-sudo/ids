@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.mappers;
 
-import it.unicam.cs.ids.model.Purchase;
+import it.unicam.cs.ids.models.Purchase;
 import it.unicam.cs.ids.dto.PurchaseDTO;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;

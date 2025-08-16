@@ -7,7 +7,7 @@ import it.unicam.cs.ids.repositories.CertifierRequestRepository;
 import it.unicam.cs.ids.dto.CertifierRequestDTO;
 import it.unicam.cs.ids.web.requests.certifier.CertifierRequest;
 import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
-import it.unicam.cs.ids.model.User;
+import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

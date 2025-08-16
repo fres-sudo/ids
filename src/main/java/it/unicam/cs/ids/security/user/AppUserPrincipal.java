@@ -1,8 +1,8 @@
 package it.unicam.cs.ids.security.user;
 
 
-import it.unicam.cs.ids.model.User;
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.User;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

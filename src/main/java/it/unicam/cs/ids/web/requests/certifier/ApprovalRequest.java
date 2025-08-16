@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.web.requests.certifier;
 
-import it.unicam.cs.ids.model.Company;
+import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.shared.infrastructure.persistence.ApprovableEntity;
 import it.unicam.cs.ids.shared.kernel.enums.RequestEntityType;
 import jakarta.persistence.*;

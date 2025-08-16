@@ -14,7 +14,7 @@ import it.unicam.cs.ids.web.requests.company.CreateCertificateRequest;
 import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.services.ProductService;
-import it.unicam.cs.ids.shared.application.Finder;
+import it.unicam.cs.ids.shared.infrastructure.persistence.Finder;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

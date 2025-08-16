@@ -3,6 +3,8 @@ package it.unicam.cs.ids.security.user;
 
 import it.unicam.cs.ids.repositories.CompanyRepository;
 import it.unicam.cs.ids.repositories.UserRepository;
+import it.unicam.cs.ids.shared.infrastructure.persistence.Finder;
+import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var userOpt = userRepository.findByEmail(username);
         if (userOpt.isPresent()) {
+//            PlatformRoles fetchedRole = Finder.getUserRole(userRepository, userOpt.get().getId());
+//            userOpt.get().setRole(fetchedRole);
             return AppUserPrincipal.fromUser(userOpt.get());
         }
 

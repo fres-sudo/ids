@@ -1,5 +1,8 @@
-package it.unicam.cs.ids.shared.application;
+package it.unicam.cs.ids.shared.infrastructure.persistence;
 
+import it.unicam.cs.ids.models.User;
+import it.unicam.cs.ids.repositories.UserRepository;
+import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -26,5 +29,19 @@ public final class Finder {
     public static <T, ID> T findByIdOrThrow(JpaRepository<T, ID> repository, ID id, String errorMessage) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(errorMessage));
+    }
+
+    /**
+     * Finds a user's role by their ID in the given UserRepository.
+     *
+     * @param repository the UserRepository to search in
+     * @param id the ID of the user to find
+     * @return the role of the user as a String
+     * @throws EntityNotFoundException if no user with the given ID is found
+     */
+    public static PlatformRoles getUserRole(UserRepository repository, Long id) {
+        return repository.findById(id)
+                .map(User::getRole)
+                .orElse(null);
     }
 }

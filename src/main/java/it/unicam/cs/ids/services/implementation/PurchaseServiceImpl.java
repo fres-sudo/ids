@@ -13,7 +13,7 @@ import it.unicam.cs.ids.web.requests.user.PurchaseProductRequest;
 import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.repositories.UserRepository;
 import it.unicam.cs.ids.services.PurchaseService;
-import it.unicam.cs.ids.shared.application.Finder;
+import it.unicam.cs.ids.shared.infrastructure.persistence.Finder;
 import it.unicam.cs.ids.shared.application.Purchasable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

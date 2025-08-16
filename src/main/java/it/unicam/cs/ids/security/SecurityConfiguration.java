@@ -2,6 +2,7 @@ package it.unicam.cs.ids.security;
 
 import it.unicam.cs.ids.shared.kernel.enums.CompanyRoles;
 import it.unicam.cs.ids.security.user.UserDetailsServiceImpl;
+import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import lombok.AllArgsConstructor;
@@ -67,7 +68,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/search/**").permitAll()
                         .requestMatchers("/products/**").permitAll()
-                        .requestMatchers("/bundles/**").hasRole(CompanyRoles.DISTRIBUTOR.name())
+                        .requestMatchers("/admin/**").permitAll()
+                        .requestMatchers("/bundles/**").hasAnyAuthority(CompanyRoles.DISTRIBUTOR.toString())
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

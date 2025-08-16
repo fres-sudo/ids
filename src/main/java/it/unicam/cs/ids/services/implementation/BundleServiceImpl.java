@@ -12,7 +12,7 @@ import it.unicam.cs.ids.web.requests.factories.BundleApprovalRequestFactory;
 import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.services.AuthService;
 import it.unicam.cs.ids.services.BundleService;
-import it.unicam.cs.ids.shared.application.Finder;
+import it.unicam.cs.ids.shared.infrastructure.persistence.Finder;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

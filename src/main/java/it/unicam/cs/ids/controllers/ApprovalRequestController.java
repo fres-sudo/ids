@@ -34,7 +34,7 @@ public class ApprovalRequestController implements ApprovableOperations<ApprovalR
     /** Response factory for creating API responses. */
     private final ApiResponseFactory responseFactory;
 
-    @PreAuthorize("hasRole('CERTIFIER')")
+    @PreAuthorize("hasAnyAuthority('CERTIFIER')")
     @Override
     public ApiResponse<ApprovalRequestDTO<Approvable>> approve(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
@@ -42,7 +42,7 @@ public class ApprovalRequestController implements ApprovableOperations<ApprovalR
                 approvalRequestService.approve(requestId, comments));
     }
 
-    @PreAuthorize("hasRole('CERTIFIER')")
+    @PreAuthorize("hasAnyAuthority('CERTIFIER')")
     @Override
     public ApiResponse<ApprovalRequestDTO<Approvable>> reject(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
@@ -50,7 +50,7 @@ public class ApprovalRequestController implements ApprovableOperations<ApprovalR
                 approvalRequestService.reject(requestId, comments));
     }
 
-    @PreAuthorize("hasRole('CERTIFIER') || hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('CERTIFIER')")
     @GetMapping()
     public Page<ApprovalRequestDTO<Approvable>> findPendingRequests(
             @PageableDefault() Pageable pageable

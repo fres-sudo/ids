@@ -34,7 +34,7 @@ public class BundleController {
     private final ApiResponseFactory responseFactory;
 
     @PostMapping
-    @PreAuthorize("hasRole('DISTRIBUTOR')")
+    @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
     ApiResponse<BundleDTO> createBundle(@RequestBody CreateBundleRequest request) {
         Company authedCompany = authService.getAuthenticatedCompany();
         request.setDistributorId(authedCompany.getId());
@@ -45,7 +45,7 @@ public class BundleController {
     }
 
     @PatchMapping()
-    @PreAuthorize("hasRole('DISTRIBUTOR')")
+    @PreAuthorize("hasAuthority('DISTRIBUTOR')")
     ApiResponse<BundleDTO> updateBundle(@RequestBody UpdateBundleRequest request) {
         return responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_UPDATED,
@@ -54,7 +54,7 @@ public class BundleController {
     }
 
     @DeleteMapping()
-    @PreAuthorize("hasRole('DISTRIBUTOR')")
+    @PreAuthorize("hasAuthority('DISTRIBUTOR')")
     ResponseEntity<ApiResponse<Void>> deleteBundle(@RequestParam("bundleId") Long bundleId) {
         bundleService.deleteBundle(bundleId, authService.getAuthenticatedCompany().getId());
         ApiResponse<Void> response = responseFactory.createSuccessResponse(

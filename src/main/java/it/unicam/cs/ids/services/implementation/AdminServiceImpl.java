@@ -45,6 +45,14 @@ public class AdminServiceImpl implements AdminService {
         return requests.map(certifierMapper::toDto);
     }
 
+    /**
+     * Processes an approval or rejection request for a certifier request.
+     *
+     * @param requestId the ID of the certifier request
+     * @param newStatus the new status to set (APPROVED or REJECTED)
+     * @param comments additional comments for the request
+     * @return the updated CertifierRequestDTO
+     */
     private CertifierRequestDTO processApprovalRequest(Long requestId, ApprovalStatus newStatus, String comments) {
         CertifierRequest certifierRequest = certifierRequestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException("Request not found with id: " + requestId));
@@ -53,21 +61,24 @@ public class AdminServiceImpl implements AdminService {
             throw new IllegalStateException("Only pending requests can be processed");
         }
 
-        // Update user
-        User user = userRepository.findById(certifierRequest.getRequestingUser().getId()).orElseThrow(
-                () -> {
-                    certifierRequest.setStatus(ApprovalStatus.REJECTED);
-                    return new IllegalArgumentException("User not found");
-                }
-        );
-        user.setRole(PlatformRoles.CERTIFIER);
-        userRepository.save(user);
+        // If approved, update the user role
+        if (newStatus == ApprovalStatus.APPROVED) {
+            User user = userRepository.findById(certifierRequest.getRequestingUser().getId())
+                    .orElseThrow(() -> {
+                        certifierRequest.setStatus(ApprovalStatus.REJECTED);
+                        return new IllegalArgumentException("User not found");
+                    });
+            user.setRole(PlatformRoles.CERTIFIER);
+            userRepository.save(user);
+        }
 
         // Update certifier request
         certifierRequest.setStatus(newStatus);
         certifierRequest.setComments(comments);
         CertifierRequest savedRequest = certifierRequestRepository.save(certifierRequest);
+
         // TODO: notify user with emails or something if necessary
         return certifierMapper.toDto(savedRequest);
     }
+
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -40,6 +41,7 @@ public class CompanyController {
      * @param request the requests containing the details to edit the company
      * @return a response entity containing the updated company
      */
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER', 'ADMIN')")
     @PatchMapping()
     ResponseEntity<ApiResponse<CompanyDTO>> editCompany(@RequestBody EditCompanyRequest request) {
         CompanyDTO dto = companyService.editCompany(request);
@@ -54,6 +56,7 @@ public class CompanyController {
      *
      * @return a response entity indicating success or failure
      */
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER', 'ADMIN')")
     @DeleteMapping()
     ResponseEntity<ApiResponse<Void>> deleteCompany() {
         companyService.deleteCompany();

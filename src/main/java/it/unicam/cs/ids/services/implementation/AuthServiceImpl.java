@@ -105,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
     public void registerCertifier(@RequestBody RegisterUserRequest registerUserRequest) {
         emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
         User certifier = userMapper.fromRequest(registerUserRequest);
-        userRepository.save(certifier); //NOTE: First save the user to get the ID
+        userRepository.save(certifier);
 
         CertifierRequest certifierRequest = certifierMapper.fromUser(certifier);
         certifierRequestRepository.save(certifierRequest);

@@ -39,12 +39,12 @@ public class ProductController {
     private final ApiResponseFactory responseFactory;
 
     @PostMapping
-    @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER', 'ADMIN')")
     public ApiResponse<ProductDTO> createProduct(
-            @RequestBody CreateProductRequest request,
-            @AuthenticationPrincipal AppUserPrincipal principal
+            @RequestBody CreateProductRequest request
     ) {
         Company company = authService.getAuthenticatedCompany();
+        System.out.println("ROLE: " + company.getRole());
         Long companyId = company.getId();
         request.setCreatorId(companyId);
         CompanyRoles role = company.getRole();
@@ -60,7 +60,7 @@ public class ProductController {
         );
     }
 
-    @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER', 'ADMIN')")
     @PatchMapping("/{productId}")
     ApiResponse<ProductDTO> updateProduct(
             @PathVariable Long productId,
@@ -73,7 +73,7 @@ public class ProductController {
     }
 
     @PostMapping( "/certificate")
-    @PreAuthorize("hasRole('PRODUCER') || hasRole('DISTRIBUTOR') || hasRole('TRANSFORMER')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER', 'ADMIN')")
     ApiResponse<ProductDTO> createCertificate(@Valid @RequestBody CreateCertificateRequest request) {
         return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFICATE_CREATED,

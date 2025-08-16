@@ -49,9 +49,7 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
     }
 
 
-    //FIXME : adding @PreAuthorize dosen't work, it seems that thr method sees the user as [BUYER],
-    // not as ADMIN, even if the user is logged in as ADMIN, now all c\alls to this method are allowed
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public Page<CertifierRequestDTO> findPendingRequests(Pageable pageable) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

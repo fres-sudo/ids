@@ -33,5 +33,5 @@ public interface AdminService {
      * @param pageable pagination information
      * @return a page of CertifierRequestDTO objects
      */
-    Page<CertifierRequestDTO> findPendingRequests( Pageable pageable);
+    Page<CertifierRequestDTO> findPendingRequests(Pageable pageable);
 }

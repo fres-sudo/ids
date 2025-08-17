@@ -67,21 +67,38 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/search/**").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority(
-                                PlatformRoles.ADMIN.name())
-                        .requestMatchers("/products/**").hasAnyAuthority(
-                                CompanyRoles.PRODUCER.name(),
-                                CompanyRoles.TRANSFORMER.name(),
-                                CompanyRoles.DISTRIBUTOR.name())
-                        .requestMatchers("/bundles/**").hasAnyAuthority(
-                                CompanyRoles.DISTRIBUTOR.name())
-                        .requestMatchers("/companies/**").hasAnyAuthority(
+                        .requestMatchers("/users/**").hasAnyAuthority(
+                                PlatformRoles.BUYER.name(),
+                                PlatformRoles.CERTIFIER.name(),
+                                PlatformRoles.ADMIN.name()
+                        )
+                        .requestMatchers("/purchase/**").hasAnyAuthority(
+                                PlatformRoles.BUYER.name(),
                                 CompanyRoles.PRODUCER.name(),
                                 CompanyRoles.TRANSFORMER.name(),
                                 CompanyRoles.DISTRIBUTOR.name(),
-                                PlatformRoles.ADMIN.name())
+                                PlatformRoles.CERTIFIER.name(),
+                                PlatformRoles.ADMIN.name()
+                        )
+                        .requestMatchers("/products/**").hasAnyAuthority(
+                                CompanyRoles.PRODUCER.name(),
+                                CompanyRoles.TRANSFORMER.name(),
+                                CompanyRoles.DISTRIBUTOR.name()
+                        )
+                        .requestMatchers("/bundles/**").hasAnyAuthority(
+                                CompanyRoles.DISTRIBUTOR.name()
+                        )
+                        .requestMatchers("/companies/**").hasAnyAuthority(
+                                CompanyRoles.PRODUCER.name(),
+                                CompanyRoles.TRANSFORMER.name(),
+                                CompanyRoles.DISTRIBUTOR.name()
+                        )
                         .requestMatchers("/certifiers/**").hasAnyAuthority(
-                                PlatformRoles.CERTIFIER.name())
+                                PlatformRoles.CERTIFIER.name()
+                        )
+                        .requestMatchers("/admin/**").hasAuthority(
+                                PlatformRoles.ADMIN.name()
+                        )
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

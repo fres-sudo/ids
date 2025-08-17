@@ -41,7 +41,7 @@ public class CompanyController {
      * @param request the requests containing the details to edit the company
      * @return a response entity containing the updated company
      */
-    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
     @PatchMapping()
     ResponseEntity<ApiResponse<CompanyDTO>> editCompany(@RequestBody EditCompanyRequest request) {
         CompanyDTO dto = companyService.editCompany(request);
@@ -56,7 +56,7 @@ public class CompanyController {
      *
      * @return a response entity indicating success or failure
      */
-    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
     @DeleteMapping()
     ResponseEntity<ApiResponse<Void>> deleteCompany() {
         companyService.deleteCompany();

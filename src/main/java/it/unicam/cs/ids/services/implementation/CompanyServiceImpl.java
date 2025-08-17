@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.services.implementation;
 
 import it.unicam.cs.ids.dto.CompanyDTO;
+import it.unicam.cs.ids.repositories.ProductRepository;
 import it.unicam.cs.ids.web.requests.company.EditCompanyRequest;
 import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.mappers.CompanyMapper;
@@ -36,5 +37,6 @@ public class CompanyServiceImpl implements CompanyService {
     public void deleteCompany() {
         Company authenticatedCompany = authService.getAuthenticatedCompany();
         companyRepository.deleteById(authenticatedCompany.getId());
+
     }
 }

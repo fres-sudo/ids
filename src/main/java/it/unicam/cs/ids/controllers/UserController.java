@@ -37,6 +37,9 @@ public class UserController {
         );
     }
 
+
+    //FIXME: can t delete a user only from its table, we should delete also any reference in any other table or at-least
+    // set the user as inactive
     /**
      * Deletes a user based on the provided requests.
      * @return a response entity indicating the success of the deletion

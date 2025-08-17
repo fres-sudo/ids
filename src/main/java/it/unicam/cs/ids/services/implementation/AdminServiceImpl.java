@@ -1,11 +1,11 @@
 package it.unicam.cs.ids.services.implementation;
 
+import it.unicam.cs.ids.models.CertifierRequestEntity;
 import it.unicam.cs.ids.services.AdminService;
 import it.unicam.cs.ids.shared.kernel.enums.ApprovalStatus;
 import it.unicam.cs.ids.mappers.CertifierMapper;
 import it.unicam.cs.ids.repositories.CertifierRequestRepository;
 import it.unicam.cs.ids.dto.CertifierRequestDTO;
-import it.unicam.cs.ids.web.requests.certifier.CertifierRequest;
 import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import it.unicam.cs.ids.models.User;
 import it.unicam.cs.ids.repositories.UserRepository;
@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<CertifierRequestDTO> findPendingRequests(Pageable pageable) {
-        Page<CertifierRequest> requests = certifierRequestRepository.findAll(pageable);
+        Page<CertifierRequestEntity> requests = certifierRequestRepository.findAll(pageable);
         return requests.map(certifierMapper::toDto);
     }
 
@@ -54,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
      * @return the updated CertifierRequestDTO
      */
     private CertifierRequestDTO processApprovalRequest(Long requestId, ApprovalStatus newStatus, String comments) {
-        CertifierRequest certifierRequest = certifierRequestRepository.findById(requestId)
+        CertifierRequestEntity certifierRequest = certifierRequestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException("Request not found with id: " + requestId));
 
         if (certifierRequest.getStatus() != ApprovalStatus.PENDING) {
@@ -75,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
         // Update certifier request
         certifierRequest.setStatus(newStatus);
         certifierRequest.setComments(comments);
-        CertifierRequest savedRequest = certifierRequestRepository.save(certifierRequest);
+        CertifierRequestEntity savedRequest = certifierRequestRepository.save(certifierRequest);
 
         // TODO: notify user with emails or something if necessary
         return certifierMapper.toDto(savedRequest);

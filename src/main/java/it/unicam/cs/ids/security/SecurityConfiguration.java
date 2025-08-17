@@ -93,7 +93,7 @@ public class SecurityConfiguration {
                                 CompanyRoles.TRANSFORMER.name(),
                                 CompanyRoles.DISTRIBUTOR.name()
                         )
-                        .requestMatchers("/certifiers/**").hasAnyAuthority(
+                        .requestMatchers("/certifier/**").hasAnyAuthority(
                                 PlatformRoles.CERTIFIER.name()
                         )
                         .requestMatchers("/admin/**").hasAuthority(

@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.services.implementation;
 
+import it.unicam.cs.ids.models.ApprovalRequestEntity;
 import it.unicam.cs.ids.services.ApprovalRequestService;
 import it.unicam.cs.ids.shared.kernel.enums.ApprovalStatus;
 import it.unicam.cs.ids.models.Bundle;
@@ -8,7 +9,6 @@ import it.unicam.cs.ids.repositories.BundleRepository;
 import it.unicam.cs.ids.repositories.ProductRepository;
 import it.unicam.cs.ids.mappers.ApprovalRequestMapper;
 import it.unicam.cs.ids.shared.application.Approvable;
-import it.unicam.cs.ids.web.requests.certifier.ApprovalRequest;
 import it.unicam.cs.ids.shared.kernel.enums.RequestEntityType;
 import it.unicam.cs.ids.repositories.ApprovalRequestRepository;
 import it.unicam.cs.ids.dto.ApprovalRequestDTO;
@@ -40,8 +40,8 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
     @Override
     public void submitForApproval(SubmitApprovalRequest request) {
         //TODO check if another request with the same info exists
-        ApprovalRequest approvalRequest = approvalRequestMapper.fromSubmitRequest(request);
-        ApprovalRequest entity = approvalRequestRepository.save(approvalRequest);
+        ApprovalRequestEntity approvalRequest = approvalRequestMapper.fromSubmitRequest(request);
+        ApprovalRequestEntity entity = approvalRequestRepository.save(approvalRequest);
         // TODO notify certifier if necessary
         approvalRequestMapper.toDto(entity);
     }
@@ -61,12 +61,12 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
     @Override
     @Transactional(readOnly = true)
     public Page<ApprovalRequestDTO<Approvable>> findPendingRequests(Pageable pageable) {
-        Page<ApprovalRequest> requests = approvalRequestRepository.findAll(pageable);
+        Page<ApprovalRequestEntity> requests = approvalRequestRepository.findAll(pageable);
         return requests.map(approvalRequestMapper::toDto);
     }
 
     protected ApprovalRequestDTO<Approvable> processApprovalRequest(Long requestId, ApprovalStatus newStatus, String adminComments) {
-        ApprovalRequest approvalRequest = approvalRequestRepository.findById(requestId)
+        ApprovalRequestEntity approvalRequest = approvalRequestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException("Request not found with id: " + requestId));
 
         if (approvalRequest.getStatus() != ApprovalStatus.PENDING) {
@@ -81,7 +81,7 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
         // Update approval request
         approvalRequest.setStatus(newStatus);
         approvalRequest.setComments(adminComments);
-        ApprovalRequest savedRequest = approvalRequestRepository.save(approvalRequest);
+        ApprovalRequestEntity savedRequest = approvalRequestRepository.save(approvalRequest);
         // TODO: notify company with emails or something if necessary
         return approvalRequestMapper.toDto(savedRequest);
     }

@@ -1,11 +1,12 @@
-package it.unicam.cs.ids.web.requests.certifier;
+package it.unicam.cs.ids.models;
 
-import it.unicam.cs.ids.models.Company;
 import it.unicam.cs.ids.shared.infrastructure.persistence.ApprovableEntity;
 import it.unicam.cs.ids.shared.kernel.enums.RequestEntityType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Certificate represents a document issued for a product, which is a proof of authenticity or compliance to territorial regulations.
@@ -18,8 +19,10 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "approval_requests", schema = "ids_schema")
 @Data
-public class ApprovalRequest extends ApprovableEntity {
+public class ApprovalRequestEntity extends ApprovableEntity {
     @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Company requestingCompany;
 
     @Enumerated(EnumType.STRING) // "PRODUCT", "BUNDLE")

@@ -2,7 +2,7 @@ package it.unicam.cs.ids.mappers;
 
 import it.unicam.cs.ids.repositories.BundleRepository;
 import it.unicam.cs.ids.shared.application.Approvable;
-import it.unicam.cs.ids.web.requests.certifier.ApprovalRequest;
+import it.unicam.cs.ids.models.ApprovalRequestEntity;
 import it.unicam.cs.ids.shared.kernel.enums.RequestEntityType;
 import it.unicam.cs.ids.dto.ApprovalRequestDTO;
 import it.unicam.cs.ids.web.requests.company.SubmitApprovalRequest;
@@ -16,7 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Mapper for converting between {@link ApprovalRequest} and {@link ApprovalRequestDTO}.
+ * Mapper for converting between {@link ApprovalRequestEntity} and {@link ApprovalRequestDTO}.
  * This class handles the mapping of approval requests related to products and bundles.
  */
 @Mapper(componentModel = "spring", uses = {CompanyMapper.class})
@@ -31,10 +31,10 @@ public abstract class ApprovalRequestMapper {
 
 
     /**
-     * Maps a {@link SubmitApprovalRequest} to an {@link ApprovalRequest}.
+     * Maps a {@link SubmitApprovalRequest} to an {@link ApprovalRequestEntity}.
      * This method ignores certain fields that are not applicable during the submission phase,
      * @param dto the DTO containing the details of the approval request to be submitted
-     * @return a new {@link ApprovalRequest} instance with the details from the DTO
+     * @return a new {@link ApprovalRequestEntity} instance with the details from the DTO
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", ignore = true)
@@ -42,17 +42,17 @@ public abstract class ApprovalRequestMapper {
     @Mapping(target = "processedAt", ignore = true)
     @Mapping(target = "comments", ignore = true)
     @Mapping(target = "requestingCompany", source = "companyId", qualifiedByName = "mapCompanyById")
-    public abstract ApprovalRequest fromSubmitRequest(SubmitApprovalRequest dto);
+    public abstract ApprovalRequestEntity fromSubmitRequest(SubmitApprovalRequest dto);
 
     /**
-     * Maps an {@link ApprovalRequest} to an {@link ApprovalRequestDTO}.
+     * Maps an {@link ApprovalRequestEntity} to an {@link ApprovalRequestDTO}.
      * This method retrieves the entity associated with the approval request based on its type and ID.
      *
      * @param entity the approval request to be mapped
      * @return a new {@link ApprovalRequestDTO} instance with the details from the approval request
      */
     @Mapping(target = "entity", expression = "java(mapEntityByEntityId(entity.getEntityType(), entity.getEntityId()))")
-    public abstract ApprovalRequestDTO<Approvable> toDto(ApprovalRequest entity);
+    public abstract ApprovalRequestDTO<Approvable> toDto(ApprovalRequestEntity entity);
 
     /**
      * Maps an entity ID to the corresponding {@link Approvable} entity based on the request entity type.

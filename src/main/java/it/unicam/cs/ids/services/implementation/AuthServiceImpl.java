@@ -1,10 +1,10 @@
 package it.unicam.cs.ids.services.implementation;
 
+import it.unicam.cs.ids.models.CertifierRequestEntity;
 import it.unicam.cs.ids.services.AuthService;
 import it.unicam.cs.ids.shared.kernel.enums.PlatformRoles;
 import it.unicam.cs.ids.web.requests.admin.RegisterAdminRequest;
 import it.unicam.cs.ids.web.requests.company.RegisterCompanyRequest;
-import it.unicam.cs.ids.web.requests.certifier.CertifierRequest;
 import it.unicam.cs.ids.shared.application.Validator;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.models.Company;
@@ -107,7 +107,7 @@ public class AuthServiceImpl implements AuthService {
         User certifier = userMapper.fromRequest(registerUserRequest);
         userRepository.save(certifier);
 
-        CertifierRequest certifierRequest = certifierMapper.fromUser(certifier);
+        CertifierRequestEntity certifierRequest = certifierMapper.fromUser(certifier);
         certifierRequestRepository.save(certifierRequest);
     }
     

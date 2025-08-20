@@ -1,9 +1,8 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security.user;
 
-
-import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
+import it.unicam.cs.ids.context.identity.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,9 +13,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Represents the authenticated user in the application.
+ * Implements Spring Security's UserDetails interface to provide user information
+ * such as username, password, roles, and account status.
+ */
 @Getter @AllArgsConstructor
 public class AppUserPrincipal implements UserDetails {
-
     private final Long id;
     private final String email;
     private final String password;
@@ -25,10 +28,13 @@ public class AppUserPrincipal implements UserDetails {
     private final boolean emailVerified;
     private final boolean isCompany;
 
-    // Factory method for User
+    /**
+     * Factory method to create an AppUserPrincipal from a User entity.
+     * @param user the User entity to convert
+     * @return an AppUserPrincipal instance representing the user
+     */
     public static AppUserPrincipal fromUser(@NonNull User user) {
-        PlatformRoles role = user.getRole();
-        String authority = role.getRole();
+        String authority = user.getRole().name();
         return new AppUserPrincipal(
                 user.getId(),
                 user.getEmail(),
@@ -40,14 +46,19 @@ public class AppUserPrincipal implements UserDetails {
         );
     }
 
-    // Factory method for Company
+    /**
+     * Factory method to create an AppUserPrincipal from a Company entity.
+     * @param company the Company entity to convert
+     * @return an AppUserPrincipal instance representing the company
+     */
     public static AppUserPrincipal fromCompany(@NonNull Company company) {
+        String authority = company.getRole().name();
         return new AppUserPrincipal(
                 company.getId(),
                 company.getEmail(),
                 company.getHashedPassword(),
                 company.getVat(),
-                Collections.singletonList(new SimpleGrantedAuthority(company.getRole().toString())),
+                Collections.singletonList(new SimpleGrantedAuthority(authority)),
                 company.isEmailVerified(),
                 true
         );
@@ -63,4 +74,3 @@ public class AppUserPrincipal implements UserDetails {
         return emailVerified;
     }
 }
-

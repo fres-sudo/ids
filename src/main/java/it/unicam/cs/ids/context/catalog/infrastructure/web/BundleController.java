@@ -1,9 +1,11 @@
 package it.unicam.cs.ids.context.catalog.infrastructure.web;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
+import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
@@ -26,7 +28,7 @@ public class BundleController {
     private final ApiResponseFactory responseFactory;
 
     @PostMapping
-    @PreAuthorize("hasRole('DISTRIBUTOR')")
+    @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
     ApiResponse<BundleDTO> createBundle(@RequestBody CreateBundleRequest request) {
         Company authedCompany = authService.getAuthenticatedCompany();
         request.setDistributorId(authedCompany.getId());
@@ -37,7 +39,7 @@ public class BundleController {
     }
 
     @PatchMapping()
-    @PreAuthorize("hasRole('DISTRIBUTOR')")
+    @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
     ApiResponse<BundleDTO> updateBundle(@RequestBody UpdateBundleRequest request) {
         return responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_UPDATED,
@@ -45,14 +47,25 @@ public class BundleController {
         );
     }
 
-    @DeleteMapping()
-    @PreAuthorize("hasRole('DISTRIBUTOR')")
-    ResponseEntity<ApiResponse<Void>> deleteBundle(@RequestParam("bundleId") Long bundleId) {
+    @DeleteMapping("/{bundleId}")
+    @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
+    ResponseEntity<ApiResponse<Void>> deleteBundle(@PathVariable Long bundleId) {
         bundleService.deleteBundle(bundleId, authService.getAuthenticatedCompany().getId());
         ApiResponse<Void> response = responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_DELETED, null
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
 
+    }
+
+    @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
+    @PostMapping("/submit/{bundleId}")
+    ApiResponse<BundleDTO> submitBundleForApproval(@PathVariable Long bundleId) {
+
+        AppUserPrincipal company = AppUserPrincipal.fromCompany(authService.getAuthenticatedCompany());
+        return responseFactory.createSuccessResponse(
+                Messages.Success.BUNDLE_SUBMITTED_FOR_APPROVAL,
+                bundleService.submitBundleForApproval(bundleId, company.getId())
+        );
     }
 }

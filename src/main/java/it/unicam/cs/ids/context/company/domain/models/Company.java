@@ -1,12 +1,16 @@
 package it.unicam.cs.ids.context.company.domain.models;
 
+import it.unicam.cs.ids.context.catalog.domain.model.Product;
+import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Company represents a signed-up seller on the platform.

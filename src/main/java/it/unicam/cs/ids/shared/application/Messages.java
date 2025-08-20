@@ -19,7 +19,8 @@ public final class Messages {
         String USER_UPDATED = "User updated successfully";
         String USER_DELETED = "User deleted successfully";
 
-        String CERTIFIER_REGISTERED = "Certifier registered successfully, please wait for approval";
+        String CERTIFIER_REGISTERED = "Certifier registered successfully," +
+                " you can login like a normal user, for certifier role... please wait for approval";
         String CERTIFIER_RETRIEVED = "Certifier retrieved successfully";
         String CERTIFIER_UPDATED = "Certifier updated successfully";
         String CERTIFIER_DELETED = "Certifier deleted successfully";
@@ -54,7 +55,10 @@ public final class Messages {
         String ADMIN_REGISTERED = "Admin registered successfully";
 
 
-
+        String PRODUCT_SUBMITTED_FOR_APPROVAL = "Product submitted for approval successfully," +
+                " please wait for the certifier's response";
+        String BUNDLE_SUBMITTED_FOR_APPROVAL = "Bundle submitted for approval successfully," +
+                " please wait for the certifier's response";
     }
 
     public interface Error {
@@ -81,8 +85,13 @@ public final class Messages {
     public interface Auth {
         String UNAUTHORIZED_ACCESS = "Unauthorized access";
         String USER_NOT_FOUND = "User not found";
+        String USER_ALREADY_EXISTS = "User already exists";
+        String INVALID_CREDENTIALS = "Invalid credentials";
+        String USER_NOT_AUTHORIZED = "User not authorized for this action";
+        String USER_NOT_VERIFIED = "User not verified";
+        String COMPANY_NOT_FOUND = "Company not found";
         String INVALID_PASSWORD = "Invalid password";
         String NO_UNIQUE_EMAIL = "Email already in use, choose a unique one";
-        String INVALID_COMPANY_DELETE_REQUEST = "Invalid company delete requests. Please check your credentials and try again.";
+        String INVALID_COMPANY_REQUEST = "Invalid company requests. Please check your credentials and try again.";
     }
 }

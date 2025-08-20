@@ -5,6 +5,6 @@ import lombok.NonNull;
 public class NotFound extends RuntimeException {
 
     public NotFound(@NonNull String resource) {
-        super("\" resource \"" + " not found");
+        super(resource + " not found");
     }
 }

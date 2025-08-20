@@ -26,6 +26,7 @@ public interface ProductService {
      * @return an ApiResponse containing the updated ProductDTO
      */
     ProductDTO updateProduct(Long productId, UpdateProductRequest request);
+
     /**
      * Creates a new certificate based on the provided requests.
      *
@@ -33,10 +34,19 @@ public interface ProductService {
      * @return an ApiResponse containing the created CertificateDTO
      */
     ProductDTO createCertificate(CreateCertificateRequest request);
+
     /**
      * Deletes a product by its ID.
      *
      * @param productId the ID of the product to be deleted
      */
     void deleteProduct(Long productId);
+
+    /**
+     * Submits a product for approval.
+     * @param productId the ID of the product to be submitted for approval
+     * @param id the ID of the user submitting the product
+     * @return the ProductDTO after submission
+     */
+    ProductDTO submitProductForApproval(Long productId, Long id);
 }

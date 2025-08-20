@@ -8,6 +8,7 @@ import it.unicam.cs.ids.context.identity.domain.model.CertifierRequest;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
+import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotFound;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +48,17 @@ public class AdminServiceImpl implements AdminService {
             throw new IllegalStateException("Only pending requests can be processed");
         }
 
-        // Update user
-        User user = userRepository.findById(certifierRequest.getRequestingUser().getId()).orElseThrow(
-                () -> {
-                    certifierRequest.setStatus(ApprovalStatus.REJECTED);
-                    return new IllegalArgumentException("User not found");
-                }
-        );
-        user.setRole(PlatformRoles.CERTIFIER);
-        userRepository.save(user);
+        // If approved, update the user role
+        if (newStatus == ApprovalStatus.APPROVED) {
+            User user = userRepository.findById(certifierRequest.getRequestingUser().getId())
+                    .orElseThrow(() -> {
+                        certifierRequest.setStatus(ApprovalStatus.REJECTED);
+                        return new NotFound("User not found");
+                    });
+            user.setRole(PlatformRoles.CERTIFIER);
+            userRepository.save(user);
+        }
+
 
         // Update certifier request
         certifierRequest.setStatus(newStatus);

@@ -21,6 +21,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public class Bundle extends BaseEntity implements Approvable, Purchasable {
     @ElementCollection
     @CollectionTable(name = "bundle_tags", joinColumns = @JoinColumn(name = "bundle_id"))
     @Column(name = "tag")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> tags = new ArrayList<>();
 
     @Column(nullable = false)
@@ -64,6 +67,7 @@ public class Bundle extends BaseEntity implements Approvable, Purchasable {
 
     @ManyToOne
     @JoinColumn(name = "distributor_company_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Company distributor; // Changed from long distributorId to Company entity
 
     @Column(name = "available_for_sale", nullable = false)

@@ -12,6 +12,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList; // Use concrete list types
@@ -60,10 +62,12 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "product_tags", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "tag")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> tags = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "producer_company_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Company producer;
 
     @Column(name = "cultivation_method", length = 255)
@@ -121,6 +125,7 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
 
     @ManyToOne
     @JoinColumn(name = "creator_company_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Company creator;
 
     @Override

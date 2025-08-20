@@ -29,11 +29,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var userOpt = userRepository.findByEmail(username);
         if (userOpt.isPresent()) {
+            System.out.println("Role: " + userOpt.get().getRole());
             return AppUserPrincipal.fromUser(userOpt.get());
         }
 
         var companyOpt = companyRepository.findByEmail(username);
         if (companyOpt.isPresent()) {
+            System.out.println("Role: " + companyOpt.get().getRole());
             return AppUserPrincipal.fromCompany(companyOpt.get());
         }
 

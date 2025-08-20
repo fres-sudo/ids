@@ -1,12 +1,10 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
+import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
+import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtAuthEntryPoint;
+import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtAuthenticationFilter;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.UserDetailsServiceImpl;
-import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
-import it.unicam.cs.ids.shared.infrastructure.web.factories.DefaultApiResponseFactory;
-import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import lombok.AllArgsConstructor;
@@ -18,14 +16,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtAuthEntryPoint;
-import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtAuthenticationFilter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -43,8 +38,7 @@ public class SecurityConfiguration {
     private final JwtAuthEntryPoint authEntryPoint;
     /** JWT authentication filter for processing JWT tokens */
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final ObjectMapper objectMapper;
-    private final ApiResponseFactory apiResponseFactory;
+
     /**
      * Configures the security filter chain for HTTP requests.
      * <p>
@@ -61,7 +55,6 @@ public class SecurityConfiguration {
      * @return the configured SecurityFilterChain
      * @throws Exception if any configuration error occurs
      */
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -74,27 +67,44 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/search/**").permitAll()
-                        .requestMatchers("/products/**").permitAll()
-                        .requestMatchers("/bundles/**").hasAnyAuthority(CompanyRoles.DISTRIBUTOR.toString())
+                        .requestMatchers("/users/**").hasAnyAuthority(
+                                PlatformRoles.BUYER.name(),
+                                PlatformRoles.CERTIFIER.name(),
+                                PlatformRoles.ADMIN.name()
+                        )
+                        .requestMatchers("/purchase/**").hasAnyAuthority(
+                                PlatformRoles.BUYER.name(),
+                                CompanyRoles.PRODUCER.name(),
+                                CompanyRoles.TRANSFORMER.name(),
+                                CompanyRoles.DISTRIBUTOR.name(),
+                                PlatformRoles.CERTIFIER.name(),
+                                PlatformRoles.ADMIN.name()
+                        )
+                        .requestMatchers("/products/**").hasAnyAuthority(
+                                CompanyRoles.PRODUCER.name(),
+                                CompanyRoles.TRANSFORMER.name(),
+                                CompanyRoles.DISTRIBUTOR.name()
+                        )
+                        .requestMatchers("/bundles/**").hasAnyAuthority(
+                                CompanyRoles.DISTRIBUTOR.name()
+                        )
+                        .requestMatchers("/companies/**").hasAnyAuthority(
+                                CompanyRoles.PRODUCER.name(),
+                                CompanyRoles.TRANSFORMER.name(),
+                                CompanyRoles.DISTRIBUTOR.name()
+                        )
+                        .requestMatchers("/certifier/**").hasAnyAuthority(
+                                PlatformRoles.CERTIFIER.name()
+                        )
+                        .requestMatchers("/admin/**").hasAuthority(
+                                PlatformRoles.ADMIN.name()
+                        )
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-    @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
-        return (request, response, accessDeniedException) -> {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            response.setContentType("application/json");
-
-            ApiResponse<String> apiResponse = apiResponseFactory.createErrorResponse(
-                    request, accessDeniedException, HttpStatus.FORBIDDEN);
-
-            response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
-        };
     }
 
     /**

@@ -5,6 +5,8 @@ import it.unicam.cs.ids.shared.infrastructure.persistence.ApprovableEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Certificate represents a document issued for a product, which is a proof of authenticity or compliance to territorial regulations.
@@ -19,6 +21,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ApprovalRequest extends ApprovableEntity {
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Company requestingCompany;
 
     @Enumerated(EnumType.STRING) // "PRODUCT", "BUNDLE")

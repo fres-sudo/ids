@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -13,5 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CertifierRequest extends ApprovableEntity {
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User requestingUser;
 }

@@ -35,11 +35,10 @@ public class ProductController {
     private final AuthService authService;
 
     @PostMapping
-    @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
     public ApiResponse<ProductDTO> createProduct(
-            @RequestBody CreateProductRequest request,
-            @AuthenticationPrincipal AppUserPrincipal principal
-    ) {
+            @RequestBody CreateProductRequest request
+    ) { //TODO: mov ethe logic in {ProductService}
         Company company = authService.getAuthenticatedCompany();
         Long companyId = company.getId();
         request.setCreatorId(companyId);
@@ -56,7 +55,7 @@ public class ProductController {
         );
     }
 
-    @PreAuthorize("hasRole('PRODUCER') or hasRole('DISTRIBUTOR') or hasRole('TRANSFORMER')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
     @PatchMapping("/{productId}")
     ApiResponse<ProductDTO> updateProduct(
             @PathVariable Long productId,
@@ -68,12 +67,33 @@ public class ProductController {
         );
     }
 
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
+    @DeleteMapping("/{productId}")
+    ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long productId) {
+        productService.deleteProduct(productId);
+        return new ResponseEntity<>(
+                responseFactory.createSuccessResponse(Messages.Success.PRODUCT_DELETED, null),
+                HttpStatus.OK
+        );
+    }
+
     @PostMapping( "/certificate")
-    @PreAuthorize("hasRole('PRODUCER') || hasRole('DISTRIBUTOR') || hasRole('TRANSFORMER')")
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
     ApiResponse<ProductDTO> createCertificate(@Valid @RequestBody CreateCertificateRequest request) {
         return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFICATE_CREATED,
                 productService.createCertificate(request)
+        );
+    }
+
+    @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
+    @PostMapping("/submit/{productId}")
+    ApiResponse<ProductDTO> submitProductForApproval(@PathVariable Long productId) {
+
+        AppUserPrincipal company = AppUserPrincipal.fromCompany(authService.getAuthenticatedCompany());
+        return responseFactory.createSuccessResponse(
+                Messages.Success.PRODUCT_SUBMITTED_FOR_APPROVAL,
+                productService.submitProductForApproval(productId, company.getId())
         );
     }
 }

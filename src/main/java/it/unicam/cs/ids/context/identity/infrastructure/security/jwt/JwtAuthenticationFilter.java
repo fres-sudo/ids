@@ -7,7 +7,6 @@ import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.DefaultApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -58,11 +57,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (token != null && tokenProvider.validateToken(token)) {
                 String username = tokenProvider.getUsernameFromToken(token);
-                // Extract authorities from JWT token
+
+                // Use authorities directly from JWT (no ROLE_ prefix)
                 String authoritiesString = tokenProvider.getAuthoritiesFromToken(token);
                 Collection<? extends GrantedAuthority> authorities =
                         Arrays.stream(authoritiesString.split(","))
-                                .map(SimpleGrantedAuthority::new)
+                                .map(SimpleGrantedAuthority::new) // No "ROLE_" prefix
                                 .collect(Collectors.toList());
 
                 UsernamePasswordAuthenticationToken authentication =
@@ -71,12 +71,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 null,
                                 authorities
                         );
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+
 
             filterChain.doFilter(request, response);
         } catch (Exception e) {

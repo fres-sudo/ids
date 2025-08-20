@@ -2,6 +2,7 @@ package it.unicam.cs.ids.context.certification.infrastructure.web;
 
 import it.unicam.cs.ids.context.certification.application.services.ApprovalRequestService;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.ApprovalRequestDTO;
+import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.ApprovableOperations;
@@ -24,8 +25,9 @@ public class ApprovalRequestController implements ApprovableOperations<ApprovalR
 
     private final ApiResponseFactory responseFactory;
     private final ApprovalRequestService approvalRequestService;
+    private final AuthService authService;
 
-    @PreAuthorize("hasRole('CERTIFIER')")
+    @PreAuthorize("hasAnyAuthority('CERTIFIER')")
     @Override
     public ApiResponse<ApprovalRequestDTO<Approvable>> approve(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
@@ -33,7 +35,7 @@ public class ApprovalRequestController implements ApprovableOperations<ApprovalR
                 approvalRequestService.approve(requestId, comments));
     }
 
-    @PreAuthorize("hasRole('CERTIFIER')")
+    @PreAuthorize("hasAnyAuthority('CERTIFIER')")
     @Override
     public ApiResponse<ApprovalRequestDTO<Approvable>> reject(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
@@ -41,7 +43,7 @@ public class ApprovalRequestController implements ApprovableOperations<ApprovalR
                 approvalRequestService.reject(requestId, comments));
     }
 
-    @PreAuthorize("hasRole('CERTIFIER') || hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('CERTIFIER')")
     @GetMapping()
     public Page<ApprovalRequestDTO<Approvable>> findPendingRequests(
             @PageableDefault() Pageable pageable

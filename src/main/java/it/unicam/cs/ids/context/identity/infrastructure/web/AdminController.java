@@ -26,7 +26,7 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
     private final AdminService adminService;
     private final ApiResponseFactory responseFactory;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public ApiResponse<CertifierRequestDTO> approve(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
@@ -35,16 +35,16 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
         );
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public ApiResponse<CertifierRequestDTO> reject(Long requestId, String comments) {
         return responseFactory.createSuccessResponse(
-                Messages.Success.CERTIFIER_ACCEPTED,
+                Messages.Success.CERTIFIER_REJECTED,
                 adminService.reject(requestId, comments)
         );
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public Page<CertifierRequestDTO> findPendingRequests(Pageable pageable) {
         return adminService.findPendingRequests(pageable);

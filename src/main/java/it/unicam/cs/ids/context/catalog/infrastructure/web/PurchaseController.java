@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,6 +70,7 @@ public class PurchaseController {
         );
     }
 
+    //TODO: Add authorization checks for the following endpoints if needed
     @GetMapping("/user")
     public Page<PurchaseDTO> getUserPurchases(
             @RequestParam(defaultValue = "0") Integer pageNo,
@@ -81,8 +83,7 @@ public class PurchaseController {
 
     @GetMapping("/{purchaseId}")
     public ApiResponse<PurchaseDTO> getPurchase(
-            @PathVariable Long purchaseId,
-            @AuthenticationPrincipal AppUserPrincipal principal
+            @PathVariable Long purchaseId
     ) {
         PurchaseDTO purchase = purchaseService.getPurchaseById(purchaseId);
         

@@ -8,5 +8,5 @@ import org.springframework.data.domain.Pageable;
 public interface AdminService {
     CertifierRequestDTO approve(Long requestId, String comments);
     CertifierRequestDTO reject(Long requestId, String comments);
-    Page<CertifierRequestDTO> findPendingRequests( Pageable pageable);
+    Page<CertifierRequestDTO> findPendingRequests(Pageable pageable);
 }

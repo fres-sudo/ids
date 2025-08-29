@@ -24,7 +24,7 @@ public class ApprovalRequest extends ApprovableEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Company requestingCompany;
 
-    @Enumerated(EnumType.STRING) // "PRODUCT", "BUNDLE")
+    @Enumerated(EnumType.STRING) // "PRODUCT", "BUNDLE"
     private RequestEntityType entityType;
 
     private Long entityId;

@@ -3,14 +3,11 @@ package it.unicam.cs.ids.context.catalog.application.mappers;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateBundleRequest;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
-import it.unicam.cs.ids.context.catalog.domain.model.BundledProduct;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring",
         uses = {BundledProductMapper.class, CompanyMapper.class},

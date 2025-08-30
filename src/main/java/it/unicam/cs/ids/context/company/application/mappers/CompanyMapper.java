@@ -78,7 +78,7 @@ public abstract class CompanyMapper {
     );
 
     /**
-     * Maps a individual company ID to its corresponding Company entity.
+     * Maps an individual company ID to its corresponding Company entity.
      * @param id the ID of the company to map
      * @return the Company entity corresponding to the provided ID
      */

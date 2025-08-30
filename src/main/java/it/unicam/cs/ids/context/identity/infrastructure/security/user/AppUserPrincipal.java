@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security.user;
 
 import it.unicam.cs.ids.context.company.domain.models.Company;
-import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

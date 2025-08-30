@@ -94,7 +94,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      *
      * <p>This method looks for a header named {@code Authorization} and checks if it starts
      * with the prefix {@code "Bearer "}. If the header is present and properly formatted,
-     * it returns the token part (i.e., the substring after "Bearer ").</p>
+     * it returns the token part (i.e., the substring after "Bearer").</p>
      *
      * @param request the incoming {@link HttpServletRequest} containing the Authorization header
      * @return the JWT token if present and correctly formatted; otherwise, {@code null}

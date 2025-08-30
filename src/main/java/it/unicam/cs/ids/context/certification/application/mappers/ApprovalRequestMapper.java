@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring", uses = {CompanyMapper.class})
 @Component
 public abstract class ApprovalRequestMapper {

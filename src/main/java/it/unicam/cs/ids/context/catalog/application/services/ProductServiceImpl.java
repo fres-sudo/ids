@@ -8,9 +8,7 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
 import it.unicam.cs.ids.context.certification.application.mappers.CertificateMapper;
-import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
-import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.context.certification.domain.repositories.ApprovalRequestRepository;
 import it.unicam.cs.ids.context.certification.domain.repositories.CertificateRepository;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.ProductApprovalRequestFactory;
@@ -26,8 +24,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.nio.file.Path;
 
 /**
  * Implementation of {@link ProductService},

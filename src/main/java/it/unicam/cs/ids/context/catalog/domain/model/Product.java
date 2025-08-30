@@ -70,7 +70,7 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Company producer;
 
-    @Column(name = "cultivation_method", length = 255)
+    @Column(name = "cultivation_method")
     private String cultivationMethod;
 
     @Column(name = "expiration_date")

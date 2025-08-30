@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.shared.application;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ProductCategory;
-import it.unicam.cs.ids.shared.kernel.enums.SortDirection;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

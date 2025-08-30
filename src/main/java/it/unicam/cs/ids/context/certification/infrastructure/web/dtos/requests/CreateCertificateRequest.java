@@ -4,7 +4,6 @@ import it.unicam.cs.ids.shared.application.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 

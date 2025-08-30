@@ -1,16 +1,12 @@
 package it.unicam.cs.ids.context.company.domain.models;
 
-import it.unicam.cs.ids.context.catalog.domain.model.Product;
-import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Company represents a signed-up seller on the platform.
@@ -40,7 +36,7 @@ public class Company extends BaseEntity {
     private String vat;
 
     /** Company account hashed password */
-    @Column(name = "hashed_password", nullable = false, length = 255)
+    @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 
     /////////////////////////////////////////////

@@ -18,13 +18,13 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String surname;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "hashed_password", nullable = false, length = 255)
+    @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 
     @Column(name = "phone_number", length = 20)

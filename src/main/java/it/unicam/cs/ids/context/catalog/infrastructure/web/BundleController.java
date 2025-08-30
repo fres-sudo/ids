@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.catalog.infrastructure.web;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
-import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
@@ -61,7 +60,6 @@ public class BundleController {
     @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
     @PostMapping("/submit/{bundleId}")
     ApiResponse<BundleDTO> submitBundleForApproval(@PathVariable Long bundleId) {
-
         AppUserPrincipal company = AppUserPrincipal.fromCompany(authService.getAuthenticatedCompany());
         return responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_SUBMITTED_FOR_APPROVAL,

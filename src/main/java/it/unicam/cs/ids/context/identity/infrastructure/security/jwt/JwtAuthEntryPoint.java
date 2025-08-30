@@ -17,7 +17,7 @@ import java.io.IOException;
  * It sends a 401 Unauthorized HTTP response when authentication fails or is missing.</p>
  *
  * <p>Typically used in JWT-based authentication setups where no login form is present,
- * and access relies on a valid token in the requests header.</p>
+ * and access relies on a valid token in the request's header.</p>
  *
  * @see org.springframework.security.web.AuthenticationEntryPoint
  */

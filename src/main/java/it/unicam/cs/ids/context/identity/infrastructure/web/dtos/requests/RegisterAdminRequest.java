@@ -18,5 +18,5 @@ public class RegisterAdminRequest extends RegisterUserRequest {
     * The password field for admin bypass, the user that wishes to register as an admin
     * should send the correct by pass password
     */
-    private String adminByPassPasswordField;
+    private String adminSecret;
 }

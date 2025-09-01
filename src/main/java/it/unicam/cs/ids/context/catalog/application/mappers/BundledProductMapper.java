@@ -4,6 +4,7 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateB
 import it.unicam.cs.ids.context.catalog.domain.model.BundledProduct;
 import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -13,10 +14,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 public abstract class BundledProductMapper {
 
-    @Autowired
     protected ProductRepository productRepository; // Inject the repository
 
     // This method will be used to map CreateBundledProductRequest to BundledProduct

@@ -38,8 +38,8 @@ public interface ApiResponseFactory {
     /**
      * Creates am error response based on the exception thrown.
      *
-     * @param req the HttpServletRequest that caused the error
-     * @param ex the actual Exception that was thrown
+     * @param req    the HttpServletRequest that caused the error
+     * @param ex     the actual Exception that was thrown
      * @param status the HttpStatus of the response created
      * @return an ApiError containing the error details
      */

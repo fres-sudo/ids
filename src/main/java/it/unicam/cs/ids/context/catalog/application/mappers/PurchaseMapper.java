@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         uses = {ProductMapper.class, BundleMapper.class})
 @Component
+
 public abstract class PurchaseMapper {
     public abstract PurchaseDTO toDto(Purchase purchase);
 }

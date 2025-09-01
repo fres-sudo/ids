@@ -5,6 +5,7 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateB
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,8 @@ import org.springframework.stereotype.Component;
         uses = {BundledProductMapper.class, CompanyMapper.class},
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class BundleMapper {
-    @Autowired
-    protected BundledProductMapper bundledProductMapper;
-
     public abstract BundleDTO toDto(Bundle bundle);
 
     @Mapping(target = "id", ignore = true)

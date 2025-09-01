@@ -1,13 +1,15 @@
 package it.unicam.cs.ids.context.events.application.services;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.events.application.mappers.EventParticipationMapper;
+import it.unicam.cs.ids.context.events.domain.factories.ParticipationStrategyFactory;
 import it.unicam.cs.ids.context.events.domain.model.Event;
-import it.unicam.cs.ids.context.events.domain.model.EventParticipation;
-import it.unicam.cs.ids.context.events.domain.repositories.EventParticipationRepository;
+import it.unicam.cs.ids.context.events.domain.model.EventParticipationV2;
+import it.unicam.cs.ids.context.events.domain.repositories.EventParticipationV2Repository;
 import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
+import it.unicam.cs.ids.context.events.domain.strategies.ParticipationStrategy;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventParticipationDTO;
 import it.unicam.cs.ids.shared.application.Finder;
+import it.unicam.cs.ids.shared.application.Participable;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,127 +18,122 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-/**
- * Implementation of {@link EventParticipationService},
- * This service handles the management of event participation requests.
- */
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class EventParticipationServiceImpl implements EventParticipationService {
 
-    private final EventParticipationMapper participationMapper;
-    private final EventParticipationRepository participationRepository;
+    private final EventParticipationV2Repository participationRepository;
     private final EventRepository eventRepository;
+    private final EventParticipationMapper participationMapper;
+    private final ParticipationStrategyFactory strategyFactory;
 
     @Override
     @Transactional
-    public EventParticipationDTO createParticipationRequest(@Nonnull EventParticipationDTO participationDTO) {
-        // Check if participation already exists
-        Optional<EventParticipation> existingParticipation = participationRepository
-                .findByEventIdAndParticipantId(participationDTO.getEvent().getId(), 
-                                             participationDTO.getParticipant().getId());
+    public <T extends Participable> EventParticipationDTO createParticipationRequest(
+            @Nonnull Long eventId, @Nonnull T participant, String applicationMessage, 
+            String specialRequirements, String emergencyContact) {
+        
+        Event event = Finder.findByIdOrThrow(eventRepository, eventId, 
+                "Event with id " + eventId + " not found");
+        
+        Optional<EventParticipationV2> existingParticipation = participationRepository
+                .findByEventIdAndParticipantIdAndParticipantType(
+                        eventId, getParticipantId(participant), participant.getParticipantType());
         
         if (existingParticipation.isPresent()) {
-            throw new IllegalArgumentException("Participation request already exists for this event and company");
+            throw new IllegalArgumentException("Participation request already exists for this event and participant");
         }
 
-        // Validate event is available for registration
-        Event event = Finder.findByIdOrThrow(eventRepository, participationDTO.getEvent().getId(),
-                "Event with id " + participationDTO.getEvent().getId() + " not found");
-        
-        if (!event.isRegistrationOpen()) {
-            throw new IllegalArgumentException("Registration is closed for this event");
-        }
-        
-        if (!event.hasAvailableSlots()) {
-            throw new IllegalArgumentException("No available slots for this event");
-        }
+        ParticipationStrategy<T> strategy = strategyFactory.getStrategy(participant);
+        strategy.validateParticipation(participant, event);
 
-        EventParticipation participation = participationMapper.fromDto(participationDTO);
-        EventParticipation savedParticipation = participationRepository.save(participation);
+        EventParticipationV2 participation = createParticipation(
+                event, participant, applicationMessage, specialRequirements, emergencyContact);
+        
+        EventParticipationV2 savedParticipation = participationRepository.save(participation);
         return participationMapper.toDto(savedParticipation);
     }
 
     @Override
     @Transactional
-    public EventParticipationDTO updateParticipationRequest(@Nonnull Long participationId, @Nonnull EventParticipationDTO participationDTO) {
-        EventParticipation existingParticipation = Finder.findByIdOrThrow(participationRepository, participationId,
+    public EventParticipationDTO updateParticipationRequest(@Nonnull Long participationId,
+                                                            String applicationMessage, String specialRequirements, String emergencyContact) {
+        
+        EventParticipationV2 existingParticipation = Finder.findByIdOrThrow(
+                participationRepository, participationId, 
                 "Participation with id " + participationId + " not found");
         
         if (!existingParticipation.canBeModified()) {
             throw new IllegalArgumentException("Cannot modify participation request in current status");
         }
 
-        EventParticipation updatedParticipation = participationMapper.updateParticipationFromDto(participationDTO, existingParticipation);
-        EventParticipation savedParticipation = participationRepository.save(updatedParticipation);
+        existingParticipation.setApplicationMessage(applicationMessage);
+        existingParticipation.setSpecialRequirements(specialRequirements);
+        existingParticipation.setEmergencyContact(emergencyContact);
+        
+        EventParticipationV2 savedParticipation = participationRepository.save(existingParticipation);
         return participationMapper.toDto(savedParticipation);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public EventParticipationDTO getParticipationById(@Nonnull Long participationId) {
-        EventParticipation participation = Finder.findByIdOrThrow(participationRepository, participationId,
-                "Participation with id " + participationId + " not found");
-        return participationMapper.toDto(participation);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<EventParticipationDTO> getParticipationsByEvent(@Nonnull Long eventId) {
+    public List<EventParticipationDTO> getParticipantsByEvent(@Nonnull Long eventId) {
         return participationRepository.findByEventId(eventId).stream()
                 .map(participationMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<EventParticipationDTO> getParticipationsByCompany(@Nonnull Long companyId) {
-        return participationRepository.findByParticipantId(companyId).stream()
+    public <T extends Participable> List<EventParticipationDTO> getParticipationsByParticipant(@Nonnull T participant) {
+        return participationRepository.findByParticipantIdAndParticipantType(
+                        getParticipantId(participant), participant.getParticipantType()).stream()
                 .map(participationMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     @Transactional
     public EventParticipationDTO approveParticipation(@Nonnull Long participationId, String responseMessage) {
-        EventParticipation participation = Finder.findByIdOrThrow(participationRepository, participationId,
+        EventParticipationV2 participation = Finder.findByIdOrThrow(
+                participationRepository, participationId,
                 "Participation with id " + participationId + " not found");
         
-        // Check if event still has available slots
         if (!participation.getEvent().hasAvailableSlots()) {
             throw new IllegalArgumentException("No available slots remaining for this event");
         }
 
         participation.approve(responseMessage);
-        EventParticipation savedParticipation = participationRepository.save(participation);
+        EventParticipationV2 savedParticipation = participationRepository.save(participation);
         return participationMapper.toDto(savedParticipation);
     }
 
     @Override
     @Transactional
     public EventParticipationDTO rejectParticipation(@Nonnull Long participationId, String responseMessage) {
-        EventParticipation participation = Finder.findByIdOrThrow(participationRepository, participationId,
+        EventParticipationV2 participation = Finder.findByIdOrThrow(
+                participationRepository, participationId,
                 "Participation with id " + participationId + " not found");
         
         participation.reject(responseMessage);
-        EventParticipation savedParticipation = participationRepository.save(participation);
+        EventParticipationV2 savedParticipation = participationRepository.save(participation);
         return participationMapper.toDto(savedParticipation);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<EventParticipationDTO> getPendingParticipationsByOrganizer(@Nonnull Long organizerId) {
+    public List<EventParticipationDTO> getPendingParticipantsByOrganizer(@Nonnull Long organizerId) {
         return participationRepository.findPendingParticipationsByOrganizer(organizerId).stream()
                 .map(participationMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     @Transactional
     public void cancelParticipation(@Nonnull Long participationId) {
-        EventParticipation participation = Finder.findByIdOrThrow(participationRepository, participationId,
+        EventParticipationV2 participation = Finder.findByIdOrThrow(
+                participationRepository, participationId,
                 "Participation with id " + participationId + " not found");
         
         if (!participation.canBeModified()) {
@@ -144,5 +141,29 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         }
 
         participationRepository.delete(participation);
+    }
+
+    private <T extends Participable> EventParticipationV2 createParticipation(
+            Event event, T participant, String applicationMessage, 
+            String specialRequirements, String emergencyContact) {
+        
+        EventParticipationV2 participation = new EventParticipationV2();
+        participation.setEvent(event);
+        participation.setParticipantId(getParticipantId(participant));
+        participation.setParticipantType(participant.getParticipantType());
+        participation.setParticipantIdentifier(participant.getParticipantIdentifier());
+        participation.setParticipantContactInfo(participant.getContactInfo());
+        participation.setApplicationMessage(applicationMessage);
+        participation.setSpecialRequirements(specialRequirements);
+        participation.setEmergencyContact(emergencyContact);
+        
+        return participation;
+    }
+
+    private <T extends Participable> Long getParticipantId(T participant) {
+        if (participant instanceof it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity) {
+            return ((it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity) participant).getId();
+        }
+        throw new IllegalArgumentException("Participant must extend BaseEntity");
     }
 }

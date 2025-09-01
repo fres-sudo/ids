@@ -1,10 +1,15 @@
 package it.unicam.cs.ids.context.identity.infrastructure.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
 import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtAuthEntryPoint;
 import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtAuthenticationFilter;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.UserDetailsServiceImpl;
+import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
+import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import lombok.AllArgsConstructor;
@@ -14,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

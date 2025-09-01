@@ -7,6 +7,7 @@ import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.EditUs
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
 import it.unicam.cs.ids.shared.application.Validator;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +21,9 @@ import org.springframework.stereotype.Component;
         uses = {Validator.class}
 )
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class UserMapper {
 
-    @Autowired
-    protected UserRepository userRepository;
-    @Autowired
     protected PasswordEncoder passwordEncoder;
 
     public abstract UserDTO toDto(User company);

@@ -114,11 +114,9 @@ public class AuthServiceImpl implements AuthService {
     public void registerAdmin(@RequestBody RegisterAdminRequest registerAdminRequest) {
         emailValidatorService.validateEmailInUse(registerAdminRequest.getEmail());
         // FIXME: -- TESTING PURPOSES ONLY --
-        final String ADMIN_BY_PASS_PASSWORD =  "admin";
-        if (!registerAdminRequest.getAdminByPassPasswordField().equals(
-                ADMIN_BY_PASS_PASSWORD)
-        ) {
-            throw new AuthenticationException("ADMIN BY-PASS PASSWORD MISMATCH");
+        final String ADMIN_SECRET =  "admin";
+        if (!registerAdminRequest.getAdminSecret().equals(ADMIN_SECRET)) {
+            throw new AuthenticationException("INVALID ADMIN SECRET");
         }
         User admin = userMapper.fromRequest(registerAdminRequest);
         admin.setRole(PlatformRoles.ADMIN);

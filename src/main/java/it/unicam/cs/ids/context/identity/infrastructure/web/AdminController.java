@@ -6,6 +6,7 @@ import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.ApprovableOperations;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public ApiResponse<CertifierRequestDTO> approve(Long requestId, String comments) {
+    public ApiResponse<CertifierRequestDTO> approve(@Valid Long requestId, @Valid String comments) {
         return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFIER_ACCEPTED,
                 adminService.approve(requestId, comments)
@@ -37,7 +38,7 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public ApiResponse<CertifierRequestDTO> reject(Long requestId, String comments) {
+    public ApiResponse<CertifierRequestDTO> reject(@Valid Long requestId,@Valid String comments) {
         return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFIER_REJECTED,
                 adminService.reject(requestId, comments)
@@ -46,7 +47,7 @@ public class AdminController implements ApprovableOperations<CertifierRequestDTO
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public Page<CertifierRequestDTO> findPendingRequests(Pageable pageable) {
+    public Page<CertifierRequestDTO> findPendingRequests(@Valid Pageable pageable) {
         return adminService.findPendingRequests(pageable);
     }
 }

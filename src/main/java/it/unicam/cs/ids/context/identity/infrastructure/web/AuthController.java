@@ -10,6 +10,7 @@ import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import it.unicam.cs.ids.shared.application.Messages;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class AuthController {
      * @return a response entity containing the authentication response
      */
     @PostMapping("/login")
-    public ApiResponse<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ApiResponse<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         AuthResponse authResponse = authService.login(loginRequest);
         return responseFactory.createSuccessResponse(
                 Messages.Success.USER_LOGGED_IN, authResponse
@@ -54,7 +55,7 @@ public class AuthController {
      * @return a response entity indicating success
      */
     @PostMapping("/register/user")
-    public ApiResponse<?> registerUser(@RequestBody RegisterUserRequest request) {
+    public ApiResponse<?> registerUser(@RequestBody @Valid RegisterUserRequest request) {
         authService.registerUser(request);
         return responseFactory.createSuccessResponse(
                 Messages.Success.USER_REGISTERED,null
@@ -86,7 +87,7 @@ public class AuthController {
      * @return a response entity indicating success
      */
     @PostMapping("/register/admin")
-    public ApiResponse<?> registerAdmin(@RequestBody RegisterAdminRequest request) {
+    public ApiResponse<?> registerAdmin(@RequestBody @Valid RegisterAdminRequest request) {
         authService.registerAdmin(request);
         return responseFactory.createSuccessResponse(
                 Messages.Success.ADMIN_REGISTERED,null
@@ -104,7 +105,7 @@ public class AuthController {
     @PostMapping("/register/company/{role}")
     public ResponseEntity<ApiResponse<?>> registerCompany(
             @PathVariable("role") String role,
-            @RequestBody RegisterCompanyRequest request
+            @RequestBody @Valid RegisterCompanyRequest request
     ) {
         request.setRole(CompanyRoles.fromString(role));
         authService.registerCompany(request);

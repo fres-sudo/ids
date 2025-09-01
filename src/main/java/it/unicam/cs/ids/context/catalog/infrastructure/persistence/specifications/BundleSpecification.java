@@ -46,10 +46,6 @@ public final class BundleSpecification extends AbstractSpecification {
                                 bundledProductRoot.get("quantityInBundle")
                         )
                 );
-
-                priceSubquery.select(totalPrice)
-                        .where(criteriaBuilder.equal(bundledProductRoot.get("bundle"), root));
-
                 if (filter.getMinPrice() > 0) {
                     predicates.add(criteriaBuilder.greaterThanOrEqualTo(priceSubquery, filter.getMinPrice()));
                 }

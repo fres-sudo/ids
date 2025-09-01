@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.context.company.domain.models;
 
+import it.unicam.cs.ids.context.events.domain.model.Event;
+import it.unicam.cs.ids.shared.application.Participable;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -26,7 +28,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Company extends BaseEntity {
+public class Company extends BaseEntity implements Participable {
     /** Company email (unique username) */
     @Column(nullable = false, unique = true)
     private String email;
@@ -66,4 +68,31 @@ public class Company extends BaseEntity {
     /** The Company's billing information */
     @Column(name = "billing_information", columnDefinition = "TEXT")
     private String billingInformation;
+    
+    @Override
+    public void validateParticipation(Event event) {
+        if (!emailVerified) {
+            throw new IllegalArgumentException("Company email must be verified to participate in events");
+        }
+    }
+    
+    @Override
+    public boolean canParticipateInEvent(Event event) {
+        return emailVerified && verifiedAt != null;
+    }
+    
+    @Override
+    public String getParticipantIdentifier() {
+        return "COMPANY_" + getId();
+    }
+    
+    @Override
+    public String getParticipantType() {
+        return "COMPANY";
+    }
+    
+    @Override
+    public String getContactInfo() {
+        return email + (phoneNumber != null ? " | " + phoneNumber : "");
+    }
 }

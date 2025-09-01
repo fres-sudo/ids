@@ -46,12 +46,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, @NotNull WebRequest request) {
 
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .toList();
-
         ApiResponse<List<FieldError>> response = apiResponseFactory.createValidationErrorResponse(
                 Messages.Error.INVALID_REQUEST,
                 ex.getBindingResult().getFieldErrors()
@@ -59,6 +53,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(HttpClientErrorException.NotFound.class)
+    public ResponseEntity<ApiResponse<String>> handleNotFound(HttpServletRequest req, HttpClientErrorException.NotFound ex) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ApiResponse<String> response = apiResponseFactory.createErrorResponse(req, ex, status);
+        return new ResponseEntity<>(response, status);
+    }
+
     /**
      * Handles authentication errors and returns a 401 Unauthorized response.
      * @param ex the exception that was thrown

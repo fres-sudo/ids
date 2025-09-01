@@ -4,6 +4,7 @@ import it.unicam.cs.ids.context.events.domain.model.Event;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,9 +14,9 @@ import org.springframework.stereotype.Component;
         unmappedSourcePolicy = ReportingPolicy.IGNORE, 
         uses = {CompanyMapper.class, EventParticipationMapper.class})
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class EventMapper {
 
-    @Autowired
     protected CompanyRepository companyRepository;
 
     @Mapping(target = "id", ignore = true)

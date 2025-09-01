@@ -6,6 +6,7 @@ import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.UserDTO;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.EditUserRequest;
 import it.unicam.cs.ids.context.identity.application.services.UserService;
 import it.unicam.cs.ids.shared.application.Messages;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +28,7 @@ public class UserController {
      */
     @PreAuthorize("hasAnyAuthority('BUYER', 'CERTIFIER', 'ADMIN')")
     @PatchMapping()
-    ApiResponse<UserDTO> editUser(@RequestBody EditUserRequest request) {
+    ApiResponse<UserDTO> editUser(@Valid @RequestBody EditUserRequest request) {
         UserDTO dto =  userService.editUser(request);
         return responseFactory.createSuccessResponse(
                 Messages.Success.USER_UPDATED, dto

@@ -7,15 +7,16 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateP
 import it.unicam.cs.ids.context.certification.application.mappers.CertificateMapper;
 import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedSourcePolicy = ReportingPolicy.IGNORE, uses = {CompanyMapper.class, CertificateMapper.class})
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class ProductMapper {
 
-    @Autowired
     protected CompanyRepository companyRepository;
 
     @Mapping(target = "id", ignore = true)

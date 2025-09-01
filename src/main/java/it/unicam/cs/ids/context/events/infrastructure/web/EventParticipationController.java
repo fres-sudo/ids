@@ -1,140 +1,137 @@
 package it.unicam.cs.ids.context.events.infrastructure.web;
 
+import it.unicam.cs.ids.context.company.domain.models.Company;
+import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.context.events.application.services.EventParticipationService;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventParticipationDTO;
-import it.unicam.cs.ids.context.company.domain.models.Company;
-import it.unicam.cs.ids.context.identity.application.services.AuthService;
-import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.requests.CreateParticipationRequest;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.requests.UpdateParticipationRequest;
+import it.unicam.cs.ids.context.identity.domain.model.User;
+import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
+import it.unicam.cs.ids.shared.application.Finder;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/events/participations")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping("event-participations")
 public class EventParticipationController {
 
-    private final EventParticipationService participationService;
     private final ApiResponseFactory responseFactory;
-    private final AuthService authService;
-
-    @PostMapping
-    @PreAuthorize("hasRole('COMPANY')")
-    public ApiResponse<EventParticipationDTO> createParticipationRequest(
-            @Valid @RequestBody EventParticipationDTO participationDTO,
-            @AuthenticationPrincipal AppUserPrincipal principal
-    ) {
-        Company company = authService.getAuthenticatedCompany();
-        participationDTO.getParticipant().setId(company.getId());
+    private final EventParticipationService participationService;
+    private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
+    
+    @PostMapping("/company")
+    public ApiResponse<EventParticipationDTO> createCompanyParticipation(
+            @RequestBody CreateParticipationRequest request) {
         
-        EventParticipationDTO createdParticipation = participationService.createParticipationRequest(participationDTO);
+        Company company = Finder.findByIdOrThrow(companyRepository, request.getParticipantId(),
+                "Company with id " + request.getParticipantId() + " not found");
+        
+        EventParticipationDTO participation = participationService.createParticipationRequest(
+                request.getEventId(), company, request.getApplicationMessage(), 
+                request.getSpecialRequirements(), request.getEmergencyContact());
+
         return responseFactory.createSuccessResponse(
-                "Participation request created successfully",
-                createdParticipation
+                "Participation request created successfully", participation
+        );
+    }
+    
+    @PostMapping("/user")
+    public ApiResponse<EventParticipationDTO> createUserParticipation(
+            @Valid  @RequestBody CreateParticipationRequest request) {
+        
+        User user = Finder.findByIdOrThrow(userRepository, request.getParticipantId(),
+                "User with id " + request.getParticipantId() + " not found");
+        
+        EventParticipationDTO participation = participationService.createParticipationRequest(
+                request.getEventId(), user, request.getApplicationMessage(), 
+                request.getSpecialRequirements(), request.getEmergencyContact());
+
+        return responseFactory.createSuccessResponse(
+                "Participation request created successfully", participation
         );
     }
 
     @PutMapping("/{participationId}")
-    @PreAuthorize("hasRole('COMPANY')")
-    public ApiResponse<EventParticipationDTO> updateParticipationRequest(
-            @PathVariable Long participationId,
-            @Valid @RequestBody EventParticipationDTO participationDTO,
-            @AuthenticationPrincipal AppUserPrincipal principal
-    ) {
-        EventParticipationDTO updatedParticipation = participationService.updateParticipationRequest(participationId, participationDTO);
+    public ApiResponse<EventParticipationDTO> updateParticipation(
+            @PathVariable Long participationId, @RequestBody UpdateParticipationRequest request) {
+        
+        EventParticipationDTO participation = participationService.updateParticipationRequest(
+                participationId, request.getApplicationMessage(), 
+                request.getSpecialRequirements(), request.getEmergencyContact());
         return responseFactory.createSuccessResponse(
-                "Participation request updated successfully",
-                updatedParticipation
-        );
-    }
-
-    @GetMapping("/{participationId}")
-    @PreAuthorize("hasRole('COMPANY')")
-    public ApiResponse<EventParticipationDTO> getParticipation(@PathVariable Long participationId) {
-        EventParticipationDTO participation = participationService.getParticipationById(participationId);
-        return responseFactory.createSuccessResponse(
-                "Participation retrieved successfully",
-                participation
+                "Participation request updated successfully", participation
         );
     }
 
     @GetMapping("/event/{eventId}")
-    @PreAuthorize("hasRole('COMPANY')")
     public ApiResponse<List<EventParticipationDTO>> getParticipationsByEvent(@PathVariable Long eventId) {
-        List<EventParticipationDTO> participations = participationService.getParticipationsByEvent(eventId);
+        List<EventParticipationDTO> participants = participationService.getParticipantsByEvent(eventId);
         return responseFactory.createSuccessResponse(
-                "Event participations retrieved successfully",
-                participations
+                "Participations retrieved successfully", participants
         );
     }
+    
+    @GetMapping("/company/{companyId}")
+    public ApiResponse<List<EventParticipationDTO>> getCompanyParticipations(@PathVariable Long companyId) {
+        Company company = Finder.findByIdOrThrow(companyRepository, companyId,
+                "Company with id " + companyId + " not found");
 
-    @GetMapping("/my-participations")
-    @PreAuthorize("hasRole('COMPANY')")
-    public ApiResponse<List<EventParticipationDTO>> getMyParticipations(@AuthenticationPrincipal AppUserPrincipal principal) {
-        Company company = authService.getAuthenticatedCompany();
-        List<EventParticipationDTO> participations = participationService.getParticipationsByCompany(company.getId());
+        List<EventParticipationDTO> participants = participationService.getParticipationsByParticipant(company);
         return responseFactory.createSuccessResponse(
-                "My participations retrieved successfully",
-                participations
+                "Participations retrieved successfully", participants
         );
     }
-
-    @GetMapping("/pending-requests")
-    @PreAuthorize("hasRole('COMPANY')")
-    public ApiResponse<List<EventParticipationDTO>> getPendingParticipationRequests(@AuthenticationPrincipal AppUserPrincipal principal) {
-        Company company = authService.getAuthenticatedCompany();
-        List<EventParticipationDTO> participations = participationService.getPendingParticipationsByOrganizer(company.getId());
+    
+    @GetMapping("/user/{userId}")
+    public ApiResponse<List<EventParticipationDTO>> getUserParticipations(@PathVariable Long userId) {
+        User user = Finder.findByIdOrThrow(userRepository, userId,
+                "User with id " + userId + " not found");
+        
+        List<EventParticipationDTO> participations = participationService.getParticipationsByParticipant(user);
         return responseFactory.createSuccessResponse(
-                "Pending participation requests retrieved successfully",
-                participations
+                "Participations retrieved successfully", participations
         );
     }
-
+    
     @PostMapping("/{participationId}/approve")
-    @PreAuthorize("hasRole('COMPANY')")
     public ApiResponse<EventParticipationDTO> approveParticipation(
-            @PathVariable Long participationId,
-            @RequestParam(required = false) String responseMessage,
-            @AuthenticationPrincipal AppUserPrincipal principal
-    ) {
+            @PathVariable Long participationId, @RequestParam(required = false) String responseMessage) {
+        
         EventParticipationDTO participation = participationService.approveParticipation(participationId, responseMessage);
         return responseFactory.createSuccessResponse(
-                "Participation approved successfully",
-                participation
+                "Participation approved successfully", participation
         );
     }
-
+    
     @PostMapping("/{participationId}/reject")
-    @PreAuthorize("hasRole('COMPANY')")
-    public ApiResponse<EventParticipationDTO> rejectParticipation(
-            @PathVariable Long participationId,
-            @RequestParam(required = false) String responseMessage,
-            @AuthenticationPrincipal AppUserPrincipal principal
-    ) {
+    public ResponseEntity<EventParticipationDTO> rejectParticipation(
+            @PathVariable Long participationId, @RequestParam(required = false) String responseMessage) {
+        
         EventParticipationDTO participation = participationService.rejectParticipation(participationId, responseMessage);
+        return ResponseEntity.ok(participation);
+    }
+    
+    @GetMapping("/organizer/{organizerId}/pending")
+    public ApiResponse<List<EventParticipationDTO>> getPendingParticipantsByOrganizer(@PathVariable Long organizerId) {
+        List<EventParticipationDTO> participants = participationService.getPendingParticipantsByOrganizer(organizerId);
         return responseFactory.createSuccessResponse(
-                "Participation rejected successfully",
-                participation
+                "Pending participations retrieved successfully", participants
         );
     }
-
+    
     @DeleteMapping("/{participationId}")
-    @PreAuthorize("hasRole('COMPANY')")
-    public ApiResponse<Void> cancelParticipation(
-            @PathVariable Long participationId,
-            @AuthenticationPrincipal AppUserPrincipal principal
-    ) {
+    public ResponseEntity<Void> cancelParticipation(@PathVariable Long participationId) {
         participationService.cancelParticipation(participationId);
-        return responseFactory.createSuccessResponse(
-                "Participation cancelled successfully",
-                null
-        );
+        return ResponseEntity.noContent().build();
     }
 }

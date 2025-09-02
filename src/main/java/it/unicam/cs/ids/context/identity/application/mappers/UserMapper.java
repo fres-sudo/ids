@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.context.identity.application.mappers;
 
 
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAnimatorRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.UserDTO;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.EditUserRequest;
@@ -37,6 +38,20 @@ public abstract class UserMapper {
     @Mapping(target = "company", ignore = true)
     @Mapping(target = "role", expression = "java(it.unicam.cs.ids.context.identity.domain.model.PlatformRoles.BUYER)")
     public abstract User fromRequest(RegisterUserRequest request);
+    
+    /**
+     * Maps RegisterAnimatorRequest to User entity with BUYER role (will be upgraded after approval).
+     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "hashedPassword", source = "password", qualifiedByName = "encodePassword")
+    @Mapping(target = "emailVerified", constant = "true")
+    @Mapping(target = "verifiedAt", expression = "java(new java.util.Date())")
+    @Mapping(target = "company", ignore = true)
+    @Mapping(target = "role", expression = "java(it.unicam.cs.ids.context.identity.domain.model.PlatformRoles.BUYER)")
+    public abstract User fromRequest(RegisterAnimatorRequest request);
 
     @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
     @Mapping(target = "name", source = "name", qualifiedByName = "validateString")

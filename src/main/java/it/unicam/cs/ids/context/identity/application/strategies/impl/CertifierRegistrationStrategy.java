@@ -1,12 +1,12 @@
 package it.unicam.cs.ids.context.identity.application.strategies.impl;
 
-import it.unicam.cs.ids.context.identity.application.mappers.CertifierMapper;
 import it.unicam.cs.ids.context.identity.application.mappers.UserMapper;
 import it.unicam.cs.ids.context.identity.application.strategies.RegistrationStrategy;
-import it.unicam.cs.ids.context.identity.domain.model.CertifierRequest;
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
+import it.unicam.cs.ids.context.identity.domain.model.RequestType;
+import it.unicam.cs.ids.context.identity.domain.model.RoleRequest;
 import it.unicam.cs.ids.context.identity.domain.model.User;
-import it.unicam.cs.ids.context.identity.domain.repositories.CertifierRequestRepository;
+import it.unicam.cs.ids.context.identity.domain.repositories.RoleRequestRepository;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
 import it.unicam.cs.ids.shared.application.EmailValidatorService;
@@ -17,17 +17,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Registration strategy for certifier users.
- * Handles the registration logic specific to Certifier entities.
- * Creates both a User and a CertifierRequest for approval process.
+ * Creates a basic user and a role request that needs admin approval.
+ * User gets CERTIFIER role only after admin approval.
  */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CertifierRegistrationStrategy implements RegistrationStrategy<User, RegisterUserRequest> {
     
     private final UserRepository userRepository;
-    private final CertifierRequestRepository certifierRequestRepository;
+    private final RoleRequestRepository roleRequestRepository;
     private final UserMapper userMapper;
-    private final CertifierMapper certifierMapper;
     private final EmailValidatorService emailValidatorService;
     
     @Override
@@ -35,17 +34,18 @@ public class CertifierRegistrationStrategy implements RegistrationStrategy<User,
     public User register(RegisterUserRequest request) {
         validateRequest(request);
         
-        // Create user first with CERTIFIER role
-        User certifier = userMapper.fromRequest(request);
-        certifier.setRole(PlatformRoles.CERTIFIER);
+        // Create user with default BUYER role - will be upgraded after admin approval
+        User user = userMapper.fromRequest(request);
+        user.setRole(PlatformRoles.BUYER); // Default role until approved
         
         // Save user to get ID
-        User savedUser = userRepository.save(certifier);
+        User savedUser = userRepository.save(user);
         
-        // Create certifier request for approval process
-        CertifierRequest certifierRequest = certifierMapper.fromUser(savedUser);
-        certifierRequestRepository.save(certifierRequest);
-        
+        // Create role request for admin approval
+        RoleRequest roleRequest = new RoleRequest(savedUser, RequestType.CERTIFIER);
+        roleRequestRepository.save(roleRequest);
+
+        // TODO: Notify admin
         return savedUser;
     }
     

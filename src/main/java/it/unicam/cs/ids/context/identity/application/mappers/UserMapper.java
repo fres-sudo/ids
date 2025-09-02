@@ -20,10 +20,9 @@ import org.springframework.stereotype.Component;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         uses = {Validator.class}
 )
-@Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class UserMapper {
 
+    @Autowired
     protected PasswordEncoder passwordEncoder;
 
     public abstract UserDTO toDto(User company);

@@ -82,11 +82,4 @@ public interface AuthService {
      * @throws AuthenticationException if the admin by-pass password does not match
      */
     void registerAdmin(@RequestBody RegisterAdminRequest registerAdminRequest);
-
-    /**
-     * Retrieves the PasswordEncoder used for encoding passwords.
-     *
-     * @return the PasswordEncoder instance
-     */
-    PasswordEncoder getPasswordEncoder();
 }

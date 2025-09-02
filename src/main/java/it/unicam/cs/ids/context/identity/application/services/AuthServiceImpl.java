@@ -1,160 +1,145 @@
 package it.unicam.cs.ids.context.identity.application.services;
 
-import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.*;
-import it.unicam.cs.ids.context.identity.domain.model.CertifierRequest;
-import it.unicam.cs.ids.shared.application.Validator;
-import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.context.company.domain.models.Company;
+import it.unicam.cs.ids.context.identity.application.factories.AuthenticationProviderFactory;
+import it.unicam.cs.ids.context.identity.application.factories.RegistrationStrategyFactory;
+import it.unicam.cs.ids.context.identity.application.providers.AuthenticationProvider;
+import it.unicam.cs.ids.context.identity.application.strategies.RegistrationStrategy;
+import it.unicam.cs.ids.context.identity.domain.model.User;
+import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtTokenProvider;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.*;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.responses.AuthResponse;
+import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotFound;
-import it.unicam.cs.ids.context.identity.application.mappers.CertifierMapper;
-import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
-import it.unicam.cs.ids.context.identity.application.mappers.UserMapper;
-import it.unicam.cs.ids.context.identity.domain.repositories.CertifierRequestRepository;
-import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
-import it.unicam.cs.ids.shared.application.EmailValidatorService;
-import it.unicam.cs.ids.shared.application.Messages;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.responses.AuthResponse;
-import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtTokenProvider;
-import it.unicam.cs.ids.context.identity.domain.model.User;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Optional;
-
-
 /**
- * Responsible for handling authentication and user registration logic.
- * <p>
- * This class delegates security operations to Spring Security components like
- * {@link AuthenticationManager}, {@link PasswordEncoder}, and the custom {@link JwtTokenProvider}.
- * </p>
+ * Refactored AuthService implementation using Strategy and Factory patterns.
+ * This implementation separates concerns and provides better extensibility and maintainability.
  */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthServiceImpl implements AuthService {
-    /** Service for validating email addresses */
-    private final EmailValidatorService emailValidatorService;
-    /** Authentication manager for processing authentication requests */
+    
+    // Factories for strategy selection
+    private final RegistrationStrategyFactory registrationFactory;
+    private final AuthenticationProviderFactory authProviderFactory;
+    
+    // Spring Security components
     private final AuthenticationManager authenticationManager;
-    /** Repository for user data access */
-    private final UserRepository userRepository;
-    /** Repository for company data access */
-    private final CompanyRepository companyRepository;
-    /** Repository for certifier requests data access */
-    private final CertifierRequestRepository certifierRequestRepository;
-    /** Mapper for converting between DTOs and User entities */
-    private final UserMapper userMapper;
-    /** Mapper for converting between DTOs and Company entities */
-    private final CompanyMapper companyMapper;
-    /** Mapper for converting between DTOs and Certifier entities */
-    private final CertifierMapper certifierMapper;
-    /** Password encoder for hashing and verifying passwords */
-    @Getter
-    private final PasswordEncoder passwordEncoder;
-    /** JWT token provider for generating and validating JWT tokens */
     private final JwtTokenProvider tokenProvider;
-
+    private final PasswordEncoder passwordEncoder;
+    
+    @Override
     public AuthResponse login(LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
+        // Get the appropriate authentication provider
+        AuthenticationProvider<?> provider = authProviderFactory.getProvider(email);
 
-        // Try User first
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            Validator.validatePassword(passwordEncoder, password, user.getHashedPassword());
-        } else {
-            // Try Company next
-            Company company = companyRepository.findByEmail(email)
-                    .orElseThrow(() -> new IllegalArgumentException("Email not found"));
+        // Authenticate the entity
+        Object authenticatedEntity = provider.authenticate(email, password);
 
-            Validator.validatePassword(passwordEncoder, password, company.getHashedPassword());
-        }
-
+        // Use Spring Security for additional validation and token generation
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
 
+        // Generate JWT token
         String token = tokenProvider.generateToken(authentication);
+
         return new AuthResponse(token);
-    }
-
-    @Override
-    public void registerUser(RegisterUserRequest registerUserRequest) {
-        emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
-        User user = userMapper.fromRequest(registerUserRequest);
-        userRepository.save(user);
-    }
-
-    @Override
-    public void registerCertifier(RegisterUserRequest registerUserRequest) {
-        emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
-        User certifier = userMapper.fromRequest(registerUserRequest);
-        userRepository.save(certifier); //NOTE: First save the user to get the ID
-
-        CertifierRequest certifierRequest = certifierMapper.fromUser(certifier);
-        certifierRequestRepository.save(certifierRequest);
+            
     }
     
     @Override
-    public void registerAdmin(RegisterAdminRequest registerAdminRequest) {
-        emailValidatorService.validateEmailInUse(registerAdminRequest.getEmail());
-        // FIXME: -- TESTING PURPOSES ONLY --
-        final String ADMIN_SECRET =  "admin";
-        if (!registerAdminRequest.getAdminSecret().equals(ADMIN_SECRET)) {
-            throw new AuthenticationException("INVALID ADMIN SECRET");
-        }
-        User admin = userMapper.fromRequest(registerAdminRequest);
-        admin.setRole(PlatformRoles.ADMIN);
-        userRepository.save(admin);
+    public void registerUser(RegisterUserRequest registerUserRequest) {
+        RegistrationStrategy<User, RegisterUserRequest> strategy =
+                registrationFactory.getStrategy(RegisterUserRequest.class);
+
+       strategy.register(registerUserRequest);
+    }
+    
+    @Override
+    public void registerCertifier(RegisterUserRequest registerUserRequest) {
+        RegistrationStrategy<User, RegisterUserRequest> strategy =
+                registrationFactory.getStrategyByType("certifier", RegisterUserRequest.class);
+
+        strategy.register(registerUserRequest);
     }
 
     @Override
     public void registerCompany(RegisterCompanyRequest registerCompanyRequest) {
-        emailValidatorService.validateEmailInUse(registerCompanyRequest.getEmail());
+        RegistrationStrategy<Company, RegisterCompanyRequest> strategy =
+                registrationFactory.getStrategy(RegisterCompanyRequest.class);
 
-        Company company = companyMapper.fromRequest(registerCompanyRequest);
-        companyRepository.save(company);
+        strategy.register(registerCompanyRequest);
+
     }
-
+    
     @Override
     public void registerAnimator(RegisterAnimatorRequest registerAnimatorRequest) {
-        emailValidatorService.validateEmailInUse(registerAnimatorRequest.getEmail());
+        RegistrationStrategy<User, RegisterAnimatorRequest> strategy =
+                registrationFactory.getStrategy(RegisterAnimatorRequest.class);
 
-        User animator = userMapper.fromRequest(registerAnimatorRequest);
-        userRepository.save(animator);
+        strategy.register(registerAnimatorRequest);
     }
+    
+    @Override
+    public void registerAdmin(RegisterAdminRequest registerAdminRequest) {
+        RegistrationStrategy<User, RegisterAdminRequest> strategy =
+                registrationFactory.getStrategy(RegisterAdminRequest.class);
 
+        User registeredAdmin = strategy.register(registerAdminRequest);
+            
+    }
+    
     @Override
     public Company getAuthenticatedCompany() {
         String email = getAuthenticatedEmail();
-        return companyRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFound(email));
+        
+        AuthenticationProvider<?> provider = authProviderFactory.getProviderByEntityType("COMPANY");
+        
+        if (provider.supports(email)) {
+            return (Company) provider.authenticate(email, null); // Password not needed for authenticated company
+        }
+        
+        throw new NotFound("Company not found for email: " + email);
     }
-
+    
     @Override
     public User getAuthenticatedUser() {
         String email = getAuthenticatedEmail();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFound(email));
-    }
 
+        AuthenticationProvider<?> provider = authProviderFactory.getProviderByEntityType("USER");
+
+        if (provider.supports(email)) {
+            return (User) provider.authenticate(email, null); // Password not needed for authenticated user
+        }
+
+        throw new NotFound("User not found for email: " + email);
+    }
+    
+    /**
+     * Gets the email of the currently authenticated user from the security context.
+     *
+     * @return the authenticated user's email
+     * @throws AuthenticationException if no user is authenticated
+     */
     private String getAuthenticatedEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new AuthenticationException(Messages.Auth.UNAUTHORIZED_ACCESS);
+            throw new AuthenticationException("No authenticated user found");
         }
+        
         return authentication.getName();
     }
 }

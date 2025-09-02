@@ -19,6 +19,9 @@ public final class Messages {
         String USER_UPDATED = "User updated successfully";
         String USER_DELETED = "User deleted successfully";
 
+        String ANIMATOR_REGISTERED = "Animator registered successfully," +
+                " you can login like a normal user, for animator role... please wait for approval";
+
         String CERTIFIER_REGISTERED = "Certifier registered successfully," +
                 " you can login like a normal user, for certifier role... please wait for approval";
         String CERTIFIER_RETRIEVED = "Certifier retrieved successfully";

@@ -7,6 +7,7 @@ import it.unicam.cs.ids.context.company.infrastructure.web.dtos.requests.EditCom
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.shared.application.Validator;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,10 +22,11 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         uses = {Validator.class}
 )
-@Component
 public abstract class CompanyMapper {
-    @Autowired  //todo: remove this and use constructor injection
+
+    @Autowired
     protected CompanyRepository companyRepository;
+
     @Autowired
     protected PasswordEncoder passwordEncoder;
 

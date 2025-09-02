@@ -100,17 +100,16 @@ public class AuthController {
      * @return a response entity indicating success
      */
     @PostMapping("/register/company/{role}")
-    public ResponseEntity<ApiResponse<?>> registerCompany(
+    public ApiResponse<?> registerCompany(
             @PathVariable("role") String role,
             @RequestBody @Valid RegisterCompanyRequest request
     ) {
         request.setRole(CompanyRoles.fromString(role));
         authService.registerCompany(request);
 
-        ApiResponse<?> response = responseFactory.createSuccessResponse(
+        return responseFactory.createSuccessResponse(
                 Messages.Success.COMPANY_REGISTERED, null
         );
-        return ResponseEntity.ok(response);
     }
 
     /**
@@ -125,7 +124,7 @@ public class AuthController {
     public ApiResponse<?> registerAnimator(@Valid @RequestBody RegisterAnimatorRequest request) {
         authService.registerAnimator(request);
         return responseFactory.createSuccessResponse(
-                Messages.Success.CERTIFIER_REGISTERED,null
+                Messages.Success.ANIMATOR_REGISTERED,null
         );
     }
 }

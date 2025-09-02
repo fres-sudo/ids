@@ -10,6 +10,10 @@ import java.util.Optional;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpecificationExecutor<Company> {
     Optional<Company> findByEmail(String email);
+    
+    Optional<Company> findByVat(String vat);
 
     boolean existsByEmail(String email);
+    
+    boolean existsByVat(String vat);
 }

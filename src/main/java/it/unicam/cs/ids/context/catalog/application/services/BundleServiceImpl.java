@@ -12,7 +12,6 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateB
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.BundleApprovalRequestFactory;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
-import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.shared.application.Finder;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
@@ -27,15 +26,13 @@ import org.springframework.transaction.annotation.Transactional;
  * Implementation of {@link BundleService},
  * This service handles the creation of bundles.
  */
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleServiceImpl implements BundleService {
 
     private final BundleRepository bundleRepository;
     private final BundleMapper bundleMapper;
     private final CompanyRepository companyRepository;
-
-    private final AuthService authService;
 
     private final BundleApprovalRequestFactory approvalRequestFactory;
 

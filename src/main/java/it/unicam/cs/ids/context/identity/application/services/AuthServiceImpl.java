@@ -1,8 +1,7 @@
 package it.unicam.cs.ids.context.identity.application.services;
 
 import it.unicam.cs.ids.context.identity.domain.model.PlatformRoles;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAdminRequest;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterCompanyRequest;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.*;
 import it.unicam.cs.ids.context.identity.domain.model.CertifierRequest;
 import it.unicam.cs.ids.shared.application.Validator;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
@@ -26,8 +25,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.responses.AuthResponse;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.LoginRequest;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.security.jwt.JwtTokenProvider;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -94,14 +91,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
+    public void registerUser(RegisterUserRequest registerUserRequest) {
         emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
         User user = userMapper.fromRequest(registerUserRequest);
         userRepository.save(user);
     }
 
     @Override
-    public void registerCertifier(@RequestBody RegisterUserRequest registerUserRequest) {
+    public void registerCertifier(RegisterUserRequest registerUserRequest) {
         emailValidatorService.validateEmailInUse(registerUserRequest.getEmail());
         User certifier = userMapper.fromRequest(registerUserRequest);
         userRepository.save(certifier); //NOTE: First save the user to get the ID
@@ -111,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
     }
     
     @Override
-    public void registerAdmin(@RequestBody RegisterAdminRequest registerAdminRequest) {
+    public void registerAdmin(RegisterAdminRequest registerAdminRequest) {
         emailValidatorService.validateEmailInUse(registerAdminRequest.getEmail());
         // FIXME: -- TESTING PURPOSES ONLY --
         final String ADMIN_SECRET =  "admin";
@@ -124,11 +121,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void registerCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) {
+    public void registerCompany(RegisterCompanyRequest registerCompanyRequest) {
         emailValidatorService.validateEmailInUse(registerCompanyRequest.getEmail());
 
         Company company = companyMapper.fromRequest(registerCompanyRequest);
         companyRepository.save(company);
+    }
+
+    @Override
+    public void registerAnimator(RegisterAnimatorRequest registerAnimatorRequest) {
+        emailValidatorService.validateEmailInUse(registerAnimatorRequest.getEmail());
+
+        User animator = userMapper.fromRequest(registerAnimatorRequest);
+        userRepository.save(animator);
     }
 
     @Override

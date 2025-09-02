@@ -2,7 +2,6 @@ package it.unicam.cs.ids.context.events.infrastructure.web;
 
 import it.unicam.cs.ids.context.events.application.services.EventService;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
-import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventFilter;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
@@ -11,7 +10,6 @@ import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +23,6 @@ public class EventController {
     private final AuthService authService;
 
     @PostMapping
-    @PreAuthorize("hasRole('COMPANY')")
     public ApiResponse<EventDTO> createEvent(
             @Valid @RequestBody EventDTO eventDTO,
             @AuthenticationPrincipal AppUserPrincipal principal
@@ -41,7 +38,6 @@ public class EventController {
     }
 
     @PutMapping("/{eventId}")
-    @PreAuthorize("hasRole('COMPANY')")
     public ApiResponse<EventDTO> updateEvent(
             @PathVariable Long eventId,
             @Valid @RequestBody EventDTO eventDTO,
@@ -55,7 +51,6 @@ public class EventController {
     }
 
     @PostMapping("/{eventId}/submit")
-    @PreAuthorize("hasRole('COMPANY')")
     public ApiResponse<EventDTO> submitEventForApproval(
             @PathVariable Long eventId,
             @AuthenticationPrincipal AppUserPrincipal principal
@@ -68,7 +63,6 @@ public class EventController {
     }
 
     @DeleteMapping("/{eventId}")
-    @PreAuthorize("hasRole('COMPANY')")
     public ApiResponse<Void> deleteEvent(
             @PathVariable Long eventId,
             @AuthenticationPrincipal AppUserPrincipal principal

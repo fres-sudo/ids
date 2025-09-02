@@ -2,17 +2,13 @@ package it.unicam.cs.ids.context.identity.application.services;
 
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.domain.model.User;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAdminRequest;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.*;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotFound;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotUniqueEmail;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.responses.AuthResponse;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.LoginRequest;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterCompanyRequest;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
-
 
 
 /**
@@ -34,7 +30,7 @@ public interface AuthService {
      * @param registerUserRequest the requests containing user registration details
      * @throws NotUniqueEmail if the email provided in the registration requests is already in use
      * */
-    void registerUser(@RequestBody RegisterUserRequest registerUserRequest);
+    void registerUser(RegisterUserRequest registerUserRequest);
 
     /**
      * Registers a certifier with the provided details.
@@ -42,7 +38,7 @@ public interface AuthService {
      * @param registerUserRequest the requests containing certifier registration details
      * @throws NotUniqueEmail if the email provided in the registration requests is already in use
      */
-    void registerCertifier(@RequestBody RegisterUserRequest registerUserRequest);
+    void registerCertifier(RegisterUserRequest registerUserRequest);
 
     /**
      * Registers a new company with the provided details.
@@ -50,7 +46,15 @@ public interface AuthService {
      * @param registerCompanyRequest the requests containing company registration details
      * @throws NotUniqueEmail if the email provided in the registration requests is already in use
      */
-    void registerCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest);
+    void registerCompany(RegisterCompanyRequest registerCompanyRequest);
+
+    /**
+     * Registers a new animator with the provided details.
+     *
+     * @param registerAnimatorRequest the requests containing animator registration details
+     * @throws NotUniqueEmail if the email provided in the registration requests is already in use
+     */
+    void registerAnimator(RegisterAnimatorRequest registerAnimatorRequest);
 
     /**
      * Retrieves the currently authenticated company.

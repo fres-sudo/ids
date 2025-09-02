@@ -105,6 +105,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasAuthority(
                                 PlatformRoles.ADMIN.name()
                         )
+                        .requestMatchers("/events/**").hasAnyAuthority(
+                                PlatformRoles.ANIMATOR.name()
+                        )
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

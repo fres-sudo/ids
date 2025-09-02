@@ -15,7 +15,9 @@ public enum PlatformRoles {
     /** Represents a company that can upload and manage products. */
     COMPANY("COMPANY"),
     /** Represents a Signed-in user who can browse and purchase products. */
-    BUYER("BUYER"),;
+    BUYER("BUYER"),
+    /** Represents a user who can create and manage events. */
+    ANIMATOR("ANIMATOR");
 
     /** The string representation of the role. */
     private final String role;

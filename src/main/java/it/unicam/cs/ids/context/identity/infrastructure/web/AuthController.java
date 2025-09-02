@@ -1,11 +1,8 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web;
 
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAdminRequest;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterCompanyRequest;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.*;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.responses.AuthResponse;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.LoginRequest;
-import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
@@ -71,7 +68,7 @@ public class AuthController {
      * @return a response entity indicating success
      */
     @PostMapping("register/certifier")
-    public ApiResponse<?> registerCertifier(@RequestBody RegisterUserRequest request) {
+    public ApiResponse<?> registerCertifier(@Valid @RequestBody RegisterUserRequest request) {
         authService.registerCertifier(request);
         return responseFactory.createSuccessResponse(
                 Messages.Success.CERTIFIER_REGISTERED,null
@@ -114,5 +111,21 @@ public class AuthController {
                 Messages.Success.COMPANY_REGISTERED, null
         );
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint for certifier registration.
+     * Accepts a {@link RegisterCompanyRequest} containing certifier details,
+     * and registers the certifier in the system.
+     *
+     * @param request the registration request containing certifier details
+     * @return a response entity indicating success
+     */
+    @PostMapping("register/animator")
+    public ApiResponse<?> registerAnimator(@Valid @RequestBody RegisterAnimatorRequest request) {
+        authService.registerAnimator(request);
+        return responseFactory.createSuccessResponse(
+                Messages.Success.CERTIFIER_REGISTERED,null
+        );
     }
 }

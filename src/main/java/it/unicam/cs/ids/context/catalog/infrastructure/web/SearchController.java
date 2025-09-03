@@ -9,6 +9,8 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductFilter;
 import it.unicam.cs.ids.context.catalog.application.services.SearchService;
 import it.unicam.cs.ids.context.catalog.domain.model.ProductCategory;
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -83,5 +86,31 @@ public class SearchController {
                 .searchBy(searchBy)
                 .build();
         return searchService.searchCompanies(filter, pageable);
+    }
+
+    @GetMapping(path = "/events")
+    Page<EventDTO> searchEvents(
+            @PageableDefault() Pageable pageable,
+            @RequestParam(required = false) Long organizerId,
+            @RequestParam(required = false) LocalDateTime startDateFrom,
+            @RequestParam(required = false) LocalDateTime startDateTo,
+            @RequestParam(required = false) LocalDateTime endDateFrom,
+            @RequestParam(required = false) LocalDateTime endDateTo,
+            @RequestParam(required = false, defaultValue = "true") boolean isPublic,
+            @RequestParam(required = false, defaultValue = "true") boolean registrationOpen,
+            @RequestParam(required = false) String searchBy,
+            @RequestParam(required = false) List<String> tags) {
+        EventFilter filter = EventFilter.builder()
+                .organizerId(organizerId)
+                .startDateFrom(startDateFrom)
+                .startDateTo(startDateTo)
+                .endDateFrom(endDateFrom)
+                .startDateTo(endDateTo)
+                .isPublic(isPublic)
+                .registrationOpen(registrationOpen)
+                .searchBy(searchBy)
+                .tags(tags)
+                .build();
+        return searchService.searchEvents(filter, pageable);
     }
 }

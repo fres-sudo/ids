@@ -1,12 +1,13 @@
 package it.unicam.cs.ids.context.events.application.services;
 
+import it.unicam.cs.ids.context.events.application.mappers.EventMapper;
 import it.unicam.cs.ids.context.events.application.mappers.EventParticipationMapper;
-import it.unicam.cs.ids.context.events.domain.factories.ParticipationStrategyFactory;
+import it.unicam.cs.ids.context.events.application.factories.ParticipationStrategyFactory;
 import it.unicam.cs.ids.context.events.domain.model.Event;
-import it.unicam.cs.ids.context.events.domain.model.EventParticipationV2;
-import it.unicam.cs.ids.context.events.domain.repositories.EventParticipationV2Repository;
+import it.unicam.cs.ids.context.events.domain.model.EventParticipation;
+import it.unicam.cs.ids.context.events.domain.repositories.EventParticipationRepository;
 import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
-import it.unicam.cs.ids.context.events.domain.strategies.ParticipationStrategy;
+import it.unicam.cs.ids.context.events.application.strategies.ParticipationStrategy;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventParticipationDTO;
 import it.unicam.cs.ids.shared.application.Finder;
 import it.unicam.cs.ids.shared.application.Participable;
@@ -23,10 +24,11 @@ import java.util.Optional;
 @Service
 public class EventParticipationServiceImpl implements EventParticipationService {
 
-    private final EventParticipationV2Repository participationRepository;
+    private final EventParticipationRepository participationRepository;
     private final EventRepository eventRepository;
     private final EventParticipationMapper participationMapper;
     private final ParticipationStrategyFactory strategyFactory;
+    private final EventMapper eventMapper;
 
     @Override
     @Transactional
@@ -37,7 +39,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         Event event = Finder.findByIdOrThrow(eventRepository, eventId, 
                 "Event with id " + eventId + " not found");
         
-        Optional<EventParticipationV2> existingParticipation = participationRepository
+        Optional<EventParticipation> existingParticipation = participationRepository
                 .findByEventIdAndParticipantIdAndParticipantType(
                         eventId, getParticipantId(participant), participant.getParticipantType());
         
@@ -48,11 +50,15 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         ParticipationStrategy<T> strategy = strategyFactory.getStrategy(participant);
         strategy.validateParticipation(participant, event);
 
-        EventParticipationV2 participation = createParticipation(
+        EventParticipation participation = createParticipation(
                 event, participant, applicationMessage, specialRequirements, emergencyContact);
         
-        EventParticipationV2 savedParticipation = participationRepository.save(participation);
-        return participationMapper.toDto(savedParticipation);
+        EventParticipation savedParticipation = participationRepository.save(participation);
+
+        EventParticipationDTO dto =  participationMapper.toDto(savedParticipation);
+        dto.setEvent(eventMapper.toDto(event)); // This is to avoid circular references in DTOs mapper (EventMapper and EventParticipationMapper)
+
+        return dto;
     }
 
     @Override
@@ -60,7 +66,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
     public EventParticipationDTO updateParticipationRequest(@Nonnull Long participationId,
                                                             String applicationMessage, String specialRequirements, String emergencyContact) {
         
-        EventParticipationV2 existingParticipation = Finder.findByIdOrThrow(
+        EventParticipation existingParticipation = Finder.findByIdOrThrow(
                 participationRepository, participationId, 
                 "Participation with id " + participationId + " not found");
         
@@ -72,7 +78,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         existingParticipation.setSpecialRequirements(specialRequirements);
         existingParticipation.setEmergencyContact(emergencyContact);
         
-        EventParticipationV2 savedParticipation = participationRepository.save(existingParticipation);
+        EventParticipation savedParticipation = participationRepository.save(existingParticipation);
         return participationMapper.toDto(savedParticipation);
     }
 
@@ -96,7 +102,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
     @Override
     @Transactional
     public EventParticipationDTO approveParticipation(@Nonnull Long participationId, String responseMessage) {
-        EventParticipationV2 participation = Finder.findByIdOrThrow(
+        EventParticipation participation = Finder.findByIdOrThrow(
                 participationRepository, participationId,
                 "Participation with id " + participationId + " not found");
         
@@ -105,19 +111,19 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         }
 
         participation.approve(responseMessage);
-        EventParticipationV2 savedParticipation = participationRepository.save(participation);
+        EventParticipation savedParticipation = participationRepository.save(participation);
         return participationMapper.toDto(savedParticipation);
     }
 
     @Override
     @Transactional
     public EventParticipationDTO rejectParticipation(@Nonnull Long participationId, String responseMessage) {
-        EventParticipationV2 participation = Finder.findByIdOrThrow(
+        EventParticipation participation = Finder.findByIdOrThrow(
                 participationRepository, participationId,
                 "Participation with id " + participationId + " not found");
         
         participation.reject(responseMessage);
-        EventParticipationV2 savedParticipation = participationRepository.save(participation);
+        EventParticipation savedParticipation = participationRepository.save(participation);
         return participationMapper.toDto(savedParticipation);
     }
 
@@ -132,7 +138,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
     @Override
     @Transactional
     public void cancelParticipation(@Nonnull Long participationId) {
-        EventParticipationV2 participation = Finder.findByIdOrThrow(
+        EventParticipation participation = Finder.findByIdOrThrow(
                 participationRepository, participationId,
                 "Participation with id " + participationId + " not found");
         
@@ -143,11 +149,11 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         participationRepository.delete(participation);
     }
 
-    private <T extends Participable> EventParticipationV2 createParticipation(
+    private <T extends Participable> EventParticipation createParticipation(
             Event event, T participant, String applicationMessage, 
             String specialRequirements, String emergencyContact) {
         
-        EventParticipationV2 participation = new EventParticipationV2();
+        EventParticipation participation = new EventParticipation();
         participation.setEvent(event);
         participation.setParticipantId(getParticipantId(participant));
         participation.setParticipantType(participant.getParticipantType());

@@ -2,8 +2,8 @@ package it.unicam.cs.ids.context.events.application.mappers;
 
 import it.unicam.cs.ids.context.events.domain.model.Event;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
-import it.unicam.cs.ids.context.company.application.mappers.CompanyMapper;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
+import it.unicam.cs.ids.context.identity.application.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring", 
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, 
         unmappedSourcePolicy = ReportingPolicy.IGNORE, 
-        uses = {CompanyMapper.class, EventParticipationMapper.class})
+        uses = {UserMapper.class, EventParticipationMapper.class})
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class EventMapper {
@@ -24,7 +24,7 @@ public abstract class EventMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.DRAFT)")
-    @Mapping(target = "organizer", source = "organizer.id", qualifiedByName = "mapCompanyById")
+    @Mapping(target = "organizer", source = "organizer.id", qualifiedByName = "mapUserById")
     @Mapping(target = "participations", ignore = true)
     public abstract Event fromDto(EventDTO dto);
 

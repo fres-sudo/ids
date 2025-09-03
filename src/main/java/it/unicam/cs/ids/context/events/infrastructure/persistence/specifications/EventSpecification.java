@@ -20,12 +20,7 @@ public final class EventSpecification extends AbstractSpecification {
                 predicates.add(criteriaBuilder.equal(root.get("organizer").get("id"), filter.getOrganizerId()));
             }
 
-            // 2. Filter by Status
-            if (filter.getStatuses() != null && !filter.getStatuses().isEmpty()) {
-                predicates.add(root.get("status").in(filter.getStatuses()));
-            }
-
-            // 3. Filter by Start Date Range
+            // 2. Filter by Start Date Range
             if (filter.getStartDateFrom() != null) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), filter.getStartDateFrom()));
             }
@@ -33,7 +28,7 @@ public final class EventSpecification extends AbstractSpecification {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("startDate"), filter.getStartDateTo()));
             }
 
-            // 4. Filter by End Date Range
+            // 3. Filter by End Date Range
             if (filter.getEndDateFrom() != null) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("endDate"), filter.getEndDateFrom()));
             }
@@ -41,20 +36,22 @@ public final class EventSpecification extends AbstractSpecification {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), filter.getEndDateTo()));
             }
 
-            // 5. Filter by Public/Private
+            // 4. Filter by Public/Private
             if (filter.getIsPublic() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("isPublic"), filter.getIsPublic()));
             }
 
-            // 6. Filter by SearchBy (name, description, etc.)
+            // 5. Filter by SearchBy (name, description, etc.)
             Predicate searchPredicate = buildSearchByPredicate(root, criteriaBuilder, filter.getSearchBy(), "name", "description");
             if (searchPredicate != null) predicates.add(searchPredicate);
 
-            // 7. Filter by Tags
+            // 6. Filter by Tags
             Predicate tagsPredicate = buildTagsPredicate(root, criteriaBuilder, filter.getTags());
             if (tagsPredicate != null) predicates.add(tagsPredicate);
 
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            System.out.println(predicates);
+
+        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 }

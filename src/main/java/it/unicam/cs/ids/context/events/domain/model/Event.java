@@ -2,6 +2,7 @@ package it.unicam.cs.ids.context.events.domain.model;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.company.domain.models.Company;
+import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
 import it.unicam.cs.ids.shared.infrastructure.persistence.Coordinates;
@@ -48,8 +49,8 @@ public class Event extends BaseEntity implements Approvable {
     private ApprovalStatus status = ApprovalStatus.DRAFT;
 
     @ManyToOne
-    @JoinColumn(name = "organizer_company_id", nullable = false)
-    private Company organizer;
+    @JoinColumn(name = "organizer_user_id", nullable = false)
+    private User organizer;
 
     @Embedded
     private Coordinates eventLocation;

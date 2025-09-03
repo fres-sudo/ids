@@ -15,7 +15,6 @@ import java.util.List;
 @SuperBuilder
 public class EventFilter extends FilterParam {
     private Long organizerId;
-    private List<ApprovalStatus> statuses;
     private LocalDateTime startDateFrom;
     private LocalDateTime startDateTo;
     private LocalDateTime endDateFrom;

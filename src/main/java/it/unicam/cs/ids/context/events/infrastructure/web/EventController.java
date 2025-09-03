@@ -4,6 +4,7 @@ import it.unicam.cs.ids.context.events.application.services.EventService;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
+import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
@@ -20,16 +21,11 @@ public class EventController {
 
     private final EventService eventService;
     private final ApiResponseFactory responseFactory;
-    private final AuthService authService;
 
     @PostMapping
     public ApiResponse<EventDTO> createEvent(
-            @Valid @RequestBody EventDTO eventDTO,
-            @AuthenticationPrincipal AppUserPrincipal principal
+            @Valid @RequestBody EventDTO eventDTO
     ) {
-        Company company = authService.getAuthenticatedCompany();
-        eventDTO.getOrganizer().setId(company.getId());
-        
         EventDTO createdEvent = eventService.createEvent(eventDTO);
         return responseFactory.createSuccessResponse(
                 "Event created successfully",

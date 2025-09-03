@@ -98,9 +98,9 @@ public class RegistrationStrategyFactory {
     }
     
     /**
-     * Gets all available strategies.
+     * Gets all available processors.
      *
-     * @return a list of all registration strategies
+     * @return a list of all registration processors
      */
     public List<RegistrationStrategy<?, ?>> getAllStrategies() {
         return List.copyOf(strategies);

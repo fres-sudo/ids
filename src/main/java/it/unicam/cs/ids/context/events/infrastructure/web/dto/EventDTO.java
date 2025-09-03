@@ -2,6 +2,7 @@ package it.unicam.cs.ids.context.events.infrastructure.web.dto;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyDTO;
+import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.UserDTO;
 import it.unicam.cs.ids.shared.application.DTO;
 import it.unicam.cs.ids.shared.infrastructure.persistence.Coordinates;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class EventDTO extends DTO implements Serializable {
     private Integer maxParticipants;
     private Double participationFee;
     private ApprovalStatus status;
-    private CompanyDTO organizer;
+    private UserDTO organizer;
     private Coordinates eventLocation;
     private List<String> tags;
     private List<String> imageUrls;

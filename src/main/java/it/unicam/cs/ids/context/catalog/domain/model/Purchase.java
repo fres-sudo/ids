@@ -4,9 +4,11 @@ import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.shared.kernel.enums.Currency;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 

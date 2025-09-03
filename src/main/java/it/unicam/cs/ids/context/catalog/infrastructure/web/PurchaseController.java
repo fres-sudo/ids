@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.context.catalog.infrastructure.web;
 
 import it.unicam.cs.ids.context.catalog.application.services.PurchaseService;
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.PurchaseDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseBundleRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseProductRequest;
@@ -33,7 +35,7 @@ public class PurchaseController {
             @PathVariable Long productId
     ) {
         User authenticatedUser = authService.getAuthenticatedUser();
-        PurchaseDTO purchase = purchaseService.purchaseProduct(productId, authenticatedUser.getId(), request);
+        PurchaseDTO<ProductDTO> purchase = purchaseService.purchaseProduct(productId, authenticatedUser.getId(), request);
         
         PurchaseProductResponse response = PurchaseProductResponse.builder()
                 .purchase(purchase)
@@ -53,7 +55,7 @@ public class PurchaseController {
             @PathVariable Long bundleId
     ) {
         User authenticatedUser = authService.getAuthenticatedUser();
-        PurchaseDTO purchase = purchaseService.purchaseBundle(bundleId, authenticatedUser.getId(), request);
+        PurchaseDTO<BundleDTO> purchase = purchaseService.purchaseBundle(bundleId, authenticatedUser.getId(), request);
         
         PurchaseBundleResponse response = PurchaseBundleResponse.builder()
                 .purchase(purchase)
@@ -69,7 +71,7 @@ public class PurchaseController {
 
     //TODO: Add authorization checks for the following endpoints if needed
     @GetMapping("/user")
-    public Page<PurchaseDTO> getUserPurchases(
+    public Page<PurchaseDTO<?>> getUserPurchases(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -79,10 +81,10 @@ public class PurchaseController {
     }
 
     @GetMapping("/{purchaseId}")
-    public ApiResponse<PurchaseDTO> getPurchase(
+    public ApiResponse<PurchaseDTO<?>> getPurchase(
             @PathVariable Long purchaseId
     ) {
-        PurchaseDTO purchase = purchaseService.getPurchaseById(purchaseId);
+        PurchaseDTO<?> purchase = purchaseService.getPurchaseById(purchaseId);
         
         return responseFactory.createSuccessResponse(
                 Messages.Success.PURCHASE_RETRIEVED,

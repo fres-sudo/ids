@@ -73,7 +73,11 @@ public abstract class CompanyMapper {
     @Mapping(target = "address", source = "address", qualifiedByName = "validateString")
     @Mapping(target = "website", source = "website", qualifiedByName = "validateString")
     @Mapping(target = "billingInformation", source = "billingInformation")
-    @Mapping(target = "role", expression = "java(existing.getRole())")
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "verifiedAt", ignore = true)
     public abstract Company updateCompanyFromRequest(
             @MappingTarget Company existing,
             EditCompanyRequest request

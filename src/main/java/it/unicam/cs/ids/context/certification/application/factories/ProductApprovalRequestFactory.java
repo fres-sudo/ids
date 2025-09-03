@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories;
+package it.unicam.cs.ids.context.certification.application.factories;
 
 import it.unicam.cs.ids.context.certification.application.services.ApprovalRequestService;
 import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;

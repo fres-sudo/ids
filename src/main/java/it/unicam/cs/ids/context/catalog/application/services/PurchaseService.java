@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.context.catalog.application.services;
 
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
+import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.PurchaseDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseBundleRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseProductRequest;
@@ -18,7 +20,7 @@ public interface PurchaseService {
      * @param request the purchase request details
      * @return the created PurchaseDTO
      */
-    PurchaseDTO purchaseProduct(Long productId, Long buyerId, PurchaseProductRequest request);
+    PurchaseDTO<ProductDTO> purchaseProduct(Long productId, Long buyerId, PurchaseProductRequest request);
     
     /**
      * Purchases a bundle for the specified user.
@@ -28,7 +30,7 @@ public interface PurchaseService {
      * @param request the purchase request details
      * @return the created PurchaseDTO
      */
-    PurchaseDTO purchaseBundle(Long bundleId, Long buyerId, PurchaseBundleRequest request);
+    PurchaseDTO<BundleDTO> purchaseBundle(Long bundleId, Long buyerId, PurchaseBundleRequest request);
     
     /**
      * Retrieves all purchases made by a specific user.
@@ -36,7 +38,7 @@ public interface PurchaseService {
      * @param buyerId the ID of the buyer
      * @return list of PurchaseDTO objects
      */
-    Page<PurchaseDTO> getUserPurchases(Long buyerId, Integer pageNo, Integer pageSize, String sortBy);
+    Page<PurchaseDTO<?>> getUserPurchases(Long buyerId, Integer pageNo, Integer pageSize, String sortBy);
     
     /**
      * Retrieves a specific purchase by its ID.
@@ -44,5 +46,5 @@ public interface PurchaseService {
      * @param purchaseId the ID of the purchase
      * @return the PurchaseDTO
      */
-    PurchaseDTO getPurchaseById(Long purchaseId);
+    PurchaseDTO<?> getPurchaseById(Long purchaseId);
 }

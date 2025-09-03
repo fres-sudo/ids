@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.context.certification.domain.model;
 
 import it.unicam.cs.ids.context.company.domain.models.Company;
+import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.shared.infrastructure.persistence.ApprovableEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,11 +22,35 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 public class ApprovalRequest extends ApprovableEntity {
     @ManyToOne
+    @JoinColumn(name = "requesting_company_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Company requestingCompany;
 
-    @Enumerated(EnumType.STRING) // "PRODUCT", "BUNDLE"
+    @ManyToOne
+    @JoinColumn(name = "requesting_user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User requestingUser;
+
+    @Enumerated(EnumType.STRING) // "PRODUCT", "BUNDLE", "EVENT"
     private RequestEntityType entityType;
 
     private Long entityId;
+
+    public String getRequestorName() {
+        return requestingCompany != null ? 
+               requestingCompany.getName() : 
+               requestingUser.getName();
+    }
+    
+    public boolean isCompanyRequest() {
+        return requestingCompany != null;
+    }
+    
+    public boolean isUserRequest() {
+        return requestingUser != null;
+    }
+    
+    public String getRequestorType() {
+        return requestingCompany != null ? "COMPANY" : "USER";
+    }
 }

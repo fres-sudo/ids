@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.events.domain.model;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
-import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;
 import jakarta.persistence.*;
@@ -11,13 +10,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- * EventParticipation represents a company's request to participate in an event.
- * Participation requests require manual confirmation from the event organizer.
- */
 @Entity
 @Table(name = "event_participations", schema = "ids_schema",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"event_id", "participant_company_id"}))
+       uniqueConstraints = @UniqueConstraint(columnNames = {"event_id", "participant_id", "participant_type"}))
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -27,9 +22,17 @@ public class EventParticipation extends BaseEntity implements Approvable {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @ManyToOne
-    @JoinColumn(name = "participant_company_id", nullable = false)
-    private Company participant;
+    @Column(name = "participant_id", nullable = false)
+    private Long participantId;
+
+    @Column(name = "participant_type", nullable = false, length = 50)
+    private String participantType;
+
+    @Column(name = "participant_identifier", nullable = false, length = 100)
+    private String participantIdentifier;
+
+    @Column(name = "participant_contact_info", length = 500)
+    private String participantContactInfo;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

@@ -9,7 +9,7 @@ import it.unicam.cs.ids.context.catalog.application.mappers.BundleMapper;
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.BundleApprovalRequestFactory;
+import it.unicam.cs.ids.context.certification.application.factories.BundleApprovalRequestFactory;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.shared.application.Finder;

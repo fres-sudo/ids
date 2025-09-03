@@ -133,7 +133,6 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
         this.status = approvalStatus;
     }
 
-    @Override
     public void updateQuantity(int purchasedQuantity) {
         this.quantity -= purchasedQuantity;
         if (this.quantity <= 0) {

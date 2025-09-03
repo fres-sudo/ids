@@ -6,6 +6,8 @@ import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.certification.application.mappers.ApprovalRequestMapper;
+import it.unicam.cs.ids.context.events.domain.model.Event;
+import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
 import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
 import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
@@ -20,6 +22,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static it.unicam.cs.ids.context.certification.application.mappers.ApprovalRequestMapper.getApprovable;
+
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
@@ -30,11 +34,15 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
     final ProductRepository productRepository;
     final BundleRepository bundleRepository;
     final ApprovalRequestMapper approvalRequestMapper;
+    final EventRepository eventRepository;
 
     @Override
     public void submitForApproval(SubmitApprovalRequest request) {
         //TODO check if another request with the same info exists
         ApprovalRequest approvalRequest = approvalRequestMapper.fromSubmitRequest(request);
+        if (approvalRequest.getStatus() != ApprovalStatus.DRAFT) {
+            throw new IllegalStateException("Only DRAFT requests can be submitted" + approvalRequest);
+        }
         ApprovalRequest entity = approvalRequestRepository.save(approvalRequest);
         // TODO notify certifier if necessary
         approvalRequestMapper.toDto(entity);
@@ -81,18 +89,14 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
     }
 
     private Approvable findEntity(RequestEntityType entityType, Long entityId) {
-        return switch (entityType) {
-            case PRODUCT -> productRepository.findById(entityId)
-                    .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + entityId));
-            case BUNDLE -> bundleRepository.findById(entityId)
-                    .orElseThrow(() -> new EntityNotFoundException("Bundle not found with id: " + entityId));
-        };
+        return getApprovable(entityType, entityId, productRepository, bundleRepository, eventRepository);
     }
 
     private void saveEntity(Approvable entity, RequestEntityType entityType) {
         switch (entityType) {
             case PRODUCT -> productRepository.save((Product) entity);
             case BUNDLE -> bundleRepository.save((Bundle) entity);
+            case EVENT -> eventRepository.save((Event) entity);
         }
     }
 }

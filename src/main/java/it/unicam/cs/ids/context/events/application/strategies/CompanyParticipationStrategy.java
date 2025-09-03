@@ -1,6 +1,5 @@
-package it.unicam.cs.ids.context.events.domain.strategies;
+package it.unicam.cs.ids.context.events.application.strategies;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.events.domain.model.Event;
 import org.springframework.stereotype.Component;

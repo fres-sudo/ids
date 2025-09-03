@@ -29,6 +29,7 @@ public abstract class ProductMapper {
     @Mapping(target = "distributors", source = "distributorId", qualifiedByName = "mapCompanyByIdMany")
     @Mapping(target = "transformers", source = "transformerId", qualifiedByName = "mapCompanyByIdMany")
     @Mapping(target = "certificates", ignore = true)
+    @Mapping(target = "approvalStatus", ignore = true)
     @Mapping(target = "imageUrls", ignore = true)
     public abstract Product fromRequest(CreateProductRequest dto);
 
@@ -43,6 +44,7 @@ public abstract class ProductMapper {
     @Mapping(target = "transformers", source = "transformerId", qualifiedByName = "mapCompanyByIdMany")
     @Mapping(target = "certificates", ignore = true)
     @Mapping(target = "imageUrls", ignore = true)
+    @Mapping(target = "approvalStatus", ignore = true)
     @Mapping(target = "creator", ignore = true) // Creator should not be updated
     @Mapping(target = "producer", source = "producerId", qualifiedByName = "mapCompanyById")
     @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.PENDING)")

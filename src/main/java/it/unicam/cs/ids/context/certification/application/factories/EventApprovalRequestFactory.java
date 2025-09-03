@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories;
+package it.unicam.cs.ids.context.certification.application.factories;
 
 import it.unicam.cs.ids.context.certification.application.services.ApprovalRequestService;
 import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class BundleApprovalRequestFactory implements ApprovalRequestFactory{
+public class EventApprovalRequestFactory implements ApprovalRequestFactory {
 
     private final ApprovalRequestService approvalRequestService;
 
     @Override
-    public void submit(Long productId, Long creatorId) {
+    public void submit(Long eventId, Long creatorId) {
         SubmitApprovalRequest approvalRequest = SubmitApprovalRequest.builder()
-                .entityId(productId)
-                .companyId(creatorId)
-                .entityType(RequestEntityType.BUNDLE)
+                .entityId(eventId)
+                .userId(creatorId)
+                .entityType(RequestEntityType.EVENT)
                 .build();
         approvalRequestService.submitForApproval(approvalRequest);
     }

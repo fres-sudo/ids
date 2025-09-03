@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PurchaseDTO<T> extends DTO implements Serializable {
+public class PurchaseDTO<T extends DTO> extends DTO implements Serializable {
     private Long id;
     private String name;
     private UserDTO buyer;

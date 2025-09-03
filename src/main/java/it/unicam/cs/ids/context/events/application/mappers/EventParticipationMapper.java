@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.context.events.application.mappers;
 
-import it.unicam.cs.ids.context.events.domain.model.EventParticipationV2;
+import it.unicam.cs.ids.context.events.domain.model.EventParticipation;
+import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventParticipationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventParticipationMapper {
-    
-    private final EventMapper eventMapper;
-    
-    public EventParticipationDTO toDto(EventParticipationV2 participation) {
+
+
+    public EventParticipationDTO toDto(EventParticipation participation) {
         if (participation == null) {
             return null;
         }
-        
+
         EventParticipationDTO dto = new EventParticipationDTO();
         dto.setId(participation.getId());
-        dto.setEvent(eventMapper.toDto(participation.getEvent()));
         dto.setParticipantId(participation.getParticipantId());
         dto.setParticipantType(participation.getParticipantType());
         dto.setParticipantIdentifier(participation.getParticipantIdentifier());

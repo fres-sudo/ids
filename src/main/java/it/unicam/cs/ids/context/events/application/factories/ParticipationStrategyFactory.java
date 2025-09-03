@@ -1,9 +1,9 @@
-package it.unicam.cs.ids.context.events.domain.factories;
+package it.unicam.cs.ids.context.events.application.factories;
 
 import it.unicam.cs.ids.context.company.domain.models.Company;
-import it.unicam.cs.ids.context.events.domain.strategies.CompanyParticipationStrategy;
-import it.unicam.cs.ids.context.events.domain.strategies.ParticipationStrategy;
-import it.unicam.cs.ids.context.events.domain.strategies.UserParticipationStrategy;
+import it.unicam.cs.ids.context.events.application.strategies.CompanyParticipationStrategy;
+import it.unicam.cs.ids.context.events.application.strategies.ParticipationStrategy;
+import it.unicam.cs.ids.context.events.application.strategies.UserParticipationStrategy;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.shared.application.Participable;
 import lombok.RequiredArgsConstructor;

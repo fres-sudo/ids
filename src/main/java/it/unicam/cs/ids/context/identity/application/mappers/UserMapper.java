@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.context.identity.application.mappers;
 
 
+import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAnimatorRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.UserDTO;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Component;
 )
 public abstract class UserMapper {
 
+    @Autowired
+    protected UserRepository userRepository;
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
@@ -74,5 +77,17 @@ public abstract class UserMapper {
     @Named("encodePassword")
     protected String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
+    }
+
+    /**
+     * Maps an individual company ID to its corresponding Company entity.
+     * @param id the ID of the company to map
+     * @return the Company entity corresponding to the provided ID
+     */
+    @Named("mapUserById")
+    public User fromId(Long id) {
+        if (id == null) return null;
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User with ID " + id + " not found"));
     }
 }

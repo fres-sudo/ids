@@ -11,7 +11,7 @@ import it.unicam.cs.ids.context.certification.application.mappers.CertificateMap
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
 import it.unicam.cs.ids.context.certification.domain.repositories.ApprovalRequestRepository;
 import it.unicam.cs.ids.context.certification.domain.repositories.CertificateRepository;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.factories.ProductApprovalRequestFactory;
+import it.unicam.cs.ids.context.certification.application.factories.ProductApprovalRequestFactory;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
@@ -54,8 +54,8 @@ public class ProductServiceImpl implements ProductService {
                 "Company with ID " + request.getCreatorId() + " not found.");
 
         product.setCreator(creator);
+
         Product response = productRepository.save(product);
-        //
         return productMapper.toDto(response);
     }
 

@@ -6,6 +6,8 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleFilter;
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyFilter;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductFilter;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +15,5 @@ public interface SearchService {
     Page<ProductDTO> searchProducts(ProductFilter filter, Pageable pageable);
     Page<BundleDTO> searchBundles(BundleFilter filter, Pageable pageable);
     Page<CompanyDTO> searchCompanies(CompanyFilter filter, Pageable pageable);
+    Page<EventDTO> searchEvents(EventFilter filter, Pageable pageable);
 }

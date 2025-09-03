@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.context.events.domain.strategies;
+package it.unicam.cs.ids.context.events.application.strategies;
 
 import it.unicam.cs.ids.context.events.domain.model.Event;
 import it.unicam.cs.ids.shared.application.Participable;

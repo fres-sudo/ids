@@ -18,6 +18,12 @@ import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.company.infrastructure.persistence.specifications.CompanySpecification;
 import it.unicam.cs.ids.context.catalog.infrastructure.persistence.specifications.ProductSpecification;
+import it.unicam.cs.ids.context.events.application.mappers.EventMapper;
+import it.unicam.cs.ids.context.events.domain.model.Event;
+import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
+import it.unicam.cs.ids.context.events.infrastructure.persistence.specifications.EventSpecification;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
+import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,6 +42,8 @@ public class SearchServiceImpl implements SearchService {
     private final ProductMapper productMapper;
     private final CompanyMapper companyMapper;
     private final BundleMapper bundleMapper;
+    private final EventRepository eventRepository;
+    private final EventMapper eventMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -62,5 +70,14 @@ public class SearchServiceImpl implements SearchService {
 
         Page<Company> companies = companyRepository.findAll(spec, pageable);
         return companies.map(companyMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<EventDTO> searchEvents(EventFilter filter, Pageable pageable) {
+        Specification<Event> spec = EventSpecification.withFilter(filter);
+
+        Page<Event> events = eventRepository.findAll(spec, pageable);
+        return events.map(eventMapper::toDto);
     }
 }

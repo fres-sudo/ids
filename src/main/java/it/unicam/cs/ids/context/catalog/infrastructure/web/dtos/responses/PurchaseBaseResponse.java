@@ -11,8 +11,8 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
-public abstract class PurchaseBaseResponse extends DTO {
-    private PurchaseDTO purchase;
+public class PurchaseBaseResponse<T extends DTO> extends DTO {
+    private PurchaseDTO<T> purchase;
     private String message;
     private boolean success;
 }

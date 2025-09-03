@@ -32,8 +32,8 @@ public class EventDTO extends DTO implements Serializable {
     private List<String> imageUrls;
     private String requirements;
     private String contactInfo;
-    private boolean isPublic;
+    private Boolean isPublic;
     private List<EventParticipationDTO> participations;
-    private boolean registrationOpen;
-    private boolean hasAvailableSlots;
+    private Boolean registrationOpen;
+    private Boolean hasAvailableSlots;
 }

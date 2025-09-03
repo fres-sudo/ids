@@ -29,6 +29,9 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Company extends BaseEntity implements Participable {
+
+    @Column(nullable = false)
+    private String name;
     /** Company email (unique username) */
     @Column(nullable = false, unique = true)
     private String email;

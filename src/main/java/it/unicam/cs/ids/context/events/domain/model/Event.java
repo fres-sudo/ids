@@ -26,6 +26,9 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Event extends BaseEntity implements Approvable {
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -72,7 +75,7 @@ public class Event extends BaseEntity implements Approvable {
     private String contactInfo;
 
     @Column(name = "is_public", nullable = false)
-    private boolean isPublic = true;
+    private Boolean isPublic = true;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EventParticipation> participations = new ArrayList<>();

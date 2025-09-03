@@ -41,7 +41,7 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
         //TODO check if another request with the same info exists
         ApprovalRequest approvalRequest = approvalRequestMapper.fromSubmitRequest(request);
         if (approvalRequest.getStatus() != ApprovalStatus.DRAFT) {
-            throw new IllegalStateException("Only DRAFT requests can be submitted" + approvalRequest);
+            throw new IllegalStateException("Only DRAFT entities can be submitted" + approvalRequest);
         }
         ApprovalRequest entity = approvalRequestRepository.save(approvalRequest);
         // TODO notify certifier if necessary

@@ -38,5 +38,6 @@ public abstract class EventMapper {
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "organizer", ignore = true)
     @Mapping(target = "participations", ignore = true)
+    @Mapping(target = "status", ignore = true) // Prevent status changes during update
     public abstract Event updateEventFromDto(EventDTO dto, @MappingTarget Event event);
 }

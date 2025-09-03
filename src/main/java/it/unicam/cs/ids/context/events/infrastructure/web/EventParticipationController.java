@@ -15,12 +15,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/events/participations")
+@RequestMapping("/events/participations")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventParticipationController {
 
@@ -28,7 +29,8 @@ public class EventParticipationController {
     private final EventParticipationService participationService;
     private final CompanyRepository companyRepository;
     private final UserRepository userRepository;
-    
+
+    @PreAuthorize("hasAuthority('COMPANY')")
     @PostMapping("/company")
     public ApiResponse<EventParticipationDTO> createCompanyParticipation(
             @RequestBody CreateParticipationRequest request) {
@@ -44,7 +46,8 @@ public class EventParticipationController {
                 "Participation request created successfully", participation
         );
     }
-    
+
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/user")
     public ApiResponse<EventParticipationDTO> createUserParticipation(
             @Valid  @RequestBody CreateParticipationRequest request) {
@@ -61,6 +64,7 @@ public class EventParticipationController {
         );
     }
 
+    @PreAuthorize("hasAuthority('ANIMATOR')")
     @PutMapping("/{participationId}")
     public ApiResponse<EventParticipationDTO> updateParticipation(
             @PathVariable Long participationId, @RequestBody UpdateParticipationRequest request) {
@@ -73,6 +77,7 @@ public class EventParticipationController {
         );
     }
 
+    @PreAuthorize("hasAuthority('ANIMATOR')")
     @GetMapping("/event/{eventId}")
     public ApiResponse<List<EventParticipationDTO>> getParticipationsByEvent(@PathVariable Long eventId) {
         List<EventParticipationDTO> participants = participationService.getParticipantsByEvent(eventId);
@@ -80,7 +85,8 @@ public class EventParticipationController {
                 "Participations retrieved successfully", participants
         );
     }
-    
+
+    @PreAuthorize("hasAuthority('COMPANY')")
     @GetMapping("/company/{companyId}")
     public ApiResponse<List<EventParticipationDTO>> getCompanyParticipations(@PathVariable Long companyId) {
         Company company = Finder.findByIdOrThrow(companyRepository, companyId,
@@ -91,7 +97,8 @@ public class EventParticipationController {
                 "Participations retrieved successfully", participants
         );
     }
-    
+
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/user/{userId}")
     public ApiResponse<List<EventParticipationDTO>> getUserParticipations(@PathVariable Long userId) {
         User user = Finder.findByIdOrThrow(userRepository, userId,
@@ -102,7 +109,8 @@ public class EventParticipationController {
                 "Participations retrieved successfully", participations
         );
     }
-    
+
+    @PreAuthorize("hasAuthority('ANIMATOR')")
     @PostMapping("/{participationId}/approve")
     public ApiResponse<EventParticipationDTO> approveParticipation(
             @PathVariable Long participationId, @RequestParam(required = false) String responseMessage) {
@@ -112,7 +120,8 @@ public class EventParticipationController {
                 "Participation approved successfully", participation
         );
     }
-    
+
+    @PreAuthorize("hasAuthority('ANIMATOR')")
     @PostMapping("/{participationId}/reject")
     public ResponseEntity<EventParticipationDTO> rejectParticipation(
             @PathVariable Long participationId, @RequestParam(required = false) String responseMessage) {
@@ -120,7 +129,8 @@ public class EventParticipationController {
         EventParticipationDTO participation = participationService.rejectParticipation(participationId, responseMessage);
         return ResponseEntity.ok(participation);
     }
-    
+
+    @PreAuthorize("hasAnyAuthority('COMPANY', 'USER')")
     @GetMapping("/organizer/{organizerId}/pending")
     public ApiResponse<List<EventParticipationDTO>> getPendingParticipantsByOrganizer(@PathVariable Long organizerId) {
         List<EventParticipationDTO> participants = participationService.getPendingParticipantsByOrganizer(organizerId);
@@ -128,7 +138,8 @@ public class EventParticipationController {
                 "Pending participations retrieved successfully", participants
         );
     }
-    
+
+    @PreAuthorize("hasAnyAuthority('COMPANY', 'USER')")
     @DeleteMapping("/{participationId}")
     public ResponseEntity<Void> cancelParticipation(@PathVariable Long participationId) {
         participationService.cancelParticipation(participationId);

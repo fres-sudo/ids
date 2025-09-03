@@ -24,33 +24,15 @@ public class ApprovalRequest extends ApprovableEntity {
     @ManyToOne
     @JoinColumn(name = "requesting_company_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Company requestingCompany;
+    private Company requestingCompany; // can be null if the request is made by a user
 
     @ManyToOne
     @JoinColumn(name = "requesting_user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User requestingUser;
+    private User requestingUser; // can be null if the request is made by the company
 
     @Enumerated(EnumType.STRING) // "PRODUCT", "BUNDLE", "EVENT"
     private RequestEntityType entityType;
 
     private Long entityId;
-
-    public String getRequestorName() {
-        return requestingCompany != null ? 
-               requestingCompany.getName() : 
-               requestingUser.getName();
-    }
-    
-    public boolean isCompanyRequest() {
-        return requestingCompany != null;
-    }
-    
-    public boolean isUserRequest() {
-        return requestingUser != null;
-    }
-    
-    public String getRequestorType() {
-        return requestingCompany != null ? "COMPANY" : "USER";
-    }
 }

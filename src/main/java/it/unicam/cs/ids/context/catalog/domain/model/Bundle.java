@@ -38,6 +38,9 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Bundle extends BaseEntity implements Approvable, Purchasable {
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 

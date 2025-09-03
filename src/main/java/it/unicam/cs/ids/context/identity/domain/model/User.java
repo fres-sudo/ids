@@ -20,6 +20,10 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity implements Participable {
+
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false, length = 255)
     private String surname;
 

@@ -22,6 +22,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class Purchase extends BaseEntity {
 
+    @Column(nullable = false)
+    private String name;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", nullable = false)
     private User buyer;

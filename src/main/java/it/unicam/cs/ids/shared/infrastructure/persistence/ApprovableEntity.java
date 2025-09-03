@@ -24,7 +24,7 @@ public abstract class ApprovableEntity implements Serializable {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ApprovalStatus status = ApprovalStatus.PENDING;
+    private ApprovalStatus status = ApprovalStatus.DRAFT;
 
     @CreationTimestamp
     private LocalDateTime submittedAt;

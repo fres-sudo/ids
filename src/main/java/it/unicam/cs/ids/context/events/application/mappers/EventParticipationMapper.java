@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.events.application.mappers;
 
 import it.unicam.cs.ids.context.events.domain.model.EventParticipation;
-import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventParticipationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.events.domain.model;
 
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
-import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity;

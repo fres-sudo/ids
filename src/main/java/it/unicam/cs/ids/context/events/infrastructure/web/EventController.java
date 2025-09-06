@@ -2,9 +2,6 @@ package it.unicam.cs.ids.context.events.infrastructure.web;
 
 import it.unicam.cs.ids.context.events.application.services.EventService;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
-import it.unicam.cs.ids.context.company.domain.models.Company;
-import it.unicam.cs.ids.context.identity.application.services.AuthService;
-import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;

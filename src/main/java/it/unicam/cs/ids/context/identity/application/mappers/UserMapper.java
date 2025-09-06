@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.identity.application.mappers;
 
 
-import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterAnimatorRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.UserDTO;
@@ -9,11 +8,9 @@ import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.EditUs
 import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
 import it.unicam.cs.ids.shared.application.Validator;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 
 @Mapper(

@@ -24,7 +24,7 @@ public class User extends BaseEntity implements Participable {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String surname;
 
     @Column(nullable = false, unique = true)

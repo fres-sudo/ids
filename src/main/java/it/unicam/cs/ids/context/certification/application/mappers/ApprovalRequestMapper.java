@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.certification.application.mappers;
 
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
-import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
 import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
 import it.unicam.cs.ids.shared.application.Approvable;

@@ -6,7 +6,6 @@ import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.*;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotFound;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.NotUniqueEmail;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.responses.AuthResponse;
 

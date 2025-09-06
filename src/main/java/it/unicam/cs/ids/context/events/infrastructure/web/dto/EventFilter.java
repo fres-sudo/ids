@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.context.events.infrastructure.web.dto;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.shared.application.FilterParam;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

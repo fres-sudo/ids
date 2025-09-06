@@ -1,9 +1,6 @@
 package it.unicam.cs.ids.context.events.application.services;
 
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
-import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventFilter;
-
-import java.util.List;
 
 /**
  * Event Service defines the operations related to events.

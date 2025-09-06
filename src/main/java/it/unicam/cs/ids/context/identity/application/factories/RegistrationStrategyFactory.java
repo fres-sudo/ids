@@ -3,7 +3,6 @@ package it.unicam.cs.ids.context.identity.application.factories;
 import it.unicam.cs.ids.context.identity.application.strategies.RegistrationStrategy;
 import it.unicam.cs.ids.context.identity.application.strategies.impl.CertifierRegistrationStrategy;
 import it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests.RegisterUserRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

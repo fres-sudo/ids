@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.context.identity.infrastructure.web.dtos.requests;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

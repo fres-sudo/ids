@@ -6,7 +6,6 @@ import it.unicam.cs.ids.shared.kernel.exceptions.auth.JwtAuthenticationException
 import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataAccessException;
 
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;

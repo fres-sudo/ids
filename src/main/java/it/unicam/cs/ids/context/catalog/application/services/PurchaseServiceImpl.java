@@ -1,14 +1,12 @@
 package it.unicam.cs.ids.context.catalog.application.services;
 
 import it.unicam.cs.ids.context.catalog.application.factories.PurchaseProcessorFactory;
-import it.unicam.cs.ids.context.catalog.application.mappers.PurchaseMapper;
 import it.unicam.cs.ids.context.catalog.application.processors.PurchaseProcessor;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.model.Purchase;
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
-import it.unicam.cs.ids.context.catalog.domain.repositories.PurchaseRepository;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.PurchaseDTO;
@@ -22,9 +20,6 @@ import it.unicam.cs.ids.shared.application.Purchasable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

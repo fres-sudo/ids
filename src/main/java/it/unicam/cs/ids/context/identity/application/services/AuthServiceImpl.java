@@ -56,7 +56,6 @@ public class AuthServiceImpl implements AuthService {
         String token = tokenProvider.generateToken(authentication);
 
         return new AuthResponse(token);
-            
     }
     
     @Override
@@ -81,7 +80,6 @@ public class AuthServiceImpl implements AuthService {
                 registrationFactory.getStrategy(RegisterCompanyRequest.class);
 
         strategy.register(registerCompanyRequest);
-
     }
     
     @Override
@@ -98,7 +96,6 @@ public class AuthServiceImpl implements AuthService {
                 registrationFactory.getStrategy(RegisterAdminRequest.class);
 
         User registeredAdmin = strategy.register(registerAdminRequest);
-            
     }
     
     @Override

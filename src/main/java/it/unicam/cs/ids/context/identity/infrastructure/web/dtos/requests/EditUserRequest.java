@@ -21,8 +21,6 @@ public class EditUserRequest extends BaseUserRequest {
     private String password;
     /** New description of the user */
     private String description;
-    /** New phone number */
-    private String phoneNumber;
-    /** New address */
-    private String address;
+
+    private Double balance;
 }

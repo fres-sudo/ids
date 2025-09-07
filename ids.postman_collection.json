@@ -751,7 +751,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"francesco@gmail.com\"\n}",
+									"raw": "{\n    \"email\": \"francesco@gmail.com\",\n    \"balance\" : 100.0\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1278,7 +1278,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"test3@example.com\",\n  \"password\": \"bho\"\n}",
+									"raw": "{\n  \"email\": \"francesco@gmail.com\",\n  \"password\": \"bho\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1638,7 +1638,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BleGFtcGxlLmNvbSIsImF1dGgiOiJCVVlFUiIsImlzcyI6Imlkc19kZXZfaXNzdWVyIiwiaWF0IjoxNzU3Mjc3NzEyLCJleHAiOjE3NTczNjQxMTJ9.EOHYpRTqBifbf2slAslWpLwxDhZVWd3R4CEWmU20GVc",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmcmFuY2VzY29AZ21haWwuY29tIiwiYXV0aCI6IkJVWUVSIiwiaXNzIjoiaWRzX2Rldl9pc3N1ZXIiLCJpYXQiOjE3NTcyNzg4NzIsImV4cCI6MTc1NzM2NTI3Mn0.FoQl2UWMhbEhF63DRNDKRuwzi-d6F1tg01hzDt0VM6o",
 				"type": "string"
 			}
 		]

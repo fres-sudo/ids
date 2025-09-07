@@ -2,7 +2,6 @@ package it.unicam.cs.ids.context.catalog.domain.repositories;
 
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

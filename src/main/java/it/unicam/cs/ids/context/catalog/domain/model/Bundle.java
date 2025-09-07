@@ -87,7 +87,7 @@ public class Bundle extends BaseEntity implements Approvable, Purchasable {
 
     @Column(length = 3)
     @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private Currency currency = Currency.EUR;
 
     @Override
     public void setApprovalStatus(ApprovalStatus approvalStatus) {

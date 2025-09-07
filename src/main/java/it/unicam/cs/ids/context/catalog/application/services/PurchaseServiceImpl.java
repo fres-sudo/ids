@@ -1,12 +1,14 @@
 package it.unicam.cs.ids.context.catalog.application.services;
 
 import it.unicam.cs.ids.context.catalog.application.factories.PurchaseProcessorFactory;
+import it.unicam.cs.ids.context.catalog.application.mappers.PurchaseMapper;
 import it.unicam.cs.ids.context.catalog.application.processors.PurchaseProcessor;
 import it.unicam.cs.ids.context.catalog.domain.model.Bundle;
 import it.unicam.cs.ids.context.catalog.domain.model.Product;
 import it.unicam.cs.ids.context.catalog.domain.model.Purchase;
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
 import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
+import it.unicam.cs.ids.context.catalog.domain.repositories.PurchaseRepository;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.PurchaseDTO;
@@ -16,10 +18,14 @@ import it.unicam.cs.ids.context.identity.domain.model.User;
 import it.unicam.cs.ids.context.identity.domain.repositories.UserRepository;
 import it.unicam.cs.ids.shared.application.DTO;
 import it.unicam.cs.ids.shared.application.Finder;
+import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.application.Purchasable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +41,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     private final ProductRepository productRepository;
     private final BundleRepository bundleRepository;
+    private final PurchaseRepository purchaseRepository;
     private final UserRepository userRepository;
     private final PurchaseProcessorFactory processorFactory;
+    private final PurchaseMapper purchaseMapper;
 
     @Override
     @Transactional
@@ -53,14 +61,12 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public Page<PurchaseDTO<?>> getUserPurchases(Long buyerId, Integer pageNo, Integer pageSize, String sortBy) {
-        return null;
+    @Transactional(readOnly = true)
+    public Page<PurchaseDTO<?>> getUserPurchases(Long buyerId, Pageable pageable) {
+        Page<Purchase> purchases = purchaseRepository.findPurchasesByBuyerId(buyerId, pageable);
+        return purchases.map(purchaseMapper::toDto);
     }
 
-    @Override
-    public PurchaseDTO<?> getPurchaseById(Long purchaseId) {
-        return null;
-    }
 
     private <T extends Purchasable, R extends DTO> PurchaseDTO<R> processPurchase(T item, Long buyerId, int quantity) {
         item.validatePurchase(quantity);
@@ -81,7 +87,6 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchase.setQuantity(quantity);
         purchase.setUnitPrice(item.getUnitPrice());
         purchase.setTotalAmount(item.computeTotalPrice(quantity));
-        purchase.setCurrency(item.getCurrency());
         purchase.setShippingCost(item.getShippingCost());
         purchase.setEstimatedDeliveryDate(item.computeDeliveryDate());
         return purchase;

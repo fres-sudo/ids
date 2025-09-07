@@ -1300,6 +1300,36 @@
 							"header": null,
 							"cookie": [],
 							"body": null
+						},
+						{
+							"name": "Login Animator",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"ciao@ciaos.it\",\n  \"password\": \"123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/login",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				}
@@ -1326,7 +1356,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"eventId\": 3,\n  \"participantId\": 1,\n  \"applicationMessage\": \"I would like to attend this conference to learn about new technologies\",\n  \"specialRequirements\": \"Vegetarian meal preference\",\n  \"emergencyContact\": \"+1-555-0456\"\n}"
+											"raw": "{\n  \"eventId\": 2,\n  \"participantId\": 1,\n  \"applicationMessage\": \"I would like to attend this conference to learn about new technologies\",\n  \"specialRequirements\": \"Vegetarian meal preference\",\n  \"emergencyContact\": \"+1-555-0456\"\n}"
 										},
 										"url": {
 											"raw": "{{base_url}}/events/participations/user",
@@ -1490,27 +1520,6 @@
 							"response": []
 						},
 						{
-							"name": "Get Pending Participations by Organizer",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/events/participations/organizer/{{companyId}}/pending",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"events",
-										"participations",
-										"organizer",
-										"{{companyId}}",
-										"pending"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Cancel Participation",
 							"request": {
 								"method": "DELETE",
@@ -1629,7 +1638,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BleGFtcGxlLmNvbSIsImF1dGgiOiJCVVlFUiIsImlzcyI6Imlkc19kZXZfaXNzdWVyIiwiaWF0IjoxNzU3Mjc0NzAyLCJleHAiOjE3NTczNjExMDJ9.piQ1BVEDZlQRpPC_UOGXkY0wgNlcbxzt2lXinO7Lngo",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BleGFtcGxlLmNvbSIsImF1dGgiOiJCVVlFUiIsImlzcyI6Imlkc19kZXZfaXNzdWVyIiwiaWF0IjoxNzU3Mjc3NzEyLCJleHAiOjE3NTczNjQxMTJ9.EOHYpRTqBifbf2slAslWpLwxDhZVWd3R4CEWmU20GVc",
 				"type": "string"
 			}
 		]

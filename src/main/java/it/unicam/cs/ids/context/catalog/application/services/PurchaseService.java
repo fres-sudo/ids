@@ -6,6 +6,7 @@ import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.PurchaseDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseBundleRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.PurchaseProductRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Purchase Service defines the operations related to purchases.
@@ -38,13 +39,5 @@ public interface PurchaseService {
      * @param buyerId the ID of the buyer
      * @return list of PurchaseDTO objects
      */
-    Page<PurchaseDTO<?>> getUserPurchases(Long buyerId, Integer pageNo, Integer pageSize, String sortBy);
-    
-    /**
-     * Retrieves a specific purchase by its ID.
-     *
-     * @param purchaseId the ID of the purchase
-     * @return the PurchaseDTO
-     */
-    PurchaseDTO<?> getPurchaseById(Long purchaseId);
+    Page<PurchaseDTO<?>> getUserPurchases(Long buyerId, Pageable pageable);
 }

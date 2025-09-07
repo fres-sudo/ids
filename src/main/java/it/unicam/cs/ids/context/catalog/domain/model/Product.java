@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.context.catalog.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
 import it.unicam.cs.ids.context.company.domain.models.Company;
@@ -49,10 +50,10 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
     private ApprovalStatus status = ApprovalStatus.DRAFT;
 
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "price_per_quantity", nullable = false)
-    private double pricePerQuantity;
+    private Double pricePerQuantity;
 
     @Column(name = "unit_of_measure", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -85,16 +86,16 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
     private Date harvestDate;
 
     @Column(name = "available_for_sale", nullable = false)
-    private boolean availableForSale;
+    private Boolean availableForSale;
 
     @Column(name = "available_for_shipping", nullable = false)
-    private boolean availableForShipping;
+    private Boolean availableForShipping;
 
     @Column(name = "estimated_delivery_days")
-    private int estimatedDeliveryDays;
+    private Integer estimatedDeliveryDays;
 
     @Column(name = "shipping_cost")
-    private double shippingCost;
+    private Double shippingCost;
 
     @Column(name = "return_policy", columnDefinition = "TEXT")
     private String returnPolicy;
@@ -108,6 +109,7 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id")
     )
+    @JsonIgnore
     private List<Company> distributors = new ArrayList<>();
 
     @ManyToMany
@@ -116,14 +118,17 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id")
     )
+    @JsonIgnore
     private List<Company> transformers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany()
+    @JsonIgnore
     private List<Certificate> certificates = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "product_image_urls", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "image_url")
+    @JsonIgnore
     private List<String> imageUrls = new ArrayList<>();
 
     @ManyToOne
@@ -154,7 +159,7 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
     }
 
     @Override
-    public double computeTotalPrice(int quantity) {
+    public Double computeTotalPrice(int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
@@ -163,7 +168,7 @@ public class Product extends BaseEntity implements Approvable, Purchasable {
     }
 
     @Override
-    public double getUnitPrice() {
+    public Double getUnitPrice() {
         return this.pricePerQuantity;
     }
 

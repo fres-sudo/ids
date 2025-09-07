@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventParticipationMapper {
 
-
     public EventParticipationDTO toDto(EventParticipation participation) {
         if (participation == null) {
             return null;
@@ -29,7 +28,7 @@ public class EventParticipationMapper {
         dto.setRespondedAt(participation.getRespondedAt());
         dto.setSpecialRequirements(participation.getSpecialRequirements());
         dto.setEmergencyContact(participation.getEmergencyContact());
-        
+
         return dto;
     }
 }

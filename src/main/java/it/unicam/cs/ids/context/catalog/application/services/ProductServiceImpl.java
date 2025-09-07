@@ -6,18 +6,12 @@ import it.unicam.cs.ids.context.catalog.domain.repositories.ProductRepository;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
-import it.unicam.cs.ids.context.certification.application.mappers.ApprovalRequestMapper;
 import it.unicam.cs.ids.context.certification.application.mappers.CertificateMapper;
-import it.unicam.cs.ids.context.certification.application.services.SubmissionService;
-import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
 import it.unicam.cs.ids.context.certification.domain.model.Certificate;
-import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.context.certification.domain.repositories.CertificateRepository;
-import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.ApprovalRequestDTO;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
-import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.application.Finder;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.EntityNotFoundException;
@@ -80,21 +74,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductDTO createCertificate(@Nonnull CreateCertificateRequest request) {
-        try {
-            // Validate product exists first
-            Product product = productRepository.findById(request.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("Product with ID " + request.getProductId() + " not found."));
-            // Create certificate entity
-            Certificate certificate = certificateMapper.fromCreateRequest(request);
-            Certificate savedCertificate = certificateRepository.save(certificate);
+        // Validate product exists first
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new IllegalArgumentException("Product with ID " + request.getProductId() + " not found."));
+        // Create certificate entity
+        Certificate certificate = certificateMapper.fromCreateRequest(request);
+        Certificate savedCertificate = certificateRepository.save(certificate);
 
-            // Add certificate to product
-            product.getCertificates().add(savedCertificate);
-            Product savedProduct = productRepository.save(product);
+        // Add certificate to product
+        product.getCertificates().add(savedCertificate);
+        Product savedProduct = productRepository.save(product);
 
-            return productMapper.toDto(savedProduct);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create certificate: " + e.getMessage(), e);
-        }
+        return productMapper.toDto(savedProduct);
     }
 }

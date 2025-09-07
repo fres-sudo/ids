@@ -7,4 +7,5 @@ public interface Participable {
     boolean canParticipateInEvent(Event event);
     String getParticipantIdentifier();
     String getParticipantType();
+    Long getId();
 }

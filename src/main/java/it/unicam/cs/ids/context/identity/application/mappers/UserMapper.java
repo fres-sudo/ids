@@ -63,7 +63,7 @@ public abstract class UserMapper {
     @Mapping(target = "name", source = "name", qualifiedByName = "validateString")
     @Mapping(target = "surname", source = "surname", qualifiedByName = "validateString")
     @Mapping(target = "email", source = "email", qualifiedByName = "validateEmail") // validate email
-    @Mapping(target = "hashedPassword", source = "password", qualifiedByName = "encodePassword")
+    @Mapping(target = "hashedPassword", ignore = true)
     public abstract User updateUserFromRequest(
             @MappingTarget User authenticatedUser,
             EditUserRequest request

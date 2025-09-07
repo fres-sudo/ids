@@ -68,7 +68,7 @@ public class BundleController {
         AppUserPrincipal company = AppUserPrincipal.fromCompany(authService.getAuthenticatedCompany());
         return responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_SUBMITTED_FOR_APPROVAL,
-                submissionService.submitForApproval(RequestEntityType.PRODUCT, bundleId, company.getId())
+                submissionService.submitForApproval(RequestEntityType.BUNDLE, bundleId, company.getId())
         );
     }
 }

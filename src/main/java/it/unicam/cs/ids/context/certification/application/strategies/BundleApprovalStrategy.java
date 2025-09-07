@@ -12,6 +12,7 @@ import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -20,9 +21,12 @@ public class BundleApprovalStrategy extends BaseApprovalStrategy<Bundle> {
     private final BundleRepository bundleRepository;
     private final CompanyRepository companyRepository;
 
+
     @Override
+    @Transactional(readOnly = true)
     public Bundle findEntity(Long entityId) {
-        return Finder.findByIdOrThrow(bundleRepository, entityId, Messages.Error.BUNDLE_NOT_FOUND);
+        return bundleRepository.findById(entityId)
+                .orElseThrow(() -> new IllegalArgumentException(Messages.Error.BUNDLE_NOT_FOUND));
     }
 
     @Override
@@ -50,8 +54,8 @@ public class BundleApprovalStrategy extends BaseApprovalStrategy<Bundle> {
     }
 
     @Override
-    public Bundle saveEntity(Bundle entity) {
-        return bundleRepository.save(entity);
+    public void saveEntity(Bundle entity) {
+        bundleRepository.save(entity);
     }
 
     @Override

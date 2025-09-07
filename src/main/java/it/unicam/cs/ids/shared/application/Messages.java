@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.shared.application;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * Utility class for managing messages used across the application.
  * This class contains nested interfaces for categorizing messages.
@@ -74,6 +76,10 @@ public final class Messages {
         String GENERIC_ERROR = "An error occurred";
         String BUNDLE_NOT_FOUND = "Bundle not found";
         String EVENT_NOT_FOUND = "Event not found";
+        String PURCHASE_NOT_FOUND = "Purchase not found";
+
+        String CANNOT_ACCESS_RESOURCE = "Cannot access the requested resource";
+        String INSUFFICIENT_FUNDS = "Insufficient funds for this purchase";
     }
 
     public interface Warning {

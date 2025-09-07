@@ -18,4 +18,5 @@ public class UserDTO extends DTO {
     private String surname;
     private String email;
     private PlatformRoles role;
+    private Double balance;
 }

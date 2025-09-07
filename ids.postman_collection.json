@@ -173,7 +173,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/search/bundles?searchBy=Sto cazzo&tags=seasonal",
+									"raw": "{{base_url}}/search/bundles",
 									"host": [
 										"{{base_url}}"
 									],
@@ -184,12 +184,32 @@
 									"query": [
 										{
 											"key": "searchBy",
-											"value": "Sto cazzo"
+											"value": "Sto cazzo",
+											"disabled": true
 										},
 										{
 											"key": "tags",
-											"value": "seasonal"
+											"value": "seasonal",
+											"disabled": true
 										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Events",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/search/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"search",
+										"events"
 									]
 								}
 							},
@@ -233,7 +253,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"Summer Gadget Bundle\",\n  \"description\": \"A fantastic collection of electronics for your summer adventures!\",\n  \"category\": \"SAUCES_AND_CONDIMENTS\",\n  \"bundledProducts\": [\n    {\n      \"productId\": 1,\n      \"bundleId\": 1,\n      \"quantityInBundle\": 1,\n      \"unitPriceInBundle\": 199.99\n    }\n  ],\n  \"price\": 299.99,\n  \"discountPercentage\": 15.0,\n  \"tags\": [\"summer\", \"electronics\", \"bundle\", \"discount\"],\n  \"quantity\": 50,\n  \"distributorId\": 10,\n  \"availableForSale\": true,\n  \"availableForShipping\": true,\n  \"estimatedDeliveryTime\": 5,\n  \"shippingCost\": 10.00,\n  \"returnPolicy\": \"30-day money-back guarantee.\",\n  \"bundleLocation\": {\n    \"latitude\": 34.0522,\n    \"longitude\": -118.2437\n  }\n}",
+									"raw": "{\n  \"id\": 7,  \n  \"name\": \"Summer Gadget Bundle\",\n  \"description\": \"A fantastic collection of electronics for your summer adventures!\",\n  \"category\": \"SAUCES_AND_CONDIMENTS\",\n  \"bundledProducts\": [\n    {\n      \"productId\": 3,\n      \"bundleId\": 7,\n      \"quantityInBundle\": 1,\n      \"pricePerUnit\": 199.99\n    },\n    {\n      \"productId\": 3,\n      \"bundleId\": 7,\n      \"quantityInBundle\": 323,\n      \"pricePerUnit\": 199.99\n    }\n  ],\n  \"price\": 299.99,\n  \"discountPercentage\": 15.0,\n  \"tags\": [\"summer\", \"electronics\", \"bundle\", \"discount\"],\n  \"quantity\": 50,\n  \"distributorId\": 10,\n  \"availableForSale\": true,\n  \"availableForShipping\": true,\n  \"estimatedDeliveryTime\": 5,\n  \"shippingCost\": 10.00,\n  \"returnPolicy\": \"30-day money-back guarantee.\",\n  \"bundleLocation\": {\n    \"latitude\": 34.0522,\n    \"longitude\": -118.2437\n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -251,6 +271,29 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Submit Bundle for Approval",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base_url}}/bundles/submit/{{ bundle_id }}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"bundles",
+										"submit",
+										"{{ bundle_id }}"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -258,13 +301,39 @@
 					"name": "Purchase",
 					"item": [
 						{
+							"name": "User",
+							"item": [
+								{
+									"name": "Get All User Purchases",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ base_url }}/purchase/user",
+											"host": [
+												"{{ base_url }}"
+											],
+											"path": [
+												"purchase",
+												"user"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "Purcahse Bundle",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
-										"exec": []
+										"packages": {}
 									}
 								}
 							],
@@ -274,16 +343,6 @@
 								"disableCookies": false
 							},
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGIwNEBnbWFpbC5jb20iLCJhdXRoIjoiQlVZRVIiLCJpc3MiOiJpZHNfZGV2X2lzc3VlciIsImlhdCI6MTc1MjQ0NDM1NSwiZXhwIjoxNzUyNTMwNzU1fQ.VgrCkGiXoML_wBvT90-x4PR-QQzr5BROPjBvZq2eOek",
-											"type": "string"
-										}
-									]
-								},
 								"method": "POST",
 								"header": [
 									{
@@ -292,7 +351,8 @@
 									},
 									{
 										"key": "User-Agent",
-										"value": "insomnia/10.3.1"
+										"value": "insomnia/10.3.1",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -305,17 +365,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/purchase/bundle/17",
-									"protocol": "http",
+									"raw": "{{ base_url }}/purchase/bundle/{{ bundle_id }}",
 									"host": [
-										"localhost"
+										"{{ base_url }}"
 									],
-									"port": "8080",
 									"path": [
-										"api",
 										"purchase",
 										"bundle",
-										"17"
+										"{{ bundle_id }}"
 									]
 								}
 							},
@@ -327,8 +384,11 @@
 								{
 									"listen": "test",
 									"script": {
+										"exec": [
+											""
+										],
 										"type": "text/javascript",
-										"exec": []
+										"packages": {}
 									}
 								}
 							],
@@ -338,16 +398,6 @@
 								"disableCookies": false
 							},
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGIwNEBnbWFpbC5jb20iLCJhdXRoIjoiQlVZRVIiLCJpc3MiOiJpZHNfZGV2X2lzc3VlciIsImlhdCI6MTc1MjQ0NDM1NSwiZXhwIjoxNzUyNTMwNzU1fQ.VgrCkGiXoML_wBvT90-x4PR-QQzr5BROPjBvZq2eOek",
-											"type": "string"
-										}
-									]
-								},
 								"method": "POST",
 								"header": [
 									{
@@ -369,17 +419,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/purchase/product/10",
-									"protocol": "http",
+									"raw": "{{ base_url }}/purchase/product/{{ product_id }}",
 									"host": [
-										"localhost"
+										"{{ base_url }}"
 									],
-									"port": "8080",
 									"path": [
-										"api",
 										"purchase",
 										"product",
-										"10"
+										"{{ product_id }}"
 									]
 								}
 							},
@@ -449,7 +496,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"productId\": 10,\n    \"name\": \"Organic Certification\",\n    \"description\": \"This certificate verifies that the product meets organic standards.\",\n    \"issuerId\": 8,\n    \"certificationDate\": \"2023-10-01T00:00:00Z\",\n    \"issueDate\": \"2023-10-01T00:00:00Z\",\n    \"expirationDate\": \"2024-10-01T00:00:00Z\"\n}",
+									"raw": "{\n    \"productId\": 3,\n    \"name\": \"Organic Certification\",\n    \"description\": \"This certificate verifies that the product meets organic standards.\",\n    \"issuerId\": 1,\n    \"certificationDate\": \"2023-10-01T00:00:00Z\",\n    \"issueDate\": \"2023-10-01T00:00:00Z\",\n    \"expirationDate\": \"2024-10-01T00:00:00Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -474,14 +521,64 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\" : \"Pippo\",\n    \"description\" : \"Pluto\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{ base_url }}/products/10",
+									"raw": "{{ base_url }}/products/{{ product_id }}",
 									"host": [
 										"{{ base_url }}"
 									],
 									"path": [
 										"products",
-										"10"
+										"{{ product_id }}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Submit Product for Approval",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{ base_url }}/products/submit/{{ product_id }}",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"products",
+										"submit",
+										"{{ product_id }}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Summer Gadget Bundle\",\n  \"description\": \"A fantastic collection of electronics for your summer adventures!\",\n  \"category\": \"SAUCES_AND_CONDIMENTS\",\n  \"bundledProducts\": [\n    {\n      \"productId\": 1,\n      \"bundleId\": 1,\n      \"quantityInBundle\": 1,\n      \"unitPriceInBundle\": 199.99\n    }\n  ],\n  \"price\": 299.99,\n  \"discountPercentage\": 15.0,\n  \"tags\": [\"summer\", \"electronics\", \"bundle\", \"discount\"],\n  \"quantity\": 50,\n  \"distributorId\": 10,\n  \"availableForSale\": true,\n  \"availableForShipping\": true,\n  \"estimatedDeliveryTime\": 5,\n  \"shippingCost\": 10.00,\n  \"returnPolicy\": \"30-day money-back guarantee.\",\n  \"bundleLocation\": {\n    \"latitude\": 34.0522,\n    \"longitude\": -118.2437\n  }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/products/{{ product_id }}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{ product_id }}"
 									]
 								}
 							},
@@ -510,7 +607,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "{{ base_url }}/certifier/requests",
+									"raw": "{{ base_url }}/certifier/requests?pageNo=0&pageSize=10&sortBy=id",
 									"host": [
 										"{{ base_url }}"
 									],
@@ -521,18 +618,15 @@
 									"query": [
 										{
 											"key": "pageNo",
-											"value": "0",
-											"disabled": true
+											"value": "0"
 										},
 										{
 											"key": "pageSize",
-											"value": "10",
-											"disabled": true
+											"value": "10"
 										},
 										{
 											"key": "sortBy",
-											"value": "id",
-											"disabled": true
+											"value": "id"
 										}
 									]
 								}
@@ -549,15 +643,15 @@
 									"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}"
 								},
 								"url": {
-									"raw": "{{ base_url }}/admin/requests/approve/4",
+									"raw": "{{ base_url }}/certifier/requests/approve/{{ request_id }}",
 									"host": [
 										"{{ base_url }}"
 									],
 									"path": [
-										"admin",
+										"certifier",
 										"requests",
 										"approve",
-										"4"
+										"{{ request_id }}"
 									]
 								}
 							},
@@ -573,15 +667,15 @@
 									"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}"
 								},
 								"url": {
-									"raw": "{{ base_url }}/admin/requests/reject/4",
+									"raw": "{{ base_url }}/certifier/requests/reject/{{ request_id }}",
 									"host": [
 										"{{ base_url }}"
 									],
 									"path": [
-										"admin",
+										"certifier",
 										"requests",
 										"reject",
-										"4"
+										"{{ request_id }}"
 									]
 								}
 							},
@@ -657,7 +751,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"francesco@gmail.com\"\n}",
+									"raw": "{\n    \"email\": \"francesco@gmail.com\",\n    \"balance\" : 100.0\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -731,7 +825,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"name\": \"mufasa\",\n\t\"surname\": \"gentile\",\n    \"email\": \"mufasa@gmail.comdssd\",\n    \"password\": \"123\"\n}",
+									"raw": "{\n\t\"name\": \"mufasa\",\n\t\"surname\": \"gentile\",\n    \"email\": \"mufasa@gmail.comdss\",\n    \"password\": \"123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -809,7 +903,7 @@
 											"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}"
 										},
 										"url": {
-											"raw": "{{ base_url }}/admin/requests/approve/4",
+											"raw": "{{ base_url }}/admin/requests/approve/1",
 											"host": [
 												"{{ base_url }}"
 											],
@@ -817,7 +911,7 @@
 												"admin",
 												"requests",
 												"approve",
-												"4"
+												"1"
 											]
 										}
 									},
@@ -869,6 +963,9 @@
 								"disableCookies": false
 							},
 							"request": {
+								"auth": {
+									"type": "noauth"
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -882,7 +979,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"name\": \"mufasa\",\n\t\"surname\": \"gentile\",\n    \"email\": \"mufasa@gmadsil.com\",\n    \"password\": \"123\",\n    \"adminByPassPasswordField\" : \"admin\"\n}",
+									"raw": "{\n\t\"name\": \"mufasa\",\n\t\"surname\": \"gentile\",\n    \"email\": \"mufasa@gmadsil.com\",\n    \"password\": \"123\",\n    \"adminSecret\" : \"admin\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -928,6 +1025,9 @@
 								"disableCookies": false
 							},
 							"request": {
+								"auth": {
+									"type": "noauth"
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -941,7 +1041,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"Innovate Solutions Inc.\",\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\",\n  \"vat\": \"US120DS5678\"\n}",
+									"raw": "{\n  \"name\": \"Innovate Solutions Inc.\",\n  \"email\": \"ciao@ciao.it\",\n  \"password\": \"123\",\n  \"vat\": \"US120DS5123678\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -949,7 +1049,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{ base_url }}/auth/register/company/PRODUCER",
+									"raw": "{{ base_url }}/auth/register/company/DISTRIBUTOR",
 									"host": [
 										"{{ base_url }}"
 									],
@@ -957,7 +1057,7 @@
 										"auth",
 										"register",
 										"company",
-										"PRODUCER"
+										"DISTRIBUTOR"
 									]
 								}
 							},
@@ -1009,13 +1109,60 @@
 					]
 				},
 				{
+					"name": "Animator",
+					"item": [
+						{
+							"name": "Register Animator",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Asda\",\n  \"surname\" : \"Ciaone\",\n  \"email\": \"ciao@ciaos.it\",\n  \"password\": \"123\",\n  \"vat\": \"US120DS5123678\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register/animator",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register",
+										"animator"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Login",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"jojo@gmsdail.com\",\n  \"password\": \"123\"\n}",
+							"raw": "{\n  \"email\": \"ciao@ciao.it\",\n  \"password\": \"123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1041,7 +1188,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"mufasa@gmadsil.com\",\n  \"password\": \"123\"\n}",
+									"raw": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1101,7 +1248,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"mufasa@gmail.comdssd\",\n    \"password\": \"123\"\n}",
+									"raw": "{\n    \"email\": \"mufasa@gmail.comdss\",\n    \"password\": \"123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1131,7 +1278,37 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"test3@example.com\",\n  \"password\": \"bho\"\n}",
+									"raw": "{\n  \"email\": \"francesco@gmail.com\",\n  \"password\": \"bho\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ base_url }}/auth/login",
+									"host": [
+										"{{ base_url }}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Login Animator",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"ciao@ciaos.it\",\n  \"password\": \"123\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1157,6 +1334,303 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Event Participations",
+					"item": [
+						{
+							"name": "User",
+							"item": [
+								{
+									"name": "Create User Participation",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"eventId\": 2,\n  \"participantId\": 1,\n  \"applicationMessage\": \"I would like to attend this conference to learn about new technologies\",\n  \"specialRequirements\": \"Vegetarian meal preference\",\n  \"emergencyContact\": \"+1-555-0456\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/events/participations/user",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"participations",
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get User Participations",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/events/participations/user/{{userId}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"participations",
+												"user",
+												"{{userId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Company",
+							"item": [
+								{
+									"name": "Create Company Participation",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"eventId\": 1,\n  \"participantId\": 1,\n  \"applicationMessage\": \"Our company would like to participate in this event as a sponsor\",\n  \"specialRequirements\": \"Need booth space for 10x10 feet\",\n  \"emergencyContact\": \"+1-555-0123\"\n}"
+										},
+										"url": {
+											"raw": "{{base_url}}/events/participations/company",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"participations",
+												"company"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Company Participations",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/events/participations/company/{{companyId}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"participations",
+												"company",
+												"{{companyId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get Participations by Event",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/events/participations/event/{{eventId}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events",
+										"participations",
+										"event",
+										"{{eventId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Approve Participation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/events/participations/{{participationId}}/approve?responseMessage=Your participation has been approved",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events",
+										"participations",
+										"{{participationId}}",
+										"approve"
+									],
+									"query": [
+										{
+											"key": "responseMessage",
+											"value": "Your participation has been approved"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reject Participation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/events/participations/{{participationId}}/reject?responseMessage=Unfortunately, we cannot accept your participation",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events",
+										"participations",
+										"{{participationId}}",
+										"reject"
+									],
+									"query": [
+										{
+											"key": "responseMessage",
+											"value": "Unfortunately, we cannot accept your participation"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Participation",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/events/participations/{{participationId}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events",
+										"participations",
+										"{{participationId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Tech Conference 2024\",\n  \"description\": \"Annual technology conference featuring latest trends\",\n  \"startDate\": \"2024-12-15T09:00:00\",\n  \"endDate\": \"2024-12-15T18:00:00\",\n  \"registrationDeadline\": \"2024-12-10T23:59:59\",\n  \"maxParticipants\": 100,\n  \"participationFee\": 50.0,\n  \"organizer\": {\n    \"id\": 1\n  },\n  \"eventLocation\": {\n    \"latitude\": 43.1107,\n    \"longitude\": 12.3908\n  },\n  \"tags\": [\"technology\", \"conference\", \"networking\"],\n  \"imageUrls\": [\"https://example.com/event-image.jpg\"],\n  \"requirements\": \"Business attire required\",\n  \"contactInfo\": \"info@techconf.com\",\n  \"isPublic\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/events",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Tech Conference 201232313123128\",\n  \"isPublic\": true,\n  \"registrationOpen\": true,\n  \"startDate\": \"2025-12-15T09:00:00\",\n  \"endDate\": \"2025-12-15T18:00:00\",\n  \"registrationDeadline\": \"2025-12-10T23:59:59\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/events/{{eventId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"{{eventId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Event for Approval",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/events/{{eventId}}/submit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"{{eventId}}",
+								"submit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/events/{{eventId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"{{eventId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -1164,7 +1638,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjaWFvQGNpYW8uaXQiLCJhdXRoIjoiUk9MRV9ESVNUUklCVVRPUiIsImlzcyI6Imlkc19kZXZfaXNzdWVyIiwiaWF0IjoxNzUyNTI2NjU2LCJleHAiOjE3NTI2MTMwNTZ9.tSAQqFBC39hL2_5xcYir-stlBsxNsVpUWrhlHhS4ZTc",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmcmFuY2VzY29AZ21haWwuY29tIiwiYXV0aCI6IkJVWUVSIiwiaXNzIjoiaWRzX2Rldl9pc3N1ZXIiLCJpYXQiOjE3NTcyNzg4NzIsImV4cCI6MTc1NzM2NTI3Mn0.FoQl2UWMhbEhF63DRNDKRuwzi-d6F1tg01hzDt0VM6o",
 				"type": "string"
 			}
 		]
@@ -1194,8 +1668,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:8080/api",
-			"type": "string"
+			"value": "http://localhost:8080/api"
 		}
 	]
 }

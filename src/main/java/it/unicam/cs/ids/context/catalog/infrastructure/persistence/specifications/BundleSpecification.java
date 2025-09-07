@@ -34,25 +34,28 @@ public final class BundleSpecification extends AbstractSpecification {
 
             // Price filtering using subquery to calculate bundle unit price
             if (filter.getMinPrice() > 0 || filter.getMaxPrice() > 0) {
-                // Subquery to calculate the total price of bundled products
-                assert query != null;
-                Subquery<Double> priceSubquery = query.subquery(Double.class);
-                Root<BundledProduct> bundledProductRoot = priceSubquery.from(BundledProduct.class);
-                Join<BundledProduct, Product> productJoin = bundledProductRoot.join("product");
+                Join<Bundle, BundledProduct> bundleProductJoin = root.join("products");
+                Join<BundledProduct, Product> productJoin = bundleProductJoin.join("product");
 
-                Expression<Double> totalPrice = criteriaBuilder.sum(
+                // Calculate total price per bundle using the same logic as getUnitPrice()
+                Expression<Double> bundlePrice = criteriaBuilder.sum(
                         criteriaBuilder.prod(
                                 productJoin.get("pricePerQuantity"),
-                                bundledProductRoot.get("quantityInBundle")
+                                bundleProductJoin.get("quantityInBundle")
                         )
                 );
+
                 if (filter.getMinPrice() > 0) {
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(priceSubquery, filter.getMinPrice()));
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(bundlePrice, filter.getMinPrice()));
                 }
 
                 if (filter.getMaxPrice() > 0) {
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(priceSubquery, filter.getMaxPrice()));
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(bundlePrice, filter.getMaxPrice()));
                 }
+
+                // Group by bundle to avoid duplicates from multiple bundled products
+                assert query != null;
+                query.groupBy(root.get("id"));
             }
             // 7. Filer by SearchBy (name, description, etc.) - assuming 'name' and 'description' fields
             Predicate searchPredicate = buildSearchByPredicate(root, criteriaBuilder, filter.getSearchBy(), "name", "description");

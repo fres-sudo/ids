@@ -29,7 +29,6 @@ public abstract class CertificateMapper{
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "issuer", source = "issuerId", qualifiedByName = "mapCompanyById")
-    @Mapping(target = "product", source = "productId", qualifiedByName = "mapProductId")
     public abstract Certificate fromCreateRequest(CreateCertificateRequest dto);
 
     public abstract CertificateDTO toDto(Certificate certificate);

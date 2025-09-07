@@ -2,6 +2,7 @@ package it.unicam.cs.ids.context.catalog.infrastructure.web.dtos;
 
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyDTO;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.CertificateDTO;
+import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.application.DTO;
 import it.unicam.cs.ids.shared.infrastructure.persistence.Coordinates;
 import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
@@ -12,6 +13,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

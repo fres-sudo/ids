@@ -19,4 +19,14 @@ public abstract class PurchaseMapper {
 
     @Mapping(source = "bundle", target = "item")
     public abstract PurchaseDTO<BundleDTO> toBundleDto(Purchase purchase);
+
+    public PurchaseDTO<?> toDto(Purchase purchase) {
+        if (purchase.isProductPurchase()) {
+            return toProductDto(purchase);
+        } else if (purchase.isBundlePurchase()) {
+            return toBundleDto(purchase);
+        } else {
+            throw new IllegalStateException("Purchase must contain either a product or a bundle");
+        }
+    }
 }

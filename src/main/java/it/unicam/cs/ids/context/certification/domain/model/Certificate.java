@@ -31,10 +31,6 @@ public class Certificate extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
     @Column(columnDefinition = "TEXT")
     private String description;
 

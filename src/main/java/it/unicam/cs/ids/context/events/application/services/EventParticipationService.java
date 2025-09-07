@@ -21,7 +21,5 @@ public interface EventParticipationService {
     
     EventParticipationDTO rejectParticipation(Long participationId, String responseMessage);
     
-    List<EventParticipationDTO> getPendingParticipantsByOrganizer(Long organizerId);
-    
     void cancelParticipation(Long participationId);
 }

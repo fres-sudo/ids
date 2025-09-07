@@ -43,7 +43,6 @@ public class SubmissionService {
         ApprovalRequest request = strategy.createApprovalRequest(entityId, requesterId);
         request.setStatus(ApprovalStatus.PENDING);
         approvalRequestRepository.save(request);
-
         return approvalRequestMapper.toDto(request);
     }
 }

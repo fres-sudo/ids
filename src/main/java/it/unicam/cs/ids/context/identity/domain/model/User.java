@@ -48,6 +48,9 @@ public class User extends BaseEntity implements Participable {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @Column(name = "balance", nullable = false)
+    private Double balance = 0.0;
     
     @Override
     public void validateParticipation(Event event) {
@@ -69,5 +72,16 @@ public class User extends BaseEntity implements Participable {
     @Override
     public String getParticipantType() {
         return "USER";
+    }
+
+    public Boolean canAfford(Double amount) {
+        return balance >= amount;
+    }
+
+    public void deductBalance(double totalPrice) {
+        if (totalPrice >= balance) {
+            throw new IllegalArgumentException("Insufficient balance");
+        }
+        this.balance -= totalPrice;
     }
 }

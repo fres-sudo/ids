@@ -43,8 +43,6 @@ public class ProductServiceImpl implements ProductService {
     private final CertificateRepository certificateRepository;
     private final ProductRepository productRepository;
     private final CompanyRepository companyRepository;
-    private final ApprovalRequestRepository approvalRequestRepository;
-
     private final ProductApprovalRequestFactory approvalRequestFactory;
 
     @Override
@@ -68,7 +66,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.updateProductFromRequest(request, existingProduct);
         Product updatedProduct = productRepository.save(product);
         // Submit approval request for the updated product
-        approvalRequestFactory.submit(updatedProduct.getId(), updatedProduct.getCreator().getId());
         return productMapper.toDto(updatedProduct);
     }
 

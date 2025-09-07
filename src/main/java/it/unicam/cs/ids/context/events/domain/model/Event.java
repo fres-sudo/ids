@@ -86,6 +86,8 @@ public class Event extends BaseEntity implements Approvable {
 
     public boolean isRegistrationOpen() {
         LocalDateTime now = LocalDateTime.now();
+        System.out.println("REGISTRATION OPEN: " + LocalDateTime.now() + " - " + registrationDeadline + " - " + startDate + " - " + status);
+
         return status == ApprovalStatus.APPROVED 
                && (registrationDeadline == null || now.isBefore(registrationDeadline))
                && now.isBefore(startDate);

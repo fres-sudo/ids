@@ -41,7 +41,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         
         Optional<EventParticipation> existingParticipation = participationRepository
                 .findByEventIdAndParticipantIdAndParticipantType(
-                        eventId, getParticipantId(participant), participant.getParticipantType());
+                        eventId,participant.getId(), participant.getParticipantType());
         
         if (existingParticipation.isPresent()) {
             throw new IllegalArgumentException("Participation request already exists for this event and participant");
@@ -70,7 +70,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
                 participationRepository, participationId, 
                 "Participation with id " + participationId + " not found");
         
-        if (!existingParticipation.canBeModified()) {
+        if (existingParticipation.canBeModified()) {
             throw new IllegalArgumentException("Cannot modify participation request in current status");
         }
 
@@ -93,8 +93,11 @@ public class EventParticipationServiceImpl implements EventParticipationService 
     @Override
     @Transactional(readOnly = true)
     public <T extends Participable> List<EventParticipationDTO> getParticipationsByParticipant(@Nonnull T participant) {
+        Long participantId = participant.getId();
+        String participantType = participant.getParticipantType();
+        System.out.println("Fetching participations for participant ID: " + participantId + ", Type: " + participantType);
         return participationRepository.findByParticipantIdAndParticipantType(
-                        getParticipantId(participant), participant.getParticipantType()).stream()
+                        participant.getId(), participant.getParticipantType()).stream()
                 .map(participationMapper::toDto)
                 .toList();
     }
@@ -128,21 +131,13 @@ public class EventParticipationServiceImpl implements EventParticipationService 
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<EventParticipationDTO> getPendingParticipantsByOrganizer(@Nonnull Long organizerId) {
-        return participationRepository.findPendingParticipationsByOrganizer(organizerId).stream()
-                .map(participationMapper::toDto)
-                .toList();
-    }
-
-    @Override
     @Transactional
     public void cancelParticipation(@Nonnull Long participationId) {
         EventParticipation participation = Finder.findByIdOrThrow(
                 participationRepository, participationId,
                 "Participation with id " + participationId + " not found");
         
-        if (!participation.canBeModified()) {
+        if (participation.canBeModified()) {
             throw new IllegalArgumentException("Cannot cancel participation in current status");
         }
 
@@ -155,7 +150,7 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         
         EventParticipation participation = new EventParticipation();
         participation.setEvent(event);
-        participation.setParticipantId(getParticipantId(participant));
+        participation.setParticipantId(participant.getId());
         participation.setParticipantType(participant.getParticipantType());
         participation.setParticipantIdentifier(participant.getParticipantIdentifier());
         participation.setApplicationMessage(applicationMessage);
@@ -165,10 +160,4 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         return participation;
     }
 
-    private <T extends Participable> Long getParticipantId(T participant) {
-        if (participant instanceof it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity) {
-            return ((it.unicam.cs.ids.shared.infrastructure.persistence.BaseEntity) participant).getId();
-        }
-        throw new IllegalArgumentException("Participant must extend BaseEntity");
-    }
 }

@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class EventParticipationController {
         );
     }
 
-    @PreAuthorize("hasAnyAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('BUYER')")
     @PostMapping("/user")
     public ApiResponse<EventParticipationDTO> createUserParticipation(
             @Valid  @RequestBody CreateParticipationRequest request) {
@@ -98,7 +99,7 @@ public class EventParticipationController {
         );
     }
 
-    @PreAuthorize("hasAnyAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('BUYER')")
     @GetMapping("/user/{userId}")
     public ApiResponse<List<EventParticipationDTO>> getUserParticipations(@PathVariable Long userId) {
         User user = Finder.findByIdOrThrow(userRepository, userId,
@@ -130,16 +131,7 @@ public class EventParticipationController {
         return ResponseEntity.ok(participation);
     }
 
-    @PreAuthorize("hasAnyAuthority('COMPANY', 'USER')")
-    @GetMapping("/organizer/{organizerId}/pending")
-    public ApiResponse<List<EventParticipationDTO>> getPendingParticipantsByOrganizer(@PathVariable Long organizerId) {
-        List<EventParticipationDTO> participants = participationService.getPendingParticipantsByOrganizer(organizerId);
-        return responseFactory.createSuccessResponse(
-                "Pending participations retrieved successfully", participants
-        );
-    }
-
-    @PreAuthorize("hasAnyAuthority('COMPANY', 'USER')")
+    @PreAuthorize("hasAnyAuthority('BUYER', 'COMPANY')")
     @DeleteMapping("/{participationId}")
     public ResponseEntity<Void> cancelParticipation(@PathVariable Long participationId) {
         participationService.cancelParticipation(participationId);

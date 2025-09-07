@@ -75,6 +75,6 @@ public class EventParticipation extends BaseEntity implements Approvable {
     }
 
     public boolean canBeModified() {
-        return status == ApprovalStatus.PENDING || status == ApprovalStatus.DRAFT;
+        return status != ApprovalStatus.PENDING && status != ApprovalStatus.DRAFT;
     }
 }

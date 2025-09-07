@@ -12,7 +12,6 @@ public class UserParticipationStrategy implements ParticipationStrategy<User> {
         if (!user.canParticipateInEvent(event)) {
             throw new IllegalArgumentException("User does not meet participation requirements");
         }
-        
         if (!event.isRegistrationOpen()) {
             throw new IllegalArgumentException("Registration is closed for this event");
         }

@@ -50,8 +50,8 @@ public class EventApprovalStrategy extends BaseApprovalStrategy<Event> {
     }
 
     @Override
-    public Event saveEntity(Event entity) {
-        return eventRepository.save(entity);
+    public void saveEntity(Event entity) {
+         eventRepository.save(entity);
     }
 
     @Override

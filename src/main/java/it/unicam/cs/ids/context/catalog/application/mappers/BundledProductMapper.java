@@ -14,10 +14,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 public abstract class BundledProductMapper {
 
+    @Autowired
     protected ProductRepository productRepository; // Inject the repository
 
     // This method will be used to map CreateBundledProductRequest to BundledProduct

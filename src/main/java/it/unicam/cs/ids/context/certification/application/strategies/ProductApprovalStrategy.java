@@ -46,8 +46,8 @@ public class ProductApprovalStrategy extends BaseApprovalStrategy<Product> {
     }
 
     @Override
-    public Product saveEntity(Product entity) {
-        return productRepository.save(entity);
+    public void saveEntity(Product entity) {
+        productRepository.save(entity);
     }
 
     @Override

@@ -72,15 +72,11 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
         Approvable entity = findEntity(approvalRequest.getEntityType(), approvalRequest.getEntityId());
         entity.setApprovalStatus(newStatus);
         saveEntity(entity, approvalRequest.getEntityType());
-        System.out.println("Entity " + entity.getId() + " has been " + newStatus.name().toLowerCase() + " successfully.");
-        Approvable asd = findEntity(approvalRequest.getEntityType(), approvalRequest.getEntityId());
-        System.out.println("Entity " + asd.getId() + " current status: " + asd.getStatus().name().toLowerCase());
 
         // Update approval request
         approvalRequest.setStatus(newStatus);
         approvalRequest.setComments(adminComments);
         ApprovalRequest savedRequest = approvalRequestRepository.save(approvalRequest);
-        System.out.println("Request " + savedRequest.getId() + " has been " + savedRequest.getStatus() + " successfully.");
         // TODO: notify company with emails or something if necessary
         return approvalRequestMapper.toDto(savedRequest);
     }

@@ -12,8 +12,8 @@ import lombok.EqualsAndHashCode;
 @Data @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class CreateBundledProductRequest extends DTO {
-    private long productId;
-    private long bundleId;
-    private int quantityInBundle;
-    private double pricePerUnit;
+    private Long productId;
+    private Long bundleId;
+    private Integer quantityInBundle;
+    private Double pricePerUnit;
 }

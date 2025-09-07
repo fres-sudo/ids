@@ -60,7 +60,7 @@ public class SearchServiceImpl implements SearchService {
     public Page<BundleDTO> searchBundles(BundleFilter filter, Pageable pageable) {
         Specification<Bundle> spec = BundleSpecification.withFilter(filter);
 
-        Page<Bundle> bundles = bundleRepository.findAll(spec, pageable);
+        Page<Bundle> bundles = bundleRepository.findAll( pageable);
         return bundles.map(bundleMapper::toDto);
     }
 

@@ -12,10 +12,5 @@ import java.util.Optional;
 @Repository
 public interface BundleRepository extends JpaRepository<Bundle, Long>, JpaSpecificationExecutor<Bundle> {
     @NotNull
-    @EntityGraph(attributePaths = {
-            "products.product",  // BundledProduct + its Product
-            "distributor",
-            "tags"
-    })
     Optional<Bundle> findById(@NotNull Long id);
 }

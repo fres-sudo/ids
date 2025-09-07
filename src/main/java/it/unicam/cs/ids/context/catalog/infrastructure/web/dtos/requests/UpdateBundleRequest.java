@@ -21,13 +21,13 @@ public class UpdateBundleRequest extends BaseRequest {
     private ProductCategory category;
     private List<CreateBundledProductRequest> bundledProducts;
     private Currency currency;
-    private double discountPercentage;
+    private Double discountPercentage;
     private List<String> tags;
-    private int quantity;
-    private boolean availableForSale;
-    private boolean availableForShipping;
-    private int estimatedDeliveryTime;
-    private double shippingCost;
+    private Integer quantity;
+    private Boolean availableForSale;
+    private Boolean availableForShipping;
+    private Integer estimatedDeliveryTime;
+    private Double shippingCost;
     private String returnPolicy;
     private Coordinates bundleLocation;
 }

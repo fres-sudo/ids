@@ -9,6 +9,6 @@ public interface ApprovalStrategy<T> {
     void validateEntityState(T entity);
     void performAdditionalValidation(T entity);
     void setStatus(T entity, ApprovalStatus status);
-    T saveEntity(T entity);
+    void saveEntity(T entity);
     ApprovalRequest createApprovalRequest(Long entityId, Long requesterId);
 }

@@ -79,6 +79,7 @@ public final class Messages {
         String PURCHASE_NOT_FOUND = "Purchase not found";
 
         String CANNOT_ACCESS_RESOURCE = "Cannot access the requested resource";
+        String INSUFFICIENT_FUNDS = "Insufficient funds for this purchase";
     }
 
     public interface Warning {

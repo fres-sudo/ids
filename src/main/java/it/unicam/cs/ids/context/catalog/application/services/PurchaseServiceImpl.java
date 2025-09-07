@@ -75,6 +75,15 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         Purchase purchase = createBasePurchase(item, buyer, quantity);
 
+        double totalPrice = purchase.getUnitPrice() * quantity;
+
+        if (!buyer.canAfford(totalPrice)) {
+            throw new IllegalArgumentException(Messages.Error.INSUFFICIENT_FUNDS);
+        }
+        buyer.deductBalance(totalPrice);
+        userRepository.save(buyer);
+
+
         // Delegate to appropriate strategy
         PurchaseProcessor<T, R> processor = processorFactory.getProcessor(item);
         return processor.process(item, buyerId, quantity, purchase);

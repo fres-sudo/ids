@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProductApprovalRequestFactory implements ApprovalRequestFactory{
 
+    private static final RequestEntityType REQUEST_ENTITY_TYPE = RequestEntityType.PRODUCT;
     private final ApprovalRequestService approvalRequestService;
 
     @Override
@@ -19,7 +20,7 @@ public class ProductApprovalRequestFactory implements ApprovalRequestFactory{
         SubmitApprovalRequest approvalRequest = SubmitApprovalRequest.builder()
                 .entityId(productId)
                 .companyId(creatorId)
-                .entityType(RequestEntityType.PRODUCT)
+                .entityType(REQUEST_ENTITY_TYPE)
                 .build();
         approvalRequestService.submitForApproval(approvalRequest);
     }

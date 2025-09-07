@@ -61,7 +61,6 @@ public abstract class CompanyMapper {
      * @return the updated Company entity
      * Ignores fields that are not present in the requests, such as id, createdAt, and updatedAt.
      */
-    @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
     @Mapping(target = "name", source = "name", qualifiedByName = "validateString")
     @Mapping(target = "email", source = "email", qualifiedByName = "validateEmail") // validate email
     @Mapping(target = "vat", source = "vat", qualifiedByName = "validateVat") // validate VAT
@@ -76,6 +75,7 @@ public abstract class CompanyMapper {
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "verifiedAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     public abstract Company updateCompanyFromRequest(
             @MappingTarget Company existing,
             EditCompanyRequest request

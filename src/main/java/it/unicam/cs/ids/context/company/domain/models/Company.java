@@ -93,9 +93,4 @@ public class Company extends BaseEntity implements Participable {
     public String getParticipantType() {
         return "COMPANY";
     }
-    
-    @Override
-    public String getContactInfo() {
-        return email + (phoneNumber != null ? " | " + phoneNumber : "");
-    }
 }

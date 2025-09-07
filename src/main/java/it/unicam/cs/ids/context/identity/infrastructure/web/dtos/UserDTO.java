@@ -17,7 +17,5 @@ public class UserDTO extends DTO {
     private String name;
     private String surname;
     private String email;
-    private String phoneNumber;
-    private String address;
     private PlatformRoles role;
 }

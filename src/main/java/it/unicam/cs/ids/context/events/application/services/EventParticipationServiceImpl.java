@@ -158,7 +158,6 @@ public class EventParticipationServiceImpl implements EventParticipationService 
         participation.setParticipantId(getParticipantId(participant));
         participation.setParticipantType(participant.getParticipantType());
         participation.setParticipantIdentifier(participant.getParticipantIdentifier());
-        participation.setParticipantContactInfo(participant.getContactInfo());
         participation.setApplicationMessage(applicationMessage);
         participation.setSpecialRequirements(specialRequirements);
         participation.setEmergencyContact(emergencyContact);

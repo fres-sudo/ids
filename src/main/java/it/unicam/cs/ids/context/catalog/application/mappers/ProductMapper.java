@@ -38,8 +38,8 @@ public abstract class ProductMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
     @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "distributors", source = "distributorId", qualifiedByName = "mapCompanyByIdMany")
     @Mapping(target = "transformers", source = "transformerId", qualifiedByName = "mapCompanyByIdMany")
     @Mapping(target = "certificates", ignore = true)

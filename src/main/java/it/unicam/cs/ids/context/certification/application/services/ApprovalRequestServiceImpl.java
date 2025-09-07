@@ -22,6 +22,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import static it.unicam.cs.ids.context.certification.application.mappers.ApprovalRequestMapper.getApprovable;
 
 
@@ -98,5 +102,13 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
             case BUNDLE -> bundleRepository.save((Bundle) entity);
             case EVENT -> eventRepository.save((Event) entity);
         }
+    }
+
+    private LocalDateTime getEntityUpdatedAt(Approvable entity, RequestEntityType entityType) {
+        return switch (entityType) {
+            case PRODUCT -> ((Product) entity).getUpdatedAt();
+            case BUNDLE -> ((Bundle) entity).getUpdatedAt();
+            case EVENT -> ((Event) entity).getUpdatedAt();
+        };
     }
 }

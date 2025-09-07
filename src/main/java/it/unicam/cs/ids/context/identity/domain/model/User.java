@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -33,18 +34,12 @@ public class User extends BaseEntity implements Participable {
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 
-    @Column(name = "phone_number", length = 20)
-    private String phoneNumber;
-
-    @Column(length = 500)
-    private String address;
-
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified = true; // Initialize to true for testing purposes
 
     @Column(name = "verified_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date verifiedAt;
+    private LocalDateTime verifiedAt = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
@@ -74,10 +69,5 @@ public class User extends BaseEntity implements Participable {
     @Override
     public String getParticipantType() {
         return "USER";
-    }
-    
-    @Override
-    public String getContactInfo() {
-        return email + (phoneNumber != null ? " | " + phoneNumber : "");
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
@@ -29,14 +29,14 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date deletedAt;
+    private LocalDateTime deletedAt;
 }

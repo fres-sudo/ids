@@ -32,9 +32,9 @@ public abstract class UserMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "verifiedAt", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "hashedPassword", source = "password", qualifiedByName = "encodePassword")
-    @Mapping(target = "emailVerified", constant = "true")
-    @Mapping(target = "verifiedAt", expression = "java(new java.util.Date())")
     @Mapping(target = "company", ignore = true)
     @Mapping(target = "role", expression = "java(it.unicam.cs.ids.context.identity.domain.model.PlatformRoles.BUYER)")
     public abstract User fromRequest(RegisterUserRequest request);
@@ -46,20 +46,24 @@ public abstract class UserMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "verifiedAt", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "hashedPassword", source = "password", qualifiedByName = "encodePassword")
-    @Mapping(target = "emailVerified", constant = "true")
-    @Mapping(target = "verifiedAt", expression = "java(new java.util.Date())")
     @Mapping(target = "company", ignore = true)
     @Mapping(target = "role", expression = "java(it.unicam.cs.ids.context.identity.domain.model.PlatformRoles.BUYER)")
     public abstract User fromRequest(RegisterAnimatorRequest request);
 
-    @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "verifiedAt", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "company", ignore = true)
     @Mapping(target = "name", source = "name", qualifiedByName = "validateString")
     @Mapping(target = "surname", source = "surname", qualifiedByName = "validateString")
     @Mapping(target = "email", source = "email", qualifiedByName = "validateEmail") // validate email
     @Mapping(target = "hashedPassword", source = "password", qualifiedByName = "encodePassword")
-    @Mapping(target = "phoneNumber", source = "phoneNumber", qualifiedByName = "validatePhoneNumber")
-    @Mapping(target = "address", source = "address", qualifiedByName = "validateString")
     public abstract User updateUserFromRequest(
             @MappingTarget User authenticatedUser,
             EditUserRequest request

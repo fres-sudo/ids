@@ -39,7 +39,7 @@ public class BundleServiceImpl implements BundleService {
     @Override
     @Transactional
     public BundleDTO createBundle(@Valid CreateBundleRequest request) {
-        Bundle bundle = bundleMapper.fromRequest(request);
+        Bundle bundle = bundleMapper.fromCreateRequest(request);
         Bundle response = bundleRepository.save(bundle);
 
         return bundleMapper.toDto(response);
@@ -74,8 +74,8 @@ public class BundleServiceImpl implements BundleService {
         }
 
         bundle.setApprovalStatus(ApprovalStatus.PENDING);
-        bundleRepository.save(bundle);
         approvalRequestFactory.submit(bundleId, id);
+        bundleRepository.save(bundle);
         return bundleMapper.toDto(bundle);
     }
 }

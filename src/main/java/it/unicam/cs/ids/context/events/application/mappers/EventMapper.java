@@ -23,7 +23,8 @@ public abstract class EventMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
-    @Mapping(target = "status", expression = "java(it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.DRAFT)")
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "approvalStatus", ignore = true)
     @Mapping(target = "organizer", source = "organizer.id", qualifiedByName = "mapUserById")
     @Mapping(target = "participations", ignore = true)
     public abstract Event fromDto(EventDTO dto);
@@ -34,10 +35,10 @@ public abstract class EventMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", expression = "java(new java.util.Date())")
     @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "organizer", ignore = true)
     @Mapping(target = "participations", ignore = true)
-    @Mapping(target = "status", ignore = true) // Prevent status changes during update
+    @Mapping(target = "approvalStatus", ignore = true) // Prevent status changes during update
     public abstract Event updateEventFromDto(EventDTO dto, @MappingTarget Event event);
 }

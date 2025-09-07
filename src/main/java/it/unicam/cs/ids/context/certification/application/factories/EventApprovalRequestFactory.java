@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventApprovalRequestFactory implements ApprovalRequestFactory {
 
+    private static final RequestEntityType REQUEST_ENTITY_TYPE = RequestEntityType.EVENT;
     private final ApprovalRequestService approvalRequestService;
 
     @Override
@@ -18,7 +19,7 @@ public class EventApprovalRequestFactory implements ApprovalRequestFactory {
         SubmitApprovalRequest approvalRequest = SubmitApprovalRequest.builder()
                 .entityId(eventId)
                 .userId(creatorId)
-                .entityType(RequestEntityType.EVENT)
+                .entityType(REQUEST_ENTITY_TYPE)
                 .build();
         approvalRequestService.submitForApproval(approvalRequest);
     }

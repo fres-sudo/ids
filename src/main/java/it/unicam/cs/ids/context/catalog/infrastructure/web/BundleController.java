@@ -2,9 +2,13 @@ package it.unicam.cs.ids.context.catalog.infrastructure.web;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
+import it.unicam.cs.ids.context.certification.application.services.SubmissionService;
+import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.ApprovalRequestDTO;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
+import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
@@ -25,6 +29,7 @@ public class BundleController {
     private final BundleService bundleService;
     private final AuthService authService;
     private final ApiResponseFactory responseFactory;
+    private final SubmissionService submissionService;
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
@@ -59,11 +64,11 @@ public class BundleController {
 
     @PreAuthorize("hasAnyAuthority('DISTRIBUTOR')")
     @PostMapping("/submit/{bundleId}")
-    ApiResponse<BundleDTO> submitBundleForApproval(@PathVariable Long bundleId) {
+    ApiResponse<ApprovalRequestDTO<Approvable>> submitBundleForApproval(@PathVariable Long bundleId) {
         AppUserPrincipal company = AppUserPrincipal.fromCompany(authService.getAuthenticatedCompany());
         return responseFactory.createSuccessResponse(
                 Messages.Success.BUNDLE_SUBMITTED_FOR_APPROVAL,
-                bundleService.submitBundleForApproval(bundleId, company.getId())
+                submissionService.submitForApproval(RequestEntityType.PRODUCT, bundleId, company.getId())
         );
     }
 }

@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.context.events.application.services;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
-import it.unicam.cs.ids.context.certification.application.factories.EventApprovalRequestFactory;
+import it.unicam.cs.ids.context.certification.application.services.SubmissionService;
+import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.context.events.application.mappers.EventMapper;
 import it.unicam.cs.ids.context.events.domain.model.Event;
 import it.unicam.cs.ids.context.events.domain.repositories.EventRepository;
@@ -23,7 +23,7 @@ public class EventServiceImpl implements EventService {
 
     private final EventMapper eventMapper;
     private final EventRepository eventRepository;
-    private final EventApprovalRequestFactory eventApprovalRequestFactory;
+    private final SubmissionService submissionService;
 
     @Override
     @Transactional
@@ -50,18 +50,5 @@ public class EventServiceImpl implements EventService {
         Event event = Finder.findByIdOrThrow(eventRepository, eventId,
                 "Event with id " + eventId + " not found");
         eventRepository.delete(event);
-    }
-
-    @Override
-    @Transactional
-    public EventDTO submitEventForApproval(@Nonnull Long eventId) {
-        Event event = Finder.findByIdOrThrow(eventRepository, eventId,
-                "Event with id " + eventId + " not found");
-
-        eventApprovalRequestFactory.submit(eventId, event.getOrganizer().getId());
-        event.setApprovalStatus(ApprovalStatus.PENDING);
-        // TODO: Add logic to notify the admin or relevant parties about the submission request
-        Event savedEvent = eventRepository.save(event);
-        return eventMapper.toDto(savedEvent);
     }
 }

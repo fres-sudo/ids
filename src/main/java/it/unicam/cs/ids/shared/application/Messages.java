@@ -72,6 +72,8 @@ public final class Messages {
         String INTERNAL_ERROR = "An internal error occurred";
 
         String GENERIC_ERROR = "An error occurred";
+        String BUNDLE_NOT_FOUND = "Bundle not found";
+        String EVENT_NOT_FOUND = "Event not found";
     }
 
     public interface Warning {
@@ -96,5 +98,6 @@ public final class Messages {
         String INVALID_PASSWORD = "Invalid password";
         String NO_UNIQUE_EMAIL = "Email already in use, choose a unique one";
         String INVALID_COMPANY_REQUEST = "Invalid company requests. Please check your credentials and try again.";
+        String INVALID_USER_REQUEST = "Invalid user requests. Please check your credentials and try again.";
     }
 }

@@ -49,9 +49,12 @@ public final class EventSpecification extends AbstractSpecification {
             Predicate tagsPredicate = buildTagsPredicate(root, criteriaBuilder, filter.getTags());
             if (tagsPredicate != null) predicates.add(tagsPredicate);
 
-            System.out.println(predicates);
 
-        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            // Always filter by Approval Status = APPROVED
+            Predicate approvalPredicate = buildStatusApprovedPredicate(root, criteriaBuilder);
+            predicates.add(approvalPredicate);
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 }

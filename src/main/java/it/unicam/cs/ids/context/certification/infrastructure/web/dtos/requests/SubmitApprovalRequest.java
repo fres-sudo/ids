@@ -12,8 +12,7 @@ import java.io.Serializable;
 @SuperBuilder
 @Data
 public class SubmitApprovalRequest extends DTO implements Serializable {
-    private final Long companyId;
-    private final Long userId;
+    private final Long submitterId;
     private final RequestEntityType entityType;
     private final Long entityId;
 }

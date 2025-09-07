@@ -35,31 +35,20 @@ import static it.unicam.cs.ids.context.certification.application.mappers.Approva
 public class ApprovalRequestServiceImpl implements ApprovalRequestService {
 
     final ApprovalRequestRepository approvalRequestRepository;
+    final ApprovalRequestMapper approvalRequestMapper;
+
     final ProductRepository productRepository;
     final BundleRepository bundleRepository;
-    final ApprovalRequestMapper approvalRequestMapper;
     final EventRepository eventRepository;
 
     @Override
-    public void submitForApproval(SubmitApprovalRequest request) {
-        //TODO check if another request with the same info exists
-        ApprovalRequest approvalRequest = approvalRequestMapper.fromSubmitRequest(request);
-        if (approvalRequest.getStatus() != ApprovalStatus.DRAFT) {
-            throw new IllegalStateException("Only DRAFT entities can be submitted" + approvalRequest);
-        }
-        ApprovalRequest entity = approvalRequestRepository.save(approvalRequest);
-        // TODO notify certifier if necessary
-        approvalRequestMapper.toDto(entity);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
+    @Transactional()
     public ApprovalRequestDTO<Approvable> approve(Long requestId, String adminComments) {
         return processApprovalRequest(requestId, ApprovalStatus.APPROVED, adminComments);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional()
     public ApprovalRequestDTO<Approvable> reject(Long requestId, String adminComments) {
         return processApprovalRequest(requestId, ApprovalStatus.REJECTED, adminComments);
     }
@@ -67,7 +56,7 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
     @Override
     @Transactional(readOnly = true)
     public Page<ApprovalRequestDTO<Approvable>> findPendingRequests(Pageable pageable) {
-        Page<ApprovalRequest> requests = approvalRequestRepository.findAll(pageable);
+        Page<ApprovalRequest> requests = approvalRequestRepository.findAllByStatusOrderBySubmittedAtDesc(ApprovalStatus.PENDING, pageable);
         return requests.map(approvalRequestMapper::toDto);
     }
 
@@ -83,11 +72,15 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
         Approvable entity = findEntity(approvalRequest.getEntityType(), approvalRequest.getEntityId());
         entity.setApprovalStatus(newStatus);
         saveEntity(entity, approvalRequest.getEntityType());
+        System.out.println("Entity " + entity.getId() + " has been " + newStatus.name().toLowerCase() + " successfully.");
+        Approvable asd = findEntity(approvalRequest.getEntityType(), approvalRequest.getEntityId());
+        System.out.println("Entity " + asd.getId() + " current status: " + asd.getStatus().name().toLowerCase());
 
         // Update approval request
         approvalRequest.setStatus(newStatus);
         approvalRequest.setComments(adminComments);
         ApprovalRequest savedRequest = approvalRequestRepository.save(approvalRequest);
+        System.out.println("Request " + savedRequest.getId() + " has been " + savedRequest.getStatus() + " successfully.");
         // TODO: notify company with emails or something if necessary
         return approvalRequestMapper.toDto(savedRequest);
     }
@@ -102,13 +95,5 @@ public class ApprovalRequestServiceImpl implements ApprovalRequestService {
             case BUNDLE -> bundleRepository.save((Bundle) entity);
             case EVENT -> eventRepository.save((Event) entity);
         }
-    }
-
-    private LocalDateTime getEntityUpdatedAt(Approvable entity, RequestEntityType entityType) {
-        return switch (entityType) {
-            case PRODUCT -> ((Product) entity).getUpdatedAt();
-            case BUNDLE -> ((Bundle) entity).getUpdatedAt();
-            case EVENT -> ((Event) entity).getUpdatedAt();
-        };
     }
 }

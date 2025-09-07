@@ -4,11 +4,16 @@ import it.unicam.cs.ids.context.catalog.application.services.ProductService;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
+import it.unicam.cs.ids.context.certification.application.services.SubmissionService;
+import it.unicam.cs.ids.context.certification.domain.model.ApprovalRequest;
+import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.ApprovalRequestDTO;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.company.domain.models.Company;
 import it.unicam.cs.ids.context.company.domain.models.CompanyRoles;
 import it.unicam.cs.ids.context.identity.application.services.AuthService;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
+import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.application.Messages;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
@@ -30,6 +35,7 @@ public class ProductController {
     private final ProductService productService;
     private final ApiResponseFactory responseFactory;
     private final AuthService authService;
+    private final SubmissionService submissionService;
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
@@ -85,11 +91,11 @@ public class ProductController {
 
     @PreAuthorize("hasAnyAuthority('PRODUCER', 'DISTRIBUTOR', 'TRANSFORMER')")
     @PostMapping("/submit/{productId}")
-    ApiResponse<ProductDTO> submitProductForApproval(@PathVariable Long productId) {
+    ApiResponse<ApprovalRequestDTO<Approvable>> submitProductForApproval(@PathVariable Long productId) {
         AppUserPrincipal company = AppUserPrincipal.fromCompany(authService.getAuthenticatedCompany());
         return responseFactory.createSuccessResponse(
                 Messages.Success.PRODUCT_SUBMITTED_FOR_APPROVAL,
-                productService.submitProductForApproval(productId, company.getId())
+                submissionService.submitForApproval(RequestEntityType.PRODUCT, productId, company.getId())
         );
     }
 }

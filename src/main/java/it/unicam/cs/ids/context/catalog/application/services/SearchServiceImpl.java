@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.context.catalog.application.services;
 
 import it.unicam.cs.ids.context.catalog.application.mappers.BundleMapper;
+import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.catalog.infrastructure.persistence.specifications.BundleSpecification;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.company.infrastructure.web.dtos.CompanyDTO;

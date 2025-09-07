@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ApprovalRequestService {
-    void submitForApproval(SubmitApprovalRequest request);
-
     ApprovalRequestDTO<Approvable> approve(Long requestId, String adminComments);
 
     ApprovalRequestDTO<Approvable> reject(Long requestId, String adminComments);

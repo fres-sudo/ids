@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.context.catalog.application.services;
 
-import it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.BundleDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateBundleRequest;
 
@@ -9,12 +8,9 @@ import it.unicam.cs.ids.context.catalog.application.mappers.BundleMapper;
 import it.unicam.cs.ids.context.catalog.domain.repositories.BundleRepository;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateBundleRequest;
-import it.unicam.cs.ids.context.certification.application.factories.BundleApprovalRequestFactory;
-import it.unicam.cs.ids.context.company.domain.models.Company;
-import it.unicam.cs.ids.context.company.domain.repositories.CompanyRepository;
+import it.unicam.cs.ids.context.certification.application.services.SubmissionService;
+import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
 import it.unicam.cs.ids.shared.application.Finder;
-import it.unicam.cs.ids.shared.application.Messages;
-import it.unicam.cs.ids.shared.kernel.exceptions.auth.AuthenticationException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +28,6 @@ public class BundleServiceImpl implements BundleService {
 
     private final BundleRepository bundleRepository;
     private final BundleMapper bundleMapper;
-    private final CompanyRepository companyRepository;
-
-    private final BundleApprovalRequestFactory approvalRequestFactory;
 
     @Override
     @Transactional
@@ -62,20 +55,5 @@ public class BundleServiceImpl implements BundleService {
     public void deleteBundle(Long bundleId, @NotNull Long id) {
         Finder.findByIdOrThrow(bundleRepository, id, "Bundle not found with id: " + id);
         bundleRepository.deleteById(bundleId);
-    }
-
-    @Override
-    @Transactional
-    public BundleDTO submitBundleForApproval(Long bundleId, Long id) {
-        Company company = Finder.findByIdOrThrow(companyRepository, id, Messages.Auth.COMPANY_NOT_FOUND);
-        Bundle bundle = Finder.findByIdOrThrow(bundleRepository, bundleId, Messages.Error.PRODUCT_NOT_FOUND);
-        if (bundle.getDistributor() == null || !bundle.getDistributor().getId().equals(company.getId())) {
-            throw new AuthenticationException(Messages.Auth.INVALID_COMPANY_REQUEST);
-        }
-
-        bundle.setApprovalStatus(ApprovalStatus.PENDING);
-        approvalRequestFactory.submit(bundleId, id);
-        bundleRepository.save(bundle);
-        return bundleMapper.toDto(bundle);
     }
 }

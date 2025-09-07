@@ -1,8 +1,12 @@
 package it.unicam.cs.ids.context.events.infrastructure.web;
 
+import it.unicam.cs.ids.context.certification.application.services.SubmissionService;
+import it.unicam.cs.ids.context.certification.domain.model.RequestEntityType;
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.ApprovalRequestDTO;
 import it.unicam.cs.ids.context.events.application.services.EventService;
 import it.unicam.cs.ids.context.events.infrastructure.web.dto.EventDTO;
 import it.unicam.cs.ids.context.identity.infrastructure.security.user.AppUserPrincipal;
+import it.unicam.cs.ids.shared.application.Approvable;
 import it.unicam.cs.ids.shared.infrastructure.web.factories.ApiResponseFactory;
 import it.unicam.cs.ids.shared.infrastructure.web.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -18,6 +22,7 @@ public class EventController {
 
     private final EventService eventService;
     private final ApiResponseFactory responseFactory;
+    private final SubmissionService submissionService;
 
     @PostMapping
     public ApiResponse<EventDTO> createEvent(
@@ -44,14 +49,13 @@ public class EventController {
     }
 
     @PostMapping("/{eventId}/submit")
-    public ApiResponse<EventDTO> submitEventForApproval(
+    public ApiResponse<ApprovalRequestDTO<Approvable>> submitEventForApproval(
             @PathVariable Long eventId,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
-        EventDTO event = eventService.submitEventForApproval(eventId);
         return responseFactory.createSuccessResponse(
                 "Event submitted for approval successfully",
-                event
+                submissionService.submitForApproval(RequestEntityType.EVENT, eventId, principal.getId())
         );
     }
 

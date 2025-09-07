@@ -2,8 +2,10 @@ package it.unicam.cs.ids.context.catalog.application.services;
 
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.ProductDTO;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.UpdateProductRequest;
+import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.ApprovalRequestDTO;
 import it.unicam.cs.ids.context.certification.infrastructure.web.dtos.requests.CreateCertificateRequest;
 import it.unicam.cs.ids.context.catalog.infrastructure.web.dtos.requests.CreateProductRequest;
+import it.unicam.cs.ids.shared.application.Approvable;
 
 /**
  * Product Service defines the operations related to products.
@@ -41,12 +43,4 @@ public interface ProductService {
      * @param productId the ID of the product to be deleted
      */
     void deleteProduct(Long productId);
-
-    /**
-     * Submits a product for approval.
-     * @param productId the ID of the product to be submitted for approval
-     * @param id the ID of the user submitting the product
-     * @return the ProductDTO after submission
-     */
-    ProductDTO submitProductForApproval(Long productId, Long id);
 }

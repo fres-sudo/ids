@@ -33,15 +33,6 @@ public abstract class ApprovalRequestMapper {
     @Autowired
     protected UserRepository userRepository;
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "submittedAt", ignore = true)
-    @Mapping(target = "processedAt", ignore = true)
-    @Mapping(target = "comments", ignore = true)
-    @Mapping(target = "requestingCompany", source = "companyId", qualifiedByName = "mapCompanyById")
-    @Mapping(target = "requestingUser", source = "userId", qualifiedByName = "mapUserById")
-    public abstract ApprovalRequest fromSubmitRequest(SubmitApprovalRequest dto);
-
     @Mapping(target = "entity", expression = "java(mapEntityByEntityId(entity.getEntityType(), entity.getEntityId()))")
     public abstract ApprovalRequestDTO<Approvable> toDto(ApprovalRequest entity);
 

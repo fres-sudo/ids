@@ -53,6 +53,10 @@ public final class ProductSpecification extends AbstractSpecification {
             Predicate tagsPredicate = buildTagsPredicate(root, criteriaBuilder, filter.getTags());
             if (tagsPredicate != null) predicates.add(tagsPredicate);
 
+            // Always filter by Approval Status = APPROVED
+            Predicate approvalPredicate = buildStatusApprovedPredicate(root, criteriaBuilder);
+            predicates.add(approvalPredicate);
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

@@ -31,12 +31,4 @@ public interface EventService {
      * @param eventId the ID of the event to delete
      */
     void deleteEvent(Long eventId);
-
-    /**
-     * Submits an event for approval.
-     *
-     * @param eventId the ID of the event to submit
-     * @return the updated EventDTO
-     */
-    EventDTO submitEventForApproval(Long eventId);
 }

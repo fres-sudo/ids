@@ -43,4 +43,8 @@ public abstract class AbstractSpecification {
         
         return criteriaBuilder.or(tagPredicates.toArray(new Predicate[0]));
     }
+
+    protected static <T> Predicate buildStatusApprovedPredicate(Root<T> root, CriteriaBuilder criteriaBuilder) {
+        return criteriaBuilder.equal(root.get("status"), it.unicam.cs.ids.context.catalog.domain.model.ApprovalStatus.APPROVED);
+    }
 }
